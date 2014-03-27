@@ -1,4 +1,4 @@
 Kartela
 =======
 
-Är ett system som förenklar din tidsrapportering
+Är ett system som förenklar din tidsrapportering!
