@@ -3,12 +3,14 @@ package com.example.kartela;
 import java.util.Calendar;
 
 import android.app.DatePickerDialog;
+import android.app.DatePickerDialog.OnDateSetListener;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.os.Bundle;
 import android.widget.DatePicker;
+import android.widget.EditText;
 
-public class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
+public class DatePickerFragment extends DialogFragment {
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -19,11 +21,6 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
 	int day = c.get(Calendar.DAY_OF_MONTH);
 	
 	// Create a new instance of DatePickerDialog and return it
-	return new DatePickerDialog(getActivity(), this, year, month, day);
-	}
-	
-	public void onDateSet(DatePicker view, int year, int month, int day) {
-	// Do something with the date chosen by the user
-		
+	return new DatePickerDialog(getActivity(), (OnDateSetListener)getActivity(), year, month, day);
 	}
 }

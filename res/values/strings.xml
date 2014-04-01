@@ -8,5 +8,15 @@
     <string name="input_start_time">09:00</string>
     <string name="input_end_time">17:00</string>
     <string name="input_break_time">90</string>
+    <string name="send_button">Send</string>
+    <string name="title_time_report_activity">TimeReport</string>
+    <string name="title_display_time_report_activity">My TimeReport</string>
+    
+    <string-array name="projects_array">
+        <item>Saab</item>
+        <item>Volvo</item>
+        <item>Helikopter</item>
+        <item>Combitech</item>
+    </string-array>
 
 </resources>

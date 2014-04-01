@@ -22,6 +22,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="com.example.kartela.DisplayTimeReportActivity"
+            android:label="@string/title_display_time_report_activity"
+            android:parentActivityName="com.example.kartela.TimeReportActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.kartela.TimeReportActivity" />
+        </activity>
     </application>
 
 </manifest>
