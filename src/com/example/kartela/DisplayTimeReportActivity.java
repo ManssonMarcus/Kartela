@@ -1,5 +1,7 @@
 package com.example.kartela;
 
+import java.util.ArrayList;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
@@ -19,12 +21,12 @@ public class DisplayTimeReportActivity extends Activity {
 		
 		// Get the message from the intent
 		Intent intent = getIntent();
-        String message = intent.getStringExtra(TimeReportActivity.EXTRA_MESSAGE);
+        ArrayList<String> message = intent.getStringArrayListExtra(TimeReportActivity.EXTRA_MESSAGE);
 		
         // Create the text view
         TextView textView = new TextView(this);
         textView.setTextSize(30);
-        textView.setText(message);
+        textView.setText(message.get(0)+"\n"+message.get(1)+"\n"+message.get(2)+"\n"+message.get(3)+"\n"+message.get(4));
         
         // Set the text view as the activity layout
         setContentView(textView);

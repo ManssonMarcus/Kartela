@@ -8,9 +8,10 @@ import android.app.TimePickerDialog;
 import android.app.TimePickerDialog.OnTimeSetListener;
 import android.os.Bundle;
 import android.text.format.DateFormat;
+import android.widget.EditText;
 import android.widget.TimePicker;
 
-public class TimePickerFragment extends DialogFragment {
+public class TimePickerFragment extends DialogFragment implements TimePickerDialog.OnTimeSetListener{
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -20,7 +21,14 @@ public class TimePickerFragment extends DialogFragment {
 	int minute = c.get(Calendar.MINUTE);
 	
 	// Create a new instance of TimePickerDialog and return it
-	return new TimePickerDialog(getActivity(), (OnTimeSetListener) this, hour, minute,
+	return new TimePickerDialog(getActivity(), this, hour, minute,
 	DateFormat.is24HourFormat(getActivity()));
+	}
+
+	@Override
+	public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+		// TODO Auto-generated method stub
+		//String timeString = String.format("%02d:%02d", hourOfDay, minute);
+		((EditText) view.findViewById(R.id.endTime)).setText("HEJ");
 	}
 }

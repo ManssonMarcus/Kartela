@@ -19,8 +19,9 @@
         android:id="@+id/startTime"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="text"
+   	    android:ems="10"
+        android:inputType="time"
+        
         android:hint="@string/input_start_time" >
     </EditText>
     
@@ -29,7 +30,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:inputType="text"
+        android:inputType="time"
         android:hint="@string/input_end_time" >
     </EditText>
     
@@ -38,7 +39,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:inputType="text"
+        android:inputType="time"
         android:hint="@string/input_break_time" >
     </EditText>
     

@@ -1,5 +1,7 @@
 package com.example.kartela;
 
+import java.util.ArrayList;
+
 import android.os.Bundle;
 import android.app.Activity;
 import android.app.DatePickerDialog.OnDateSetListener;
@@ -40,6 +42,7 @@ public class TimeReportActivity extends FragmentActivity implements OnDateSetLis
 	}
 	
 	public void showTimePickerDialog(View view) {
+		System.out.println("Šr i showTimePickerDialog");
 		DialogFragment dialogFragment = new TimePickerFragment();
 		dialogFragment.show(getFragmentManager(), "timePicker");
 	}
@@ -67,11 +70,33 @@ public class TimeReportActivity extends FragmentActivity implements OnDateSetLis
     }
 	
 	public void saveTimeReport(View view) {
+		ArrayList<String> timeReportItems = new ArrayList<String>();
     	Intent intent = new Intent(this, DisplayTimeReportActivity.class);
-    	EditText editText = (EditText) findViewById(R.id.startTime);
+    	EditText editText = (EditText) findViewById(R.id.date);
     	String message = editText.getText().toString();
-    	intent.putExtra(EXTRA_MESSAGE, message);
+
+    	EditText editText2 = (EditText) findViewById(R.id.startTime);
+    	String message2 = editText2.getText().toString();
+
+    	EditText editText3 = (EditText) findViewById(R.id.endTime);
+    	String message3 = editText3.getText().toString();
+
+    	EditText editText4 = (EditText) findViewById(R.id.breakTime);
+    	String message4 = editText4.getText().toString();
+
+    	Spinner editText5 = (Spinner) findViewById(R.id.projects_spinner);
+    	String message5 = editText5.getSelectedItem().toString();
+    	
+    	timeReportItems.add(message);
+    	timeReportItems.add(message2);
+    	timeReportItems.add(message3);
+    	timeReportItems.add(message4);
+    	timeReportItems.add(message5);
+    	
+    	intent.putStringArrayListExtra(EXTRA_MESSAGE, timeReportItems);
     	startActivity(intent);
     }
+	
+
 
 }
