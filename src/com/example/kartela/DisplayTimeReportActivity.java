@@ -21,11 +21,13 @@ public class DisplayTimeReportActivity extends ListActivity {
         datasource = new TimelogDataSource(this);
         datasource.open();
         
-        List<Timelog> values = datasource.getAllTimelogs();
-		
+//        List<Timelog> values = datasource.getAllTimelogs();
+        String[] values = new String[] { "Android", "iPhone", "WindowsMobile",
+                "Blackberry", "WebOS", "Ubuntu", "Windows7", "Max OS X",
+                "Linux", "OS/2" };
         // use the SimpleCursorAdapter to show the
         // elements in a ListView
-        ListAdapter adapter = new ListAdapter(context, values);
+        ListAdapter adapter = new ListAdapter(this, values);
         setListAdapter(adapter);
 	}
 

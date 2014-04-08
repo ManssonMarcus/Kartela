@@ -1,6 +1,8 @@
 package com.example.kartela;
 
 import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,15 +26,21 @@ public class ListAdapter extends ArrayAdapter<String> {
         .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     View rowView = inflater.inflate(R.layout.row_layout, parent, false);
     TextView textView = (TextView) rowView.findViewById(R.id.label);
-    ImageView imageView = (ImageView) rowView.findViewById(R.id.icon);
-    textView.setText(values[position]);
+    TextView textView2 = (TextView) rowView.findViewById(R.id.labelText);
+//    ImageView imageView = (ImageView) rowView.findViewById(R.id.icon);
+    textView2.setText(values[position]);
+    Resources res = rowView.getResources();
+    Drawable shape = res.getDrawable(R.drawable.shape_rect);
+    
+    
+    
     // Change the icon for Windows and iPhone
     String s = values[position];
     if (s.startsWith("Windows7") || s.startsWith("iPhone")
         || s.startsWith("Solaris")) {
-      imageView.setImageResource(R.drawable.no);
+    	textView.setBackgroundResource(R.drawable.shape_rect);
     } else {
-      imageView.setImageResource(R.drawable.ok);
+        textView.setBackgroundResource(R.drawable.shape_rect);
     }
 
     return rowView;
