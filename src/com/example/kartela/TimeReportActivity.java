@@ -17,10 +17,13 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TimePicker;
 
-public class TimeReportActivity extends FragmentActivity implements OnDateSetListener{
+public class TimeReportActivity extends FragmentActivity implements OnDateSetListener, OnTimeSetListener{
 	
 	public final static String EXTRA_MESSAGE = "com.example.kartela.MESSAGE";
+
 	private TimelogDataSource datasource;
+	private EditText activeTimeID;
+
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -45,8 +48,14 @@ public class TimeReportActivity extends FragmentActivity implements OnDateSetLis
 		dialogFragment.show(getFragmentManager(), "datePicker");
 	}
 	
-	public void showTimePickerDialog(View view) {
-		System.out.println("Šr i showTimePickerDialog");
+	public void showStartTimePickerDialog(View view) {
+		activeTimeID = (EditText) findViewById(R.id.startTime);
+		DialogFragment dialogFragment = new TimePickerFragment();
+		dialogFragment.show(getFragmentManager(), "timePicker");
+	}
+	
+	public void showEndTimePickerDialog(View view) {
+		activeTimeID = (EditText) findViewById(R.id.endTime);
 		DialogFragment dialogFragment = new TimePickerFragment();
 		dialogFragment.show(getFragmentManager(), "timePicker");
 	}
@@ -72,6 +81,13 @@ public class TimeReportActivity extends FragmentActivity implements OnDateSetLis
 		((EditText) findViewById(R.id.date)).setText(year+"-"+monthString+"-"+dayString);
         
     }
+	
+	
+	public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+		// TODO Auto-generated method stub
+		String timeString = String.format("%02d:%02d", hourOfDay, minute);
+		activeTimeID.setText(timeString);
+	}
 	
 	public void saveTimeReport(View view) {
 		ArrayList<String> timeReportItems = new ArrayList<String>();
