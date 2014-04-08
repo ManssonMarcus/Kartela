@@ -1,35 +1,39 @@
 package com.example.kartela;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.example.kartela.TimeReportActivity;
 
-public class DisplayTimeReportActivity extends Activity {
+public class DisplayTimeReportActivity extends ListActivity {
+	private TimelogDataSource datasource;
 	
 	@SuppressLint("NewApi")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_display_time_report);
 		
-		// Get the message from the intent
-		Intent intent = getIntent();
-        ArrayList<String> message = intent.getStringArrayListExtra(TimeReportActivity.EXTRA_MESSAGE);
-		
-        // Create the text view
-        TextView textView = new TextView(this);
-        textView.setTextSize(30);
-        textView.setText(message.get(0)+"\n"+message.get(1)+"\n"+message.get(2)+"\n"+message.get(3)+"\n"+message.get(4));
+        datasource = new TimelogDataSource(this);
+        datasource.open();
         
-        // Set the text view as the activity layout
-        setContentView(textView);
+        List<Timelog> values = datasource.getAllTimelogs();
+		
+        // use the SimpleCursorAdapter to show the
+        // elements in a ListView
+        ArrayAdapter<Timelog> adapter = new ArrayAdapter<Timelog>(this,
+            android.R.layout.simple_list_item_1, values);
+        setListAdapter(adapter);
 	}
 
 	@Override
@@ -49,4 +53,16 @@ public class DisplayTimeReportActivity extends Activity {
 		return super.onOptionsItemSelected(item);
 	}
 
+	
+    @Override
+    protected void onResume() {
+      datasource.open();
+      super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+      datasource.close();
+      super.onPause();
+    }
 }
