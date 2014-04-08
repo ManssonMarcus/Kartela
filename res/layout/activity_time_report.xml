@@ -1,0 +1,56 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".TimeReportActivity" >
+
+    <EditText
+        android:id="@+id/date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="date"
+        android:onClick="showDatePickerDialog"
+        android:hint="@string/input_date" >
+    </EditText>
+    
+    <EditText
+        android:id="@+id/startTime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+   	    android:ems="10"
+        android:inputType="time"
+        
+        android:hint="@string/input_start_time" >
+    </EditText>
+    
+    <EditText
+        android:id="@+id/endTime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="time"
+        android:hint="@string/input_end_time" >
+    </EditText>
+    
+    <EditText
+        android:id="@+id/breakTime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="time"
+        android:hint="@string/input_break_time" >
+    </EditText>
+    
+    <Spinner
+	    android:id="@+id/projects_spinner"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content" />
+    
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/send_button"
+        android:onClick="saveTimeReport" />
+</LinearLayout>
