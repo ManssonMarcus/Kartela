@@ -16,7 +16,7 @@ public class TimelogDataSource {
 	private MySQLiteHelper dbHelper;
 	private String[] allColumns = { MySQLiteHelper.COLUMN_ID, MySQLiteHelper.COLUMN_PROJECTNAME, MySQLiteHelper.COLUMN_COMMENT,
 									MySQLiteHelper.COLUMN_STARTTIME, MySQLiteHelper.COLUMN_ENDTIME, MySQLiteHelper.COLUMN_BREAKTIME,
-									MySQLiteHelper.COLUMN_DATE};
+									MySQLiteHelper.COLUMN_EDITABLE, MySQLiteHelper.COLUMN_DATE};
 	
 	//Constructor
 	public TimelogDataSource(Context context) {
@@ -40,6 +40,7 @@ public class TimelogDataSource {
 		values.put(MySQLiteHelper.COLUMN_STARTTIME, p_startTime);
 		values.put(MySQLiteHelper.COLUMN_ENDTIME, p_endTime);
 		values.put(MySQLiteHelper.COLUMN_BREAKTIME, p_breakTime);
+		values.put(MySQLiteHelper.COLUMN_EDITABLE, true);
 		values.put(MySQLiteHelper.COLUMN_DATE, p_date);
 	  		
 		long insertId = database.insert(MySQLiteHelper.TABLE_TIMELOGS, null,values);
@@ -103,7 +104,7 @@ public class TimelogDataSource {
 	    return allTimelogs;
     }
     
-	public int updateTimelog(Timelog timelog, String p_name, String p_comment, String p_startTime, String p_endTime, int p_breakTime, String p_date){
+	public int updateTimelog(Timelog timelog, String p_name, String p_comment, String p_startTime, String p_endTime, int p_breakTime, boolean p_editable, String p_date){
 		long id = timelog.getId();
         ContentValues values = new ContentValues();
         values.put(MySQLiteHelper.COLUMN_ID, id);
@@ -112,6 +113,7 @@ public class TimelogDataSource {
 		values.put(MySQLiteHelper.COLUMN_STARTTIME, p_startTime);
 		values.put(MySQLiteHelper.COLUMN_ENDTIME, p_endTime);
 		values.put(MySQLiteHelper.COLUMN_BREAKTIME, p_breakTime);
+		values.put(MySQLiteHelper.COLUMN_EDITABLE, p_editable);
 		values.put(MySQLiteHelper.COLUMN_DATE, p_date);
         
 	    System.out.println("Timelog updated with id: " + id);
@@ -128,7 +130,8 @@ public class TimelogDataSource {
 	    timelog.setStartTime(cursor.getString(3));
 	    timelog.setEndTime(cursor.getString(4));
 	    timelog.setBreakTime(cursor.getInt(5));
-	    timelog.setDate(cursor.getString(6));
+	    timelog.setEditable(Boolean.valueOf(cursor.getString(6)));
+	    timelog.setDate(cursor.getString(7));
 		
 		return timelog;
 	}

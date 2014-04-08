@@ -8,6 +8,7 @@ public class Timelog {
   private String date;
   private String startTime,endTime;
   private int breakTime;
+  private boolean editable;
 
   
   //ID-number
@@ -73,10 +74,18 @@ public class Timelog {
 	  this.breakTime = minutes;
   }
   
+  //Editable
+  public boolean getEditable(){
+	  return editable;
+  }
+  
+  public void setEditable(boolean editable){
+	  this.editable = editable;
+  }
 
   // Will be used by the ArrayAdapter in the ListView
   @Override
   public String toString() {
-    return id + ", " + name + ", " + comment + ", " + startTime + ", " + endTime +", " + breakTime + ", " + date;
+    return id + ", " + name + ", " + comment + ", " + startTime + ", " + endTime +", " + breakTime + ", " + editable + ", " + date;
   }
 } 
