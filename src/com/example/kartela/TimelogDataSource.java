@@ -121,16 +121,27 @@ public class TimelogDataSource {
 		return database.update(MySQLiteHelper.TABLE_TIMELOGS, values, MySQLiteHelper.COLUMN_ID + " = ?", new String[] { String.valueOf(id) });
 	}
 
+	//locks all rows in the timelogtable for further changes
+	public int lockAllTimelogs(){
+		ContentValues values = new ContentValues();
+		values.put(MySQLiteHelper.COLUMN_EDITABLE, false);
+		return database.update(MySQLiteHelper.TABLE_TIMELOGS, values, null, null);
+	}
 	//Convert to timelog-class
 	private Timelog cursorToTimelog(Cursor cursor) {
 	    Timelog timelog = new Timelog();
+	    
+	    boolean editable = true;
+	    int test = cursor.getInt(6);
+	    if(test == 0) editable = false;
+	        
 	    timelog.setId(cursor.getLong(0));
 	    timelog.setName(cursor.getString(1));
 	    timelog.setComment(cursor.getString(2));
 	    timelog.setStartTime(cursor.getString(3));
 	    timelog.setEndTime(cursor.getString(4));
 	    timelog.setBreakTime(cursor.getInt(5));
-	    timelog.setEditable(Boolean.valueOf(cursor.getString(6)));
+	    timelog.setEditable(editable);
 	    timelog.setDate(cursor.getString(7));
 		
 		return timelog;
