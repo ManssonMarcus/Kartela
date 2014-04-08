@@ -20,12 +20,16 @@ import android.widget.TimePicker;
 public class TimeReportActivity extends FragmentActivity implements OnDateSetListener{
 	
 	public final static String EXTRA_MESSAGE = "com.example.kartela.MESSAGE";
+	private TimelogDataSource datasource;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_time_report);
 		addItemsOnProjectSpinner();
+		
+        datasource = new TimelogDataSource(this);
+        datasource.open();
 	}
 
 	@Override
@@ -87,11 +91,13 @@ public class TimeReportActivity extends FragmentActivity implements OnDateSetLis
     	Spinner editText5 = (Spinner) findViewById(R.id.projects_spinner);
     	String message5 = editText5.getSelectedItem().toString();
     	
-    	timeReportItems.add(message);
-    	timeReportItems.add(message2);
-    	timeReportItems.add(message3);
-    	timeReportItems.add(message4);
-    	timeReportItems.add(message5);
+    	Timelog timelog = datasource.createTimelog(message5, "kommentar", message2,message3,Integer.parseInt(message4),message); 
+    	
+//    	timeReportItems.add(timelog.getDate());
+//    	timeReportItems.add(timelog.getStartTime());
+//    	timeReportItems.add(timelog.getEndTime());
+//    	timeReportItems.add("" + timelog.getBreakTime());
+//    	timeReportItems.add(timelog.getName());
     	
     	intent.putStringArrayListExtra(EXTRA_MESSAGE, timeReportItems);
     	startActivity(intent);
