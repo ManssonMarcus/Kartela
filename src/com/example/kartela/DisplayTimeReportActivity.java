@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
@@ -35,6 +36,35 @@ public class DisplayTimeReportActivity extends ListActivity {
             android.R.layout.simple_list_item_1, values);
         setListAdapter(adapter);
 	}
+	
+	public void onClick(View view) {
+	      @SuppressWarnings("unchecked")
+	      ArrayAdapter<Timelog> adapter = (ArrayAdapter<Timelog>) getListAdapter();
+	      Timelog timelog = null;
+	      switch (view.getId()) {
+	      case R.id.testknapp:  	  
+	        // save the new new timelog to the database    	
+	        int test = datasource.lockAllTimelogs();
+	        System.out.println("result: " + test);
+	    	  adapter.clear();
+	    	  
+	    	  List<Timelog> values = datasource.getAllTimelogs();
+	    	  for(int i=0;i<values.size();i++){
+	    		  adapter.add(values.get(i));
+	    	  }  
+	        
+	        break;
+			case R.id.deleteall:   	  
+			    if (getListAdapter().getCount() > 0) {
+			      timelog = (Timelog) getListAdapter().getItem(0);
+			      datasource.deleteTimelog(timelog);
+			      adapter.remove(timelog);
+			    }
+			break;
+	      }
+	      adapter.notifyDataSetChanged();
+	    }    
+
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {

@@ -8,11 +8,27 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:orientation="vertical"
     tools:context=".TestDatabaseActivity" >
+    
+    <Button
+        android:id="@+id/testknapp"
+        android:layout_width="70dp"
+        android:layout_height="wrap_content"
+        android:onClick="onClick"
+        android:text="Send" />
 
+    <Button
+        android:id="@+id/deleteall"
+        android:layout_width="70dp"
+        android:layout_height="wrap_content"
+        android:onClick="onClick"
+        android:text="delete" />
+    
     <ListView
         android:id="@android:id/list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@+string/hello" />
+    
 
+    
 </LinearLayout>
