@@ -1,19 +1,13 @@
 package com.example.kartela;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.ListActivity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
-import android.widget.TextView;
-
-import com.example.kartela.TimeReportActivity;
 
 public class DisplayTimeReportActivity extends ListActivity {
 	private TimelogDataSource datasource;
