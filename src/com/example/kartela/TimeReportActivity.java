@@ -20,7 +20,7 @@ import android.widget.TimePicker;
 public class TimeReportActivity extends FragmentActivity implements OnDateSetListener, OnTimeSetListener{
 	
 	public final static String EXTRA_MESSAGE = "com.example.kartela.MESSAGE";
-	
+	// Emma ändrar
 	private EditText activeTimeID;
 	
 	@Override
