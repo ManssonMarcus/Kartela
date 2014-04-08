@@ -25,8 +25,7 @@ public class DisplayTimeReportActivity extends ListActivity {
 		
         // use the SimpleCursorAdapter to show the
         // elements in a ListView
-        ArrayAdapter<Timelog> adapter = new ArrayAdapter<Timelog>(this,
-            android.R.layout.simple_list_item_1, values);
+        ListAdapter adapter = new ListAdapter(context, values);
         setListAdapter(adapter);
 	}
 

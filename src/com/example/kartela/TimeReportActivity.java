@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import android.os.Bundle;
 import android.app.DatePickerDialog.OnDateSetListener;
 import android.app.DialogFragment;
+import android.app.TimePickerDialog.OnTimeSetListener;
 import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
@@ -13,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TimePicker;
 
 public class TimeReportActivity extends FragmentActivity implements OnDateSetListener, OnTimeSetListener{
 	
@@ -115,7 +117,5 @@ public class TimeReportActivity extends FragmentActivity implements OnDateSetLis
     	intent.putStringArrayListExtra(EXTRA_MESSAGE, timeReportItems);
     	startActivity(intent);
     }
-	
-
 
 }
