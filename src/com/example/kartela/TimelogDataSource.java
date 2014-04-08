@@ -16,7 +16,7 @@ public class TimelogDataSource {
 	private MySQLiteHelper dbHelper;
 	private String[] allColumns = { MySQLiteHelper.COLUMN_ID, MySQLiteHelper.COLUMN_PROJECTNAME, MySQLiteHelper.COLUMN_COMMENT,
 									MySQLiteHelper.COLUMN_STARTTIME, MySQLiteHelper.COLUMN_ENDTIME, MySQLiteHelper.COLUMN_BREAKTIME,
-									MySQLiteHelper.COLUMN_EDITABLE, MySQLiteHelper.COLUMN_DATE};
+									MySQLiteHelper.COLUMN_EDITABLE, MySQLiteHelper.COLUMN_DATE, MySQLiteHelper.COLUMN_COLOR};
 	
 	//Constructor
 	public TimelogDataSource(Context context) {
@@ -42,6 +42,7 @@ public class TimelogDataSource {
 		values.put(MySQLiteHelper.COLUMN_BREAKTIME, p_breakTime);
 		values.put(MySQLiteHelper.COLUMN_EDITABLE, true);
 		values.put(MySQLiteHelper.COLUMN_DATE, p_date);
+		values.put(MySQLiteHelper.COLUMN_COLOR, "black");
 	  		
 		long insertId = database.insert(MySQLiteHelper.TABLE_TIMELOGS, null,values);
 	  
@@ -143,6 +144,7 @@ public class TimelogDataSource {
 	    timelog.setBreakTime(cursor.getInt(5));
 	    timelog.setEditable(editable);
 	    timelog.setDate(cursor.getString(7));
+	    timelog.setColor(cursor.getString(8));
 		
 		return timelog;
 	}

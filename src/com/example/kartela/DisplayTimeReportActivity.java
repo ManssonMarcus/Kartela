@@ -52,6 +52,8 @@ public class DisplayTimeReportActivity extends ListActivity {
 	    	  for(int i=0;i<values.size();i++){
 	    		  adapter.add(values.get(i));
 	    	  }  
+	    	  
+	    	  
 	        
 	        break;
 			case R.id.deleteall:   	  
