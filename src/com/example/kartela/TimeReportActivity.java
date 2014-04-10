@@ -114,7 +114,7 @@ public class TimeReportActivity extends FragmentActivity implements OnDateSetLis
 //    	timeReportItems.add("" + timelog.getBreakTime());
 //    	timeReportItems.add(timelog.getName());
     	
-    	intent.putStringArrayListExtra(EXTRA_MESSAGE, timeReportItems);
+//    	intent.putStringArrayListExtra(EXTRA_MESSAGE, timeReportItems);
     	startActivity(intent);
     }
 

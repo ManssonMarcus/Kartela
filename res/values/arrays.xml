@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="projects_array">
+        <item>Saab</item>
+        <item>Volvo</item>
+        <item>Helikopter</item>
+        <item>Combitech</item>
+    </string-array>
+</resources>

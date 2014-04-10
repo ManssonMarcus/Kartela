@@ -7,7 +7,6 @@ import android.app.ListActivity;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.view.MenuItem;
-import android.widget.ArrayAdapter;
 
 public class DisplayTimeReportActivity extends ListActivity {
 	private TimelogDataSource datasource;
@@ -21,12 +20,9 @@ public class DisplayTimeReportActivity extends ListActivity {
         datasource = new TimelogDataSource(this);
         datasource.open();
         
-//        List<Timelog> values = datasource.getAllTimelogs();
-        String[] values = new String[] { "Android", "iPhone", "WindowsMobile",
-                "Blackberry", "WebOS", "Ubuntu", "Windows7", "Max OS X",
-                "Linux", "OS/2" };
-        // use the SimpleCursorAdapter to show the
-        // elements in a ListView
+        List<Timelog> values = datasource.getAllTimelogs();
+        
+        // use the ListAdapter to show the elements in a ListView
         ListAdapter adapter = new ListAdapter(this, values);
         setListAdapter(adapter);
 	}
