@@ -21,6 +21,9 @@ public class ListAdapter extends ArrayAdapter<Timelog> {
 
   @Override
   public View getView(int position, View convertView, ViewGroup parent) {
+    
+	  
+	  
     LayoutInflater inflater = (LayoutInflater) context
         .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     
@@ -30,8 +33,8 @@ public class ListAdapter extends ArrayAdapter<Timelog> {
     TextView textView = (TextView) rowView.findViewById(R.id.labelText);
 
     String project = values.get(position).getName();
-    textView.setText(project);
-    
+    String time =  values.get(position).getWorkedTime();
+    textView.setText(project + " " + time);
 
     if (project.startsWith("Saab")) {
 	    colorBarTextView.setBackgroundResource(R.drawable.saab_rect);

@@ -21,7 +21,7 @@ public class DisplayTimeReportActivity extends ListActivity {
         datasource.open();
         
         List<Timelog> values = datasource.getAllTimelogs();
-
+        
         ListAdapter adapter = new ListAdapter(this, values);
         setListAdapter(adapter);
 	}

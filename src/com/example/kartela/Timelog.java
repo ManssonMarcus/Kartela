@@ -1,5 +1,11 @@
 package com.example.kartela;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import android.text.format.DateFormat;
+
 
 public class Timelog {
   private long id;
@@ -73,7 +79,7 @@ public class Timelog {
   public void setBreakTime(int minutes){
 	  this.breakTime = minutes;
   }
-  
+
   //Editable
   public boolean getEditable(){
 	  return editable;
@@ -81,6 +87,38 @@ public class Timelog {
   
   public void setEditable(boolean editable){
 	  this.editable = editable;
+  }
+  
+  public String getWorkedTime(){
+	  String diff = "";
+	  
+	  SimpleDateFormat df = new SimpleDateFormat("HH:mm");
+	  Date dateOne = new Date();
+	  Date dateTwo = new Date();
+	  
+	  try {
+		  dateOne = df.parse(endTime);
+	  } catch (ParseException e) {
+		  // TODO Auto-generated catch block
+		  e.printStackTrace();
+	  }
+		  
+	  try {
+	      dateTwo = df.parse(startTime);
+	  } catch (ParseException e) {
+		  // TODO Auto-generated catch block
+		  e.printStackTrace();
+	  }  
+	
+	  long timeDiff = Math.abs(dateOne.getTime() - dateTwo.getTime());
+	  
+	  int days = (int) (timeDiff / (1000*60*60*24)); 
+	  int hours = (int) ((timeDiff - (1000*60*60*24*days)) / (1000*60*60));
+	  int min = (int) (timeDiff - (1000*60*60*24*days) - (1000*60*60*hours)) / (1000*60);
+	  
+	  diff = hours + "H " + min + "M";
+	  	
+	  return diff;
   }
 
   // Will be used by the ArrayAdapter in the ListView
