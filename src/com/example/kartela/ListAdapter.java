@@ -29,11 +29,11 @@ public class ListAdapter extends ArrayAdapter<Timelog> {
 
   @Override
   public View getView(int position, View convertView, ViewGroup parent) {
+    
+	  
+	  
     LayoutInflater inflater = (LayoutInflater) context
         .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-    
-    
-
     
     View rowView = inflater.inflate(R.layout.row_layout, parent, false);
     
@@ -46,7 +46,7 @@ public class ListAdapter extends ArrayAdapter<Timelog> {
     
     
 //    ImageView imageView = (ImageView) rowView.findViewById(R.id.icon);
-    textView2.setText(values.get(position).getName());
+    textView2.setText(values.get(position).getName() + " " + values.get(position).getWorkedTime());
     Resources res = rowView.getResources();
 
     
