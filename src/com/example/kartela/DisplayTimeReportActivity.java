@@ -40,6 +40,23 @@ public class DisplayTimeReportActivity extends ListActivity {
             android.R.layout.simple_list_item_1, values);
         setListAdapter(adapter);
 	}
+	
+	public void onClick(View view) {
+	      @SuppressWarnings("unchecked")
+	      ArrayAdapter<Timelog> adapter = (ArrayAdapter<Timelog>) getListAdapter();
+	      Timelog timelog = null;
+	      switch (view.getId()) {
+			case R.id.deleteall:   	  
+			    if (getListAdapter().getCount() > 0) {
+			      timelog = (Timelog) getListAdapter().getItem(0);
+			      datasource.deleteTimelog(timelog);
+			      adapter.remove(timelog);
+			    }
+			break;
+	      }
+	      adapter.notifyDataSetChanged();
+	    }    
+
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
@@ -87,14 +104,21 @@ public class DisplayTimeReportActivity extends ListActivity {
 	    	
 			// iterate through all timelog items
 	    	for(int i = 0; i < values.size(); i++) {
-	    		String id = String.valueOf(values.get(i).getId());
-	    		String name = values.get(i).getName();
-	    		String comment = values.get(i).getComment();
-	    		String startTime = values.get(i).getStartTime();
-	    		String endTime = values.get(i).getEndTime();
-	    		String breakTime = String.valueOf(values.get(i).getBreakTime());
-	    		String date = values.get(i).getDate();
-	    		data.add(new String[] {id, name, comment, startTime, endTime, breakTime, date});
+	    		
+	    		if(values.get(i).getEditable()){
+	    			//lock item
+	    			datasource.lockSpecificTimelog(values.get(i));
+	    			
+	    			//add item to csv
+	    			String id = String.valueOf(values.get(i).getId());
+	    			String name = values.get(i).getName();
+	    			String comment = values.get(i).getComment();
+	    			String startTime = values.get(i).getStartTime();
+	    			String endTime = values.get(i).getEndTime();
+	    			String breakTime = String.valueOf(values.get(i).getBreakTime());
+	    			String date = values.get(i).getDate();
+	    			data.add(new String[] {id, name, comment, startTime, endTime, breakTime, date});
+	    		}
 	    	}
 	    	
 	    	csvWriter.writeAll(data);

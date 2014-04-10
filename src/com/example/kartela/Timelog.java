@@ -1,5 +1,9 @@
 package com.example.kartela;
 
+import java.util.Random;
+
+import android.graphics.Color;
+
 
 public class Timelog {
   private long id;
@@ -8,6 +12,8 @@ public class Timelog {
   private String date;
   private String startTime,endTime;
   private int breakTime;
+  private boolean editable;
+  private String color;
 
   
   //ID-number
@@ -73,10 +79,28 @@ public class Timelog {
 	  this.breakTime = minutes;
   }
   
+  //Editable
+  public boolean getEditable(){
+	  return editable;
+  }
+  
+  public void setEditable(boolean editable){
+	  this.editable = editable;
+  }
+  
+  //Editable
+  public String getColor(){
+	  return color;
+  }
+  
+  public void setColor(String color){
+	  this.color = "svart";
+  }
 
   // Will be used by the ArrayAdapter in the ListView
   @Override
   public String toString() {
-    return id + ", " + name + ", " + comment + ", " + startTime + ", " + endTime +", " + breakTime + ", " + date;
+    return id + ", " + name + ", " + comment + ", " + startTime + ", " + endTime +", " + breakTime + ", " + editable + ", " + date + ", "+ color;
   }
+  
 } 

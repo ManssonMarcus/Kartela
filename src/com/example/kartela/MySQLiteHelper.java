@@ -5,6 +5,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+//Lägger till kolumn för låsbar timelog
 public class MySQLiteHelper extends SQLiteOpenHelper {
 
   public static final String TABLE_TIMELOGS = "timelogs";
@@ -15,9 +16,11 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
   public static final String COLUMN_ENDTIME = "endtime";
   public static final String COLUMN_BREAKTIME = "breaktime";
   public static final String COLUMN_DATE = "date";
-
+  public static final String COLUMN_EDITABLE = "editable";
+  public static final String COLUMN_COLOR = "color";
+  
   private static final String DATABASE_NAME = "timelogs.db";
-  private static final int DATABASE_VERSION = 1;
+  private static final int DATABASE_VERSION = 3;
 
   // Database creation sql statement
   // Database creation sql statement
@@ -29,7 +32,9 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 	  	COLUMN_STARTTIME		+ " time," + 
 	  	COLUMN_ENDTIME			+ " time," +
 	  	COLUMN_BREAKTIME		+ " time," +
-	  	COLUMN_DATE				+ " date);";
+	  	COLUMN_EDITABLE			+ " boolean," +
+	  	COLUMN_DATE				+ " date," +
+	  	COLUMN_COLOR			+ " text);";
 
 
       
