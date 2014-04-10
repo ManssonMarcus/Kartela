@@ -9,6 +9,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ListActivity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.view.MenuItem;
@@ -71,28 +72,44 @@ public class DisplayTimeReportActivity extends ListActivity {
     }
     
     public void sendTimeReportMail(View view) {
-    	//List<Timelog> values = datasource.getAllTimelogs();
     	
-    	String csvLocation = android.os.Environment.getExternalStorageDirectory().getAbsolutePath();
+    	List<Timelog> values = datasource.getAllTimelogs();
+
+    	String csvLocation = android.os.Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + "Test.csv";
     	
     	try {
 			CSVWriter csvWriter = new CSVWriter(new FileWriter(csvLocation));
+			
 			List<String[]> data = new ArrayList<String[]>();
-	    	data.add(new String[] {"India", "New Dehli"});
-	    	data.add(new String[] {"USA", "Washington"});
-	    	data.add(new String[] {"Sweden", "Stockholm"});
+			
+			// first row: attributes
+			data.add(new String[] {"id","name","comment","start time","end time","break","date"});
+	    	
+			// iterate through all timelog items
+	    	for(int i = 0; i < values.size(); i++) {
+	    		String id = String.valueOf(values.get(i).getId());
+	    		String name = values.get(i).getName();
+	    		String comment = values.get(i).getComment();
+	    		String startTime = values.get(i).getStartTime();
+	    		String endTime = values.get(i).getEndTime();
+	    		String breakTime = String.valueOf(values.get(i).getBreakTime());
+	    		String date = values.get(i).getDate();
+	    		data.add(new String[] {id, name, comment, startTime, endTime, breakTime, date});
+	    	}
 	    	
 	    	csvWriter.writeAll(data);
 	    	csvWriter.close();
+	    	
+	    	// Send email with csv file as attachment
+	    	final Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
+			emailIntent.setType("plain/text");
+			emailIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse("file://" + csvLocation));
+			emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{"kartela.agilen@gmail.com"});
+			emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Message from Kartela");
+			startActivity(Intent.createChooser(emailIntent, "Send email..."));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-    	
-		final Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
-		emailIntent.setType("plain/text");
-		emailIntent.putExtra(Intent.EXTRA_STREAM, csvLocation);
-		emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{"kartela.agilen@gmail.com"});
-		emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Message from Kartela");
-		startActivity(Intent.createChooser(emailIntent, "Send email..."));		
+ 		
 	}
 }
