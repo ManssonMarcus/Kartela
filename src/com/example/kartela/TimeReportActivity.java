@@ -2,13 +2,13 @@ package com.example.kartela;
 
 import java.util.ArrayList;
 
-import android.os.Bundle;
-import android.app.Activity;
 import android.app.DatePickerDialog.OnDateSetListener;
 import android.app.DialogFragment;
 import android.app.TimePickerDialog.OnTimeSetListener;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -108,6 +108,8 @@ public class TimeReportActivity extends FragmentActivity implements OnDateSetLis
     	String message5 = editText5.getSelectedItem().toString();
     	
     	Timelog timelog = datasource.createTimelog(message5, "kommentar", message2,message3,Integer.parseInt(message4),message); 
+    	
+    	Log.d("Test", "Nu funkar det!");
     	
 //    	timeReportItems.add(timelog.getDate());
 //    	timeReportItems.add(timelog.getStartTime());
