@@ -62,17 +62,6 @@ public class DisplayTimeReportActivity extends ListActivity {
 			    }
 			break;
 
-	      case R.id.send:  	  
-	    	  
-	    	  int result = datasource.lockAllTimelogs();
-	        
-	    	  adapter.clear();
-	    	  
-	    	  List<Timelog> values = datasource.getAllTimelogs();
-	    	  for(int i=0;i<values.size();i++){
-	    		  adapter.add(values.get(i));
-	    	  } 	        
-	        break;
 	      }
 	      adapter.notifyDataSetChanged();
 	    }
@@ -94,16 +83,16 @@ public class DisplayTimeReportActivity extends ListActivity {
 		dialog.setTitle(name);
 		
 		TextView txt1 = (TextView)dialog.findViewById(R.id.popup_start);
-		txt1.setText(start);
+		txt1.setText("Starttid: " + start);
 		
 		TextView txt2 = (TextView)dialog.findViewById(R.id.popup_end);
-		txt2.setText(end);
+		txt2.setText("Sluttid: " + end);
 		
 		TextView txt3 = (TextView)dialog.findViewById(R.id.popup_break);
-		txt3.setText(bt + "");
+		txt3.setText("Rast: " + bt);
 		
 		TextView txt4 = (TextView)dialog.findViewById(R.id.popup_comment);
-		txt4.setText(comment);
+		txt4.setText("Kommentar: " + comment);
 		
 		dialog.show();
 	}
