@@ -2,6 +2,8 @@ package com.example.kartela;
 
 import java.util.ArrayList;
 
+
+import android.os.Bundle;
 import android.app.DatePickerDialog.OnDateSetListener;
 import android.app.DialogFragment;
 import android.app.TimePickerDialog.OnTimeSetListener;
@@ -12,8 +14,10 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.NumberPicker;
 import android.widget.Spinner;
 import android.widget.TimePicker;
 
@@ -22,7 +26,7 @@ public class TimeReportActivity extends FragmentActivity implements OnDateSetLis
 	public final static String EXTRA_MESSAGE = "com.example.kartela.MESSAGE";
 
 	private TimelogDataSource datasource;
-	private EditText activeTimeID;
+	private Button activeTimeID;
 
 	
 	@Override
@@ -30,6 +34,10 @@ public class TimeReportActivity extends FragmentActivity implements OnDateSetLis
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_time_report);
 		addItemsOnProjectSpinner();
+		
+		NumberPicker np = (NumberPicker) findViewById(R.id.breakTime);
+		np.setMaxValue(100);
+		np.setMinValue(0);
 		
         datasource = new TimelogDataSource(this);
         datasource.open();
@@ -49,13 +57,13 @@ public class TimeReportActivity extends FragmentActivity implements OnDateSetLis
 	}
 	
 	public void showStartTimePickerDialog(View view) {
-		activeTimeID = (EditText) findViewById(R.id.startTime);
+		activeTimeID = (Button) findViewById(R.id.startTime);
 		DialogFragment dialogFragment = new TimePickerFragment();
 		dialogFragment.show(getFragmentManager(), "timePicker");
 	}
 	
 	public void showEndTimePickerDialog(View view) {
-		activeTimeID = (EditText) findViewById(R.id.endTime);
+		activeTimeID = (Button) findViewById(R.id.endTime);
 		DialogFragment dialogFragment = new TimePickerFragment();
 		dialogFragment.show(getFragmentManager(), "timePicker");
 	}
@@ -78,7 +86,7 @@ public class TimeReportActivity extends FragmentActivity implements OnDateSetLis
 		monthString = String.format("%02d", month);
 		dayString = String.format("%02d", day);
 		
-		((EditText) findViewById(R.id.date)).setText(year+"-"+monthString+"-"+dayString);
+		((Button) findViewById(R.id.date)).setText(year+"-"+monthString+"-"+dayString);
         
     }
 	
@@ -92,35 +100,34 @@ public class TimeReportActivity extends FragmentActivity implements OnDateSetLis
 	public void saveTimeReport(View view) {
 		ArrayList<String> timeReportItems = new ArrayList<String>();
     	Intent intent = new Intent(this, DisplayTimeReportActivity.class);
-    	EditText editText = (EditText) findViewById(R.id.date);
+    	Button editText = (Button) findViewById(R.id.date);
     	String message = editText.getText().toString();
 
-    	EditText editText2 = (EditText) findViewById(R.id.startTime);
+    	Button editText2 = (Button) findViewById(R.id.startTime);
     	String message2 = editText2.getText().toString();
 
-    	EditText editText3 = (EditText) findViewById(R.id.endTime);
+    	Button editText3 = (Button) findViewById(R.id.endTime);
     	String message3 = editText3.getText().toString();
 
-    	EditText editText4 = (EditText) findViewById(R.id.breakTime);
-    	String message4 = editText4.getText().toString();
+    	NumberPicker editText4 = (NumberPicker) findViewById(R.id.breakTime);
+    	String message4 = String.valueOf(editText4.getValue());
 
     	Spinner editText5 = (Spinner) findViewById(R.id.projects_spinner);
     	String message5 = editText5.getSelectedItem().toString();
     	
-    	Timelog timelog = datasource.createTimelog(message5, "kommentar", message2,message3,Integer.parseInt(message4),message); 
+    	EditText etComment =  (EditText) findViewById(R.id.comment);
+    	String comment = etComment.getText().toString();
     	
-    	Log.d("Test", "Nu funkar det!");
+
+    	Timelog timelog = datasource.createTimelog(message5, comment, message2,message3,Integer.parseInt(message4),message); 
+
     	
-//    	timeReportItems.add(timelog.getDate());
-//    	timeReportItems.add(timelog.getStartTime());
-//    	timeReportItems.add(timelog.getEndTime());
-//    	timeReportItems.add("" + timelog.getBreakTime());
-//    	timeReportItems.add(timelog.getName());
-    	
-    	intent.putStringArrayListExtra(EXTRA_MESSAGE, timeReportItems);
     	startActivity(intent);
     }
 	
-
+	public void showTimeReports(View view){
+		Intent intent = new Intent(this, DisplayTimeReportActivity.class);
+		startActivity(intent);
+	}
 
 }

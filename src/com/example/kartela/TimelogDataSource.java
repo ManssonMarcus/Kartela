@@ -128,6 +128,17 @@ public class TimelogDataSource {
 		values.put(MySQLiteHelper.COLUMN_EDITABLE, false);
 		return database.update(MySQLiteHelper.TABLE_TIMELOGS, values, null, null);
 	}
+	
+	//locks all rows in the timelogtable for further changes
+	public int lockSpecificTimelog(Timelog timelog){
+		
+		long id = timelog.getId();
+		ContentValues values = new ContentValues();
+		values.put(MySQLiteHelper.COLUMN_EDITABLE, false);
+		
+		return database.update(MySQLiteHelper.TABLE_TIMELOGS, values, MySQLiteHelper.COLUMN_ID + " = ?", new String[] { String.valueOf(id) });
+	}
+	
 	//Convert to timelog-class
 	private Timelog cursorToTimelog(Cursor cursor) {
 	    Timelog timelog = new Timelog();
