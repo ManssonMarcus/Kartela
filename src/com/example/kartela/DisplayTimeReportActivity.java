@@ -1,5 +1,7 @@
 package com.example.kartela;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -71,12 +73,24 @@ public class DisplayTimeReportActivity extends ListActivity {
     public void sendTimeReportMail(View view) {
     	//List<Timelog> values = datasource.getAllTimelogs();
     	
-    	String csvLocation = android.os.Environment.getExternalStorageDirectory().
+    	String csvLocation = android.os.Environment.getExternalStorageDirectory().getAbsolutePath();
     	
-    	//CSVWriter csvWriter = new CSVWriter(null);
+    	try {
+			CSVWriter csvWriter = new CSVWriter(new FileWriter(csvLocation));
+			List<String[]> data = new ArrayList<String[]>();
+	    	data.add(new String[] {"India", "New Dehli"});
+	    	data.add(new String[] {"USA", "Washington"});
+	    	data.add(new String[] {"Sweden", "Stockholm"});
+	    	
+	    	csvWriter.writeAll(data);
+	    	csvWriter.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
     	
 		final Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
 		emailIntent.setType("plain/text");
+		emailIntent.putExtra(Intent.EXTRA_STREAM, csvLocation);
 		emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{"kartela.agilen@gmail.com"});
 		emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Message from Kartela");
 		startActivity(Intent.createChooser(emailIntent, "Send email..."));		
