@@ -11,7 +11,7 @@ import android.view.MenuItem;
 public class DisplayTimeReportActivity extends ListActivity {
 	private TimelogDataSource datasource;
 	
-	@SuppressLint("NewApi")
+	@SuppressLint("NewApi")	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
