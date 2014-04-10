@@ -22,13 +22,19 @@
         android:onClick="onClick"
         android:text="delete" />
 
+
+   <Button
+       android:id="@+id/send"
+       android:layout_width="70dp"
+       android:layout_height="wrap_content"
+       android:onClick="onClick"
+       android:text="send" />
     
     <ListView
         android:id="@android:id/list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="#FFF"
         android:text="@+string/hello" />
-    
 
-    
 </LinearLayout>

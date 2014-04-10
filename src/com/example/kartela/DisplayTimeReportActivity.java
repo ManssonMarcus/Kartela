@@ -6,24 +6,31 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
+import android.app.Dialog;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import au.com.bytecode.opencsv.CSVWriter;
 
 import com.example.kartela.TimeReportActivity;
 
+
 public class DisplayTimeReportActivity extends ListActivity {
 	private TimelogDataSource datasource;
+	private List<Timelog> values;
 	
-	@SuppressLint("NewApi")
+	@SuppressLint("NewApi")	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -32,12 +39,9 @@ public class DisplayTimeReportActivity extends ListActivity {
         datasource = new TimelogDataSource(this);
         datasource.open();
         
-        List<Timelog> values = datasource.getAllTimelogs();
-		
-        // use the SimpleCursorAdapter to show the
-        // elements in a ListView
-        ArrayAdapter<Timelog> adapter = new ArrayAdapter<Timelog>(this,
-            android.R.layout.simple_list_item_1, values);
+        values = datasource.getAllTimelogs();
+        
+        ListAdapter adapter = new ListAdapter(this, values);
         setListAdapter(adapter);
 	}
 	
@@ -45,7 +49,11 @@ public class DisplayTimeReportActivity extends ListActivity {
 	      @SuppressWarnings("unchecked")
 	      ArrayAdapter<Timelog> adapter = (ArrayAdapter<Timelog>) getListAdapter();
 	      Timelog timelog = null;
+		  Log.d("klickade pa ", view.getId() + "");
+	      
+	      
 	      switch (view.getId()) {
+
 			case R.id.deleteall:   	  
 			    if (getListAdapter().getCount() > 0) {
 			      timelog = (Timelog) getListAdapter().getItem(0);
@@ -53,11 +61,53 @@ public class DisplayTimeReportActivity extends ListActivity {
 			      adapter.remove(timelog);
 			    }
 			break;
+
+	      case R.id.send:  	  
+	    	  
+	    	  int result = datasource.lockAllTimelogs();
+	        
+	    	  adapter.clear();
+	    	  
+	    	  List<Timelog> values = datasource.getAllTimelogs();
+	    	  for(int i=0;i<values.size();i++){
+	    		  adapter.add(values.get(i));
+	    	  } 	        
+	        break;
 	      }
 	      adapter.notifyDataSetChanged();
-	    }    
+	    }
 
-
+	@Override
+	protected void onListItemClick(ListView l, View v, int position, long id) {
+		
+		Log.d("kartela", "" + values.get(position).getName());
+		
+		String name = values.get(position).getName();
+		String start = values.get(position).getStartTime();
+		String end = values.get(position).getEndTime();
+		int bt = values.get(position).getBreakTime();
+		String comment = values.get(position).getComment();
+		
+		Dialog dialog = new Dialog(this);
+		dialog.setContentView(R.layout.popupview);//popup view is the layout you created
+		
+		dialog.setTitle(name);
+		
+		TextView txt1 = (TextView)dialog.findViewById(R.id.popup_start);
+		txt1.setText(start);
+		
+		TextView txt2 = (TextView)dialog.findViewById(R.id.popup_end);
+		txt2.setText(end);
+		
+		TextView txt3 = (TextView)dialog.findViewById(R.id.popup_break);
+		txt3.setText(bt + "");
+		
+		TextView txt4 = (TextView)dialog.findViewById(R.id.popup_comment);
+		txt4.setText(comment);
+		
+		dialog.show();
+	}
+	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
@@ -75,7 +125,6 @@ public class DisplayTimeReportActivity extends ListActivity {
 		return super.onOptionsItemSelected(item);
 	}
 
-	
     @Override
     protected void onResume() {
       datasource.open();

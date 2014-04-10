@@ -3,7 +3,6 @@ package com.example.kartela;
 import java.util.ArrayList;
 
 import android.os.Bundle;
-import android.app.Activity;
 import android.app.DatePickerDialog.OnDateSetListener;
 import android.app.DialogFragment;
 import android.app.TimePickerDialog.OnTimeSetListener;
@@ -113,9 +112,11 @@ public class TimeReportActivity extends FragmentActivity implements OnDateSetLis
     	Spinner editText5 = (Spinner) findViewById(R.id.projects_spinner);
     	String message5 = editText5.getSelectedItem().toString();
     	
-    	Timelog timelog = datasource.createTimelog(message5, "kommentar", message2,message3,Integer.parseInt(message4),message); 
+    	EditText etComment =  (EditText) findViewById(R.id.comment);
+    	String comment = etComment.getText().toString();
     	
-    	intent.putStringArrayListExtra(EXTRA_MESSAGE, timeReportItems);
+    	Timelog timelog = datasource.createTimelog(message5, comment, message2,message3,Integer.parseInt(message4),message); 
+    	
     	startActivity(intent);
     }
 	
@@ -123,7 +124,5 @@ public class TimeReportActivity extends FragmentActivity implements OnDateSetLis
 		Intent intent = new Intent(this, DisplayTimeReportActivity.class);
 		startActivity(intent);
 	}
-	
-
 
 }

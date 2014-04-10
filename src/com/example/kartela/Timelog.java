@@ -3,6 +3,12 @@ package com.example.kartela;
 import java.util.Random;
 
 import android.graphics.Color;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import android.text.format.DateFormat;
+import android.util.Log;
 
 
 public class Timelog {
@@ -78,7 +84,7 @@ public class Timelog {
   public void setBreakTime(int minutes){
 	  this.breakTime = minutes;
   }
-  
+
   //Editable
   public boolean getEditable(){
 	  return editable;
@@ -96,6 +102,46 @@ public class Timelog {
   public void setColor(String color){
 	  this.color = "svart";
   }
+  
+  public String getWorkedTime(){
+	  String diff = "";
+	  
+	  //Input timeformat
+	  SimpleDateFormat df = new SimpleDateFormat("HH:mm");
+	  
+	  Date dateOne = new Date();
+	  Date dateTwo = new Date();
+	  
+	  //Convert date in string format to Date format
+	  try {
+		  dateOne = df.parse(endTime);
+	  } catch (ParseException e) {
+		  // TODO Auto-generated catch block
+		  e.printStackTrace();
+	  }
+		  
+	  try {
+	      dateTwo = df.parse(startTime);
+	  } catch (ParseException e) {
+		  // TODO Auto-generated catch block
+		  e.printStackTrace();
+	  }  
+  
+	  long timeDiff = Math.abs(dateOne.getTime() - dateTwo.getTime());
+	  
+	  //Remove break time from total time worked
+	  long b = breakTime*60000;
+	  timeDiff -= b;
+	  
+	  //extract days, hours and minutes from milliseconds
+	  int days = (int) (timeDiff / (1000*60*60*24)); 
+	  int hours = (int) ((timeDiff - (1000*60*60*24*days)) / (1000*60*60));
+	  int min = (int) (timeDiff - (1000*60*60*24*days) - (1000*60*60*hours)) / (1000*60);
+	  
+	  diff = hours + "H " + min + "M";
+	  	
+	  return diff;
+  }
 
   // Will be used by the ArrayAdapter in the ListView
   @Override
@@ -103,4 +149,4 @@ public class Timelog {
     return id + ", " + name + ", " + comment + ", " + startTime + ", " + endTime +", " + breakTime + ", " + editable + ", " + date + ", "+ color;
   }
   
-} 
+}
