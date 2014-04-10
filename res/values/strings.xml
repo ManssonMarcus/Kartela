@@ -10,5 +10,7 @@
     <string name="send_button">Send</string>
     <string name="title_time_report_activity">TimeReport</string>
     <string name="title_display_time_report_activity">My TimeReport</string>    
+    <string name="input_comment">Comment</string>   
+     
 
 </resources>

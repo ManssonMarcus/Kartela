@@ -3,6 +3,7 @@ package com.example.kartela;
 import java.util.List;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,11 +22,8 @@ public class ListAdapter extends ArrayAdapter<Timelog> {
 
   @Override
   public View getView(int position, View convertView, ViewGroup parent) {
-    
-	  
-	  
-    LayoutInflater inflater = (LayoutInflater) context
-        .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    	  
+    LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     
     View rowView = inflater.inflate(R.layout.row_layout, parent, false);
 
@@ -34,8 +32,19 @@ public class ListAdapter extends ArrayAdapter<Timelog> {
 
     String project = values.get(position).getName();
     String time =  values.get(position).getWorkedTime();
-    textView.setText(project + " " + time);
+    String comment = values.get(position).getComment();
+    String date = values.get(position).getDate();
+    
+    if(!values.get(position).getEditable()){
+    	textView.setTextColor(Color.GRAY);
+    }
+    
+    String fullString = project + " " + time;
+       
+    textView.setText(fullString);
 
+    
+    
     if (project.startsWith("Saab")) {
 	    colorBarTextView.setBackgroundResource(R.drawable.saab_rect);
     } else if (project.startsWith("Volvo")) {

@@ -106,7 +106,10 @@ public class TimeReportActivity extends FragmentActivity implements OnDateSetLis
     	Spinner editText5 = (Spinner) findViewById(R.id.projects_spinner);
     	String message5 = editText5.getSelectedItem().toString();
     	
-    	Timelog timelog = datasource.createTimelog(message5, "kommentar", message2,message3,Integer.parseInt(message4),message); 
+    	EditText etComment =  (EditText) findViewById(R.id.comment);
+    	String comment = etComment.getText().toString();
+    	
+    	Timelog timelog = datasource.createTimelog(message5, comment, message2,message3,Integer.parseInt(message4),message); 
     	
 //    	timeReportItems.add(timelog.getDate());
 //    	timeReportItems.add(timelog.getStartTime());
