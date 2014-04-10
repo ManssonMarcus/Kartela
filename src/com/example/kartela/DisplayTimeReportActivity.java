@@ -10,8 +10,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+import au.com.bytecode.opencsv.CSVWriter;
 
 import com.example.kartela.TimeReportActivity;
 
@@ -65,4 +67,18 @@ public class DisplayTimeReportActivity extends ListActivity {
       datasource.close();
       super.onPause();
     }
+    
+    public void sendTimeReportMail(View view) {
+    	//List<Timelog> values = datasource.getAllTimelogs();
+    	
+    	String csvLocation = android.os.Environment.getExternalStorageDirectory().
+    	
+    	//CSVWriter csvWriter = new CSVWriter(null);
+    	
+		final Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
+		emailIntent.setType("plain/text");
+		emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{"kartela.agilen@gmail.com"});
+		emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Message from Kartela");
+		startActivity(Intent.createChooser(emailIntent, "Send email..."));		
+	}
 }
