@@ -5,43 +5,37 @@
     android:orientation="vertical"
     tools:context=".TimeReportActivity" >
 
-    <EditText
+    <Button
         android:id="@+id/date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:inputType="date"
         android:onClick="showDatePickerDialog"
-        android:hint="@string/input_date" >
-    </EditText>
+        android:text="@string/input_date" >
+    </Button>
     
-    <EditText
+    <Button
         android:id="@+id/startTime"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
    	    android:ems="10"
         android:onClick="showStartTimePickerDialog"
-        android:hint="@string/input_start_time" >
-    </EditText>
+        android:text="@string/input_start_time" >
+    </Button>
     
-    <EditText
+    <Button
         android:id="@+id/endTime"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:inputType="time"
         android:onClick="showEndTimePickerDialog"
-        android:hint="@string/input_end_time" >
-    </EditText>
-    
-    <EditText
+        android:text="@string/input_end_time" >
+    </Button>    
+
+    <NumberPicker
         android:id="@+id/breakTime"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="time"
-        android:hint="@string/input_break_time" >
-    </EditText>
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content" />
     
     <Spinner
 	    android:id="@+id/projects_spinner"
