@@ -30,6 +30,12 @@ public class DisplayTimeReportActivity extends ListActivity {
         
         List<Timelog> values = datasource.getAllTimelogs();
 		
+		
+		for(int i=0; i<values.size();i++){
+			int id = (int) values.get(i).getId();
+			String name = values.get(i).getName();
+			
+		}
         // use the SimpleCursorAdapter to show the
         // elements in a ListView
         ArrayAdapter<Timelog> adapter = new ArrayAdapter<Timelog>(this,
