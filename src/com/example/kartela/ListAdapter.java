@@ -3,9 +3,6 @@ package com.example.kartela;
 import java.util.List;
 
 import android.content.Context;
-import android.content.res.Resources;
-import android.graphics.Color;
-import android.graphics.drawable.GradientDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,19 +29,21 @@ public class ListAdapter extends ArrayAdapter<Timelog> {
     TextView colorBarTextView = (TextView) rowView.findViewById(R.id.label);
     TextView textView = (TextView) rowView.findViewById(R.id.labelText);
 
-    textView.setText(values.get(position).getName());
+    String project = values.get(position).getName();
+    textView.setText(project);
+    
 
-    GradientDrawable bgShape = (GradientDrawable)textView.getBackground();
-	bgShape.setColor(Color.BLACK);
-   
-    Resources res = rowView.getResources();
-
-    colorBarTextView.setBackgroundResource(R.drawable.shape_rect);
+    if (project.startsWith("Saab")) {
+	    colorBarTextView.setBackgroundResource(R.drawable.saab_rect);
+    } else if (project.startsWith("Volvo")) {
+	    colorBarTextView.setBackgroundResource(R.drawable.volvo_rect);
+    } else if (project.startsWith("Helikopter")) {
+	    colorBarTextView.setBackgroundResource(R.drawable.helikopter_rect);
+    } else if (project.startsWith("Combitech")) {
+	    colorBarTextView.setBackgroundResource(R.drawable.combitech_rect);
+    }
+    
     
     return rowView;
-  }
-  
-  
-  
-  
+  }  
 } 

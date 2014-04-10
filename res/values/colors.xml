@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="shape_color">#0FF</color>
-    
-    <color name="saab_color">#00F</color>
-    <color name="volvo_color">#0F0</color>
-    <color name="helikopter_color">#F00</color>
-    <color name="combitech_color">#FF0</color>
+    <color name="shape_color">#1b9e77</color>
+    <color name="saab_color">#d95f02</color>
+    <color name="volvo_color">#7570b3</color>
+    <color name="helikopter_color">#e7298a</color>
+    <color name="combitech_color">#66a61e</color>
 </resources>
