@@ -49,8 +49,9 @@ public class TabLayoutActivity extends TabActivity {
         // Adding all TabSpec to TabHost
         
         tabHost.addTab(displayspec); 
-        tabHost.getTabWidget().getChildAt(0).setBackgroundResource(R.drawable.ic_action_cloud);
+        tabHost.getTabWidget().getChildAt(0).setBackgroundResource(R.drawable.tabs);
         tabHost.addTab(timespec); 
+        tabHost.getTabWidget().getChildAt(1).setBackgroundResource(R.drawable.cloud_tab);
         tabHost.addTab(projectspec);
         tabHost.addTab(reportspec);
         tabHost.addTab(settingsspec);
