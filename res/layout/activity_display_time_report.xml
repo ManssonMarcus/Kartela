@@ -8,6 +8,30 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:orientation="vertical"
     tools:context=".TestDatabaseActivity" >
+    
+    <TextView
+	    android:id="@+id/progress_combitech"
+	    android:background="@drawable/combitech_rect"
+	    android:layout_height="50dp"
+	    android:layout_width="500dp" />
+    
+    <TextView
+	    android:id="@+id/progress_saab"
+	    android:background="@drawable/saab_rect"
+	    android:layout_height="50dp"
+	    android:layout_width="500dp" />
+    
+    <TextView
+	    android:id="@+id/progress_volvo"
+	    android:background="@drawable/volvo_rect"
+	    android:layout_height="50dp"
+	    android:layout_width="500dp" />
+    
+    <TextView
+	    android:id="@+id/progress_helikopter"
+	    android:background="@drawable/helikopter_rect"
+	    android:layout_height="50dp"
+	    android:layout_width="500dp" />
 
     <Button
         android:layout_width="wrap_content"

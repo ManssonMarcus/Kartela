@@ -103,9 +103,7 @@ public class Timelog {
 	  this.color = "svart";
   }
   
-  public String getWorkedTime(){
-	  String diff = "";
-	  
+  public double getWorkedTimeInNumbers(){	 
 	  //Input timeformat
 	  SimpleDateFormat df = new SimpleDateFormat("HH:mm");
 	  
@@ -127,11 +125,19 @@ public class Timelog {
 		  e.printStackTrace();
 	  }  
   
-	  long timeDiff = Math.abs(dateOne.getTime() - dateTwo.getTime());
+	  double timeDiff = Math.abs(dateOne.getTime() - dateTwo.getTime());
 	  
 	  //Remove break time from total time worked
-	  long b = breakTime*60000;
+	  double b = breakTime*60000;
 	  timeDiff -= b;
+	  
+	  return timeDiff;
+  }
+  
+  public String getWorkedTime() {
+	  String diff = "";
+	  
+	  double timeDiff = getWorkedTimeInNumbers();
 	  
 	  //extract days, hours and minutes from milliseconds
 	  int days = (int) (timeDiff / (1000*60*60*24)); 

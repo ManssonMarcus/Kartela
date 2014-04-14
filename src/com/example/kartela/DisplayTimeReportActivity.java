@@ -15,20 +15,17 @@ import android.support.v4.app.NavUtils;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import au.com.bytecode.opencsv.CSVWriter;
-
-import com.example.kartela.TimeReportActivity;
 
 
 public class DisplayTimeReportActivity extends ListActivity {
 	private TimelogDataSource datasource;
-	private List<Timelog> values;
+	private List<Timelog> values, combitech_values, saab_values, volvo_values, helikopter_values;
 	
 	@SuppressLint("NewApi")	
 	@Override
@@ -40,6 +37,12 @@ public class DisplayTimeReportActivity extends ListActivity {
         datasource.open();
         
         values = datasource.getAllTimelogs();
+        combitech_values = datasource.getTimelogsByName("Combitech");
+        saab_values = datasource.getTimelogsByName("Saab");
+        volvo_values = datasource.getTimelogsByName("Volvo");
+        helikopter_values = datasource.getTimelogsByName("Helikopter");
+        
+        updateProgressBar();
         
         ListAdapter adapter = new ListAdapter(this, values);
         setListAdapter(adapter);
@@ -174,4 +177,63 @@ public class DisplayTimeReportActivity extends ListActivity {
 		}
  		
 	}
+    
+    public void updateProgressBar() {
+    	
+    	int multiple = 100, height = 50;
+    	
+    	double combitech_sum = 0, saab_sum = 0, volvo_sum = 0, helikopter_sum = 0;
+    	double total_sum = 0;
+    	
+    	for(int i = 0; i < combitech_values.size(); i++) {
+    		Log.d("test", "inside for loop");
+    		combitech_sum = combitech_sum + combitech_values.get(i).getWorkedTimeInNumbers();
+    	}
+    	
+    	for(int i = 0; i < saab_values.size(); i++) {
+    		Log.d("test", "inside for loop");
+    		saab_sum = saab_sum + saab_values.get(i).getWorkedTimeInNumbers();
+    	}
+    	
+    	for(int i = 0; i < volvo_values.size(); i++) {
+    		Log.d("test", "inside for loop");
+    		volvo_sum = volvo_sum + volvo_values.get(i).getWorkedTimeInNumbers();
+    	}
+    	
+    	for(int i = 0; i < helikopter_values.size(); i++) {
+    		Log.d("test", "inside for loop");
+    		helikopter_sum = helikopter_sum + helikopter_values.get(i).getWorkedTimeInNumbers();
+    	}
+    	
+    	for(int i = 0; i < values.size(); i++) {
+    		
+    		total_sum = total_sum + values.get(i).getWorkedTimeInNumbers();
+    	}
+    	
+    	double combitech_ratio = combitech_sum/total_sum;
+    	double saab_ratio = saab_sum/total_sum;
+    	double volvo_ratio = volvo_sum/total_sum;
+    	double helikopter_ratio = helikopter_sum/total_sum;
+    	
+    	TextView combitech = (TextView) findViewById(R.id.progress_combitech);
+    	combitech.getLayoutParams().height = height;
+    	combitech.getLayoutParams().width = (int)(combitech_ratio*multiple);
+    	combitech.requestLayout();
+    	
+    	TextView saab = (TextView) findViewById(R.id.progress_saab);
+    	saab.getLayoutParams().height = height;
+    	saab.getLayoutParams().width = (int)(saab_ratio*multiple);
+    	saab.requestLayout();
+    	
+    	TextView volvo = (TextView) findViewById(R.id.progress_volvo);
+    	volvo.getLayoutParams().height = height;
+    	volvo.getLayoutParams().width = (int)(volvo_ratio*multiple);
+    	volvo.requestLayout();    	
+    	
+    	TextView helikopter = (TextView) findViewById(R.id.progress_helikopter);
+    	helikopter.getLayoutParams().height = height;
+    	helikopter.getLayoutParams().width = (int)(helikopter_ratio*multiple);
+    	helikopter.requestLayout();
+    	
+    }
 }
