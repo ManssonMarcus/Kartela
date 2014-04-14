@@ -64,5 +64,6 @@
         android:layout_height="wrap_content"
         android:text="@string/view_button"
         android:onClick="showTimeReports" />
+  
     
 </LinearLayout>

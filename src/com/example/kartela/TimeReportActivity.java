@@ -9,6 +9,7 @@ import android.app.TimePickerDialog.OnTimeSetListener;
 import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -47,7 +48,7 @@ public class TimeReportActivity extends FragmentActivity implements OnDateSetLis
 		return true;
 	}
 
-	
+
 	public void showDatePickerDialog(View view) {
 		DialogFragment dialogFragment = new DatePickerFragment();
 		dialogFragment.show(getFragmentManager(), "datePicker");
