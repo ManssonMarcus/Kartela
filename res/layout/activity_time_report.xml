@@ -97,26 +97,6 @@
 	        android:background="@color/button_green"
 	        android:textColor="#FFF"
 	        android:onClick="saveTimeReport" />
-	    
-	    <Button
-	        android:fontFamily="sans-serif-light"
-	        android:layout_width="wrap_content"
-	        android:layout_height="@dimen/element_height"
-	        android:layout_margin="@dimen/element_margin"
-	        android:text="@string/view_button"
-	        android:background="@color/button_blue"
-	        android:textColor="#FFF"
-	        android:onClick="showTimeReports" />
-    
-	    <Button
-	        android:fontFamily="sans-serif-light"
-	        android:layout_width="wrap_content"
-	        android:layout_height="@dimen/element_height"
-	        android:layout_margin="@dimen/element_margin"
-	        android:text="@string/project_list_button"
-	        android:background="@color/button_blue"
-	        android:textColor="#FFF"
-	        android:onClick="showProjectList" />
 	        
 	</LinearLayout>
 </ScrollView>

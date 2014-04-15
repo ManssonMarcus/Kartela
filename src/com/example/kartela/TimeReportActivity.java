@@ -10,6 +10,7 @@ import java.util.regex.Pattern;
 
 import android.os.Bundle;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.DatePickerDialog.OnDateSetListener;
 import android.app.DialogFragment;
 import android.app.TimePickerDialog.OnTimeSetListener;
@@ -18,6 +19,7 @@ import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -25,6 +27,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.NumberPicker;
 import android.widget.Spinner;
+import android.widget.TabHost;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -38,7 +41,6 @@ public class TimeReportActivity extends FragmentActivity implements OnDateSetLis
 	private boolean dateVerified = false;
 	private boolean timeVerified = false;
 
-	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -165,13 +167,17 @@ public class TimeReportActivity extends FragmentActivity implements OnDateSetLis
 	
 	
 	public void saveTimeReport(View view) {
-		Intent intent = new Intent(this, DisplayTimeReportActivity.class);
+//		Intent intent = new Intent(this, DisplayTimeReportActivity.class);
     	
     	EditText date = (EditText) findViewById(R.id.date);
     	String dateMessage = date.getText().toString();
     	
     	EditText startTime = (EditText) findViewById(R.id.startTime);
     	String startTimeMessage = startTime.getText().toString();
+
+		ArrayList<String> timeReportItems = new ArrayList<String>();
+    	
+		Intent intent = new Intent(this, TabLayoutActivity.class);
 
     	EditText endTime = (EditText) findViewById(R.id.endTime);
     	String endTimeMessage = endTime.getText().toString();
@@ -210,11 +216,20 @@ public class TimeReportActivity extends FragmentActivity implements OnDateSetLis
     	}
     	
 
+    	//need to reload the tabview after adding information to the database.
+    	startActivity(intent);
+    	//TabLayoutActivity.tabHost.setCurrentTab(0);
     }
 	
 	public void showTimeReports(View view){
-		Intent intent = new Intent(this, DisplayTimeReportActivity.class);
-		startActivity(intent);
+		//Intent intent = new Intent(this, DisplayTimeReportActivity.class);
+		//startActivity(intent);
+		
+		//Intent i = new Intent(this, TabLayoutActivity.class);
+		//startActivity(i);
+		TabLayoutActivity.tabHost.setCurrentTab(0);
+		
+		
 	}
 	
 	//Hjälpfunktioner
