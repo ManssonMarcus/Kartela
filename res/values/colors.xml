@@ -15,4 +15,7 @@
     <color name="button_blue_pressed">#001B38</color>
     <color name="button_green_pressed">#03440C</color>
     <color name="button_red_pressed">#522308</color>
+    
+    <!--  text area colors -->
+    <color name="dark_grey">#888888</color>
 </resources>

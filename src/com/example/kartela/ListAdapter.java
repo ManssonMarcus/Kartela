@@ -28,7 +28,8 @@ public class ListAdapter extends ArrayAdapter<Timelog> {
     View rowView = inflater.inflate(R.layout.row_layout, parent, false);
 
     TextView colorBarTextView = (TextView) rowView.findViewById(R.id.label);
-    TextView textView = (TextView) rowView.findViewById(R.id.labelText);
+    TextView textView = (TextView) rowView.findViewById(R.id.projectText);
+    TextView textView2 = (TextView) rowView.findViewById(R.id.timeText);
 
     String project = values.get(position).getName();
     String time =  values.get(position).getWorkedTime();
@@ -37,11 +38,14 @@ public class ListAdapter extends ArrayAdapter<Timelog> {
     
     if(!values.get(position).getEditable()){
     	textView.setTextColor(Color.GRAY);
+    	textView2.setTextColor(Color.GRAY);
     }
     
-    String fullString = project + " " + time;
+    String outProject = project;
+    String outTime = time+" ";
        
-    textView.setText(fullString);
+    textView.setText(outProject);
+    textView2.setText(outTime);
 
     
     
