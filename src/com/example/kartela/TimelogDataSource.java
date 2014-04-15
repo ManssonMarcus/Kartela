@@ -5,6 +5,7 @@ import java.util.List;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
@@ -116,6 +117,17 @@ public class TimelogDataSource {
 	    cursor.close();
 	    
 	    return allTimelogs;
+    }
+    
+    public List<String> getAllProjects(Resources res) {
+    	String[] temp = res.getStringArray(R.array.projects_array);
+    	List<String> projects = new ArrayList<String>();
+    	
+    	for(int i = 0; i < temp.length; i++) {
+    		projects.add(temp[i]);
+    	}
+    	
+    	return projects;
     }
     
 	public int updateTimelog(Timelog timelog, String p_name, String p_comment, String p_startTime, String p_endTime, int p_breakTime, boolean p_editable, String p_date){

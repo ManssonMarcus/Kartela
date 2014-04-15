@@ -124,5 +124,10 @@ public class TimeReportActivity extends FragmentActivity implements OnDateSetLis
 		Intent intent = new Intent(this, DisplayTimeReportActivity.class);
 		startActivity(intent);
 	}
+	
+	public void showProjectList(View view){
+		Intent intent = new Intent(this, ProjectListActivity.class);
+		startActivity(intent);
+	}
 
 }
