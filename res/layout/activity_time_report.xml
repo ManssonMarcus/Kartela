@@ -2,6 +2,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:descendantFocusability="beforeDescendants"
+    android:focusableInTouchMode="true" 
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 	
@@ -12,7 +13,7 @@
 	    android:focusable="true"
 	    android:focusableInTouchMode="true"
 	    tools:context=".TimeReportActivity" >
-	    	
+    	
 	    <Spinner
 		    android:id="@+id/projects_spinner"
 		    android:layout_width="match_parent"

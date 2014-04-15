@@ -117,10 +117,11 @@ public class TimeReportActivity extends FragmentActivity implements OnDateSetLis
 		if(isValidDate(fullDate)) {
 			((EditText) findViewById(R.id.date)).setTextColor(getResources().getColor(R.color.button_green));
 			((EditText) findViewById(R.id.date)).setText(fullDate);
+			
 			dateVerified = true;
 		}
 		else {
-			Log.d("kartela", "fel format på datum: " + fullDate);
+			Log.d("kartela", "fel format på datum: " + fullDate);		
 			dateVerified = false;
 		}
 		
@@ -157,13 +158,13 @@ public class TimeReportActivity extends FragmentActivity implements OnDateSetLis
 				
 				((EditText) findViewById(R.id.startTime)).setTextColor(getResources().getColor(R.color.button_red));
 				((EditText) findViewById(R.id.endTime)).setTextColor(getResources().getColor(R.color.button_red));
+				
 				timeVerified = false;
 			}
 		}
 		
 		
 	}
-	
 	
 	
 	public void saveTimeReport(View view) {
@@ -184,6 +185,7 @@ public class TimeReportActivity extends FragmentActivity implements OnDateSetLis
 
     	EditText breakTime = (EditText) findViewById(R.id.breakTime);
     	String breakTimeMessage = breakTime.getText().toString();
+    	if(breakTimeMessage.length()<=0) breakTimeMessage = "0";
     	
     	Spinner project = (Spinner) findViewById(R.id.projects_spinner);
     	String projectMessage = project.getSelectedItem().toString();
