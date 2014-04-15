@@ -9,6 +9,7 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ListActivity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -85,6 +86,45 @@ public class DisplayTimeReportActivity extends ListActivity {
 		alertDialog.show();
 	}
 	
+	
+	public void openEditAlert(final ListView l, final View view, final int position, long id) {
+		
+		String name = values.get(position).getName();
+		String start = values.get(position).getStartTime();
+		String end = values.get(position).getEndTime();
+		int bt = values.get(position).getBreakTime();
+		String comment = values.get(position).getComment();
+
+		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(DisplayTimeReportActivity.this);
+		
+		alertDialogBuilder.setTitle(name);
+		alertDialogBuilder.setMessage("Start tid: " + start + "\n" + "Slut tid: " + end + "\n" + "Rast: "  + bt + "\n" + "Kommentar: " + comment);
+		
+		alertDialogBuilder.setPositiveButton("Ändra", new DialogInterface.OnClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				// TODO Auto-generated method stub
+				Context c = getApplicationContext();
+				Intent intent = new Intent(c, TimeReportActivity.class);
+				intent.putExtra("hej", values.get(position).getId());
+				startActivity(intent);
+				
+			}
+		});
+		
+		alertDialogBuilder.setNegativeButton("Avbryt", new DialogInterface.OnClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				dialog.cancel();
+			}
+		});
+		
+		AlertDialog alertDialog = alertDialogBuilder.create();
+		alertDialog.show();
+	}
+	
 	public void onClick(View view) {
 	      @SuppressWarnings("unchecked")
 	      ArrayAdapter<Timelog> adapter = (ArrayAdapter<Timelog>) getListAdapter();
@@ -105,36 +145,15 @@ public class DisplayTimeReportActivity extends ListActivity {
 	      }
 	      adapter.notifyDataSetChanged();
 	    }
-
+	
+	/*
+	 * 
+	 * 
+	 */
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		
-		Log.d("kartela", "" + values.get(position).getName());
-		
-		String name = values.get(position).getName();
-		String start = values.get(position).getStartTime();
-		String end = values.get(position).getEndTime();
-		int bt = values.get(position).getBreakTime();
-		String comment = values.get(position).getComment();
-		
-		Dialog dialog = new Dialog(this);
-		dialog.setContentView(R.layout.popupview);//popup view is the layout you created
-		
-		dialog.setTitle(name);
-		
-		TextView txt1 = (TextView)dialog.findViewById(R.id.popup_start);
-		txt1.setText("Starttid: " + start);
-		
-		TextView txt2 = (TextView)dialog.findViewById(R.id.popup_end);
-		txt2.setText("Sluttid: " + end);
-		
-		TextView txt3 = (TextView)dialog.findViewById(R.id.popup_break);
-		txt3.setText("Rast: " + bt);
-		
-		TextView txt4 = (TextView)dialog.findViewById(R.id.popup_comment);
-		txt4.setText("Kommentar: " + comment);
-		
-		dialog.show();
+		openEditAlert(l,v,position,id);
 	}
 	
 	@Override

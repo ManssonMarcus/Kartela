@@ -14,5 +14,16 @@
     <string name="title_time_report_activity">TimeReport</string>
     <string name="title_display_time_report_activity">My TimeReport</string>
     <string name="view_button">Show my time reports</string>
-
+    <string name="settings_button">Settings</string>
+	 <!-- for settings -->
+    <string name="settingsKey">settingsKey</string>
+    <string name="title_display_settings_activity">Settings</string>
+    <string name="pref_sync">pref_sync</string>
+    <string name="pref_sync_summ">pref_sync_summ</string>
+    <string name="pref_syncConnectionType">pref_syncConnectionType</string>
+    <string name="pref_syncConnectionTypes_default">pref_syncConnectionTypes_default</string>
+    
+   
+  
+       
 </resources>
