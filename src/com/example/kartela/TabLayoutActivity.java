@@ -48,7 +48,7 @@ public class TabLayoutActivity extends TabActivity {
         
         TabSpec settingsspec = tabHost.newTabSpec("Settings");        
         settingsspec.setIndicator("");
-        Intent settingsIntent = new Intent(this, DisplayTimeReportActivity.class);
+        Intent settingsIntent = new Intent(this, DisplaySettingsActivity.class);
         settingsspec.setContent(settingsIntent);
          
         // Adding all TabSpec to TabHost

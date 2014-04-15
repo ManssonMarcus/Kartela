@@ -23,9 +23,9 @@
 	 <!-- for settings -->
     <string name="settingsKey">settingsKey</string>
     <string name="title_display_settings_activity">Settings</string>
-    <string name="pref_sync">pref_sync</string>
-    <string name="pref_sync_summ">pref_sync_summ</string>
-    <string name="pref_syncConnectionType">pref_syncConnectionType</string>
+    <string name="pref_sync">Påminnelse att rapportera</string>
+    <string name="pref_sync_summ"></string>
+    <string name="pref_syncConnectionType">Tid och veckodag</string>
     <string name="pref_syncConnectionTypes_default">pref_syncConnectionTypes_default</string>
 
     <string name="title_project_list_activity">Project List</string>
