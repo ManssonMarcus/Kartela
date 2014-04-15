@@ -94,6 +94,15 @@
 	        android:text="@string/send_button"
 	        android:background="@color/button_green"
 	        android:onClick="saveTimeReport" />
+	    
+	    <Button
+	        android:onClick="showSettings"
+	        android:layout_width="fill_parent"
+       	    android:fontFamily="sans-serif-light"
+	        android:layout_height="@dimen/element_height"
+	        android:layout_margin="@dimen/element_margin"
+	        android:text="@string/settings_button"
+	        android:background="@color/button_blue" />
 	        
 	</LinearLayout>
 </ScrollView>

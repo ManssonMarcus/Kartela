@@ -1,17 +1,17 @@
 package com.example.kartela;
 
+import android.app.Activity;
 import android.os.Bundle;
-import android.preference.PreferenceFragment;
-import android.util.Log;
 
-public class DisplaySettingsActivity extends PreferenceFragment{
-	
-	public void onCreate(Bundle savedInstanceState) {
-		Log.d("test","hej");
-        super.onCreate(savedInstanceState);
-        // Load the preferences from an XML resource
-        addPreferencesFromResource(R.xml.preferences);
-	}
+public class DisplaySettingsActivity extends Activity {
+
+ @Override
+ protected void onCreate(Bundle savedInstanceState) {
+  // TODO Auto-generated method stub
+  super.onCreate(savedInstanceState);
+  
+  getFragmentManager().beginTransaction().replace(android.R.id.content,
+                new SettingsActivity()).commit();
+ }
+
 }
-
-
