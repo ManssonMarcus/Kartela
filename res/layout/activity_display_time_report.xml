@@ -9,29 +9,45 @@
     android:orientation="vertical"
     tools:context=".TestDatabaseActivity" >
     
-    <TextView
-	    android:id="@+id/progress_combitech"
-	    android:background="@drawable/combitech_rect"
-	    android:layout_height="50dp"
-	    android:layout_width="500dp" />
+    <LinearLayout
+        android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:orientation="horizontal"
+		android:gravity="center" >
+		
+        <TextView
+		    android:id="@+id/progress_Combitech"
+		    android:background="@drawable/combitech_rect"
+		    android:layout_height="50dp"
+		    android:layout_width="500dp"
+		    android:gravity="center"
+		    android:textColor="#FFF" />
     
-    <TextView
-	    android:id="@+id/progress_saab"
-	    android:background="@drawable/saab_rect"
-	    android:layout_height="50dp"
-	    android:layout_width="500dp" />
-    
-    <TextView
-	    android:id="@+id/progress_volvo"
-	    android:background="@drawable/volvo_rect"
-	    android:layout_height="50dp"
-	    android:layout_width="500dp" />
-    
-    <TextView
-	    android:id="@+id/progress_helikopter"
-	    android:background="@drawable/helikopter_rect"
-	    android:layout_height="50dp"
-	    android:layout_width="500dp" />
+	    <TextView
+		    android:id="@+id/progress_Saab"
+		    android:background="@drawable/saab_rect"
+		    android:layout_height="50dp"
+		    android:layout_width="500dp"
+		    android:gravity="center"
+		    android:textColor="#FFF" />
+	    
+	    <TextView
+		    android:id="@+id/progress_Volvo"
+		    android:background="@drawable/volvo_rect"
+		    android:layout_height="50dp"
+		    android:layout_width="500dp"
+		    android:gravity="center"
+		    android:textColor="#FFF" />
+	    
+	    <TextView
+		    android:id="@+id/progress_Helikopter"
+		    android:background="@drawable/helikopter_rect"
+		    android:layout_height="50dp"
+		    android:layout_width="500dp"
+		    android:gravity="center"
+		    android:textColor="#FFF" />
+	    
+    </LinearLayout>
 
     <Button
         android:layout_width="wrap_content"

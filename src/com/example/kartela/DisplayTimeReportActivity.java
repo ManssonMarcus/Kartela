@@ -9,10 +9,13 @@ import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.app.ListActivity;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.Point;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.util.Log;
+import android.view.Display;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -180,60 +183,59 @@ public class DisplayTimeReportActivity extends ListActivity {
     
     public void updateProgressBar() {
     	
-    	int multiple = 100, height = 50;
+    	// set "100 % progress" to screen width
+    	Display display = getWindowManager().getDefaultDisplay();
+    	Point size = new Point();
+    	display.getSize(size);
+    	Log.d("test",Integer.toString(size.x));
+    	int paddings = 40;
+    	int multiple = size.x - paddings;
     	
-    	double combitech_sum = 0, saab_sum = 0, volvo_sum = 0, helikopter_sum = 0;
-    	double total_sum = 0;
+    	int height = 100;
     	
-    	for(int i = 0; i < combitech_values.size(); i++) {
-    		Log.d("test", "inside for loop");
-    		combitech_sum = combitech_sum + combitech_values.get(i).getWorkedTimeInNumbers();
-    	}
+    	Resources res = getResources();
     	
-    	for(int i = 0; i < saab_values.size(); i++) {
-    		Log.d("test", "inside for loop");
-    		saab_sum = saab_sum + saab_values.get(i).getWorkedTimeInNumbers();
-    	}
+    	// temp variables
+    	double temp_sum = 0, temp_ratio = 0, total_sum = 0;
+    	TextView temp_view;
+    	String temp_name;
+    	int temp_id;
     	
-    	for(int i = 0; i < volvo_values.size(); i++) {
-    		Log.d("test", "inside for loop");
-    		volvo_sum = volvo_sum + volvo_values.get(i).getWorkedTimeInNumbers();
-    	}
-    	
-    	for(int i = 0; i < helikopter_values.size(); i++) {
-    		Log.d("test", "inside for loop");
-    		helikopter_sum = helikopter_sum + helikopter_values.get(i).getWorkedTimeInNumbers();
-    	}
-    	
-    	for(int i = 0; i < values.size(); i++) {
-    		
+    	// get total worked time
+    	for (int i = 0; i < values.size(); i++) {
     		total_sum = total_sum + values.get(i).getWorkedTimeInNumbers();
+    	}    	
+    	
+    	// string array with project names
+    	String[] projects = res.getStringArray(R.array.projects_array);
+    	
+    	// update progress bar for each project
+    	for(int i = 0; i < projects.length; i++) {
+    		temp_sum = datasource.getWorkTimeByName(projects[i]);
+    		temp_ratio = (temp_sum/total_sum)*100;
+    		
+    		// check ratio to round up or down
+    		if(temp_ratio - Math.floor(temp_ratio) < 0.5) {
+    			temp_ratio = Math.floor(temp_ratio);
+    		}
+    		else {
+    			temp_ratio = Math.ceil(temp_ratio);
+    		}
+    		
+    		temp_name = "progress_" + projects[i];    		
+    		temp_id = getResources().getIdentifier(temp_name, "id", getApplicationContext().getPackageName());    		
+    		temp_view = (TextView) findViewById(temp_id);
+    		
+    		// update project textview
+    		temp_view.setText(Integer.toString((int)temp_ratio) + " %");
+    		temp_view.getLayoutParams().height = height;
+    		temp_view.getLayoutParams().width = ((int)(temp_ratio*multiple/100));
+    		temp_view.requestLayout();
+    		
+    		// reset variables
+    		temp_sum = 0;
+    		temp_ratio = 0;
     	}
-    	
-    	double combitech_ratio = combitech_sum/total_sum;
-    	double saab_ratio = saab_sum/total_sum;
-    	double volvo_ratio = volvo_sum/total_sum;
-    	double helikopter_ratio = helikopter_sum/total_sum;
-    	
-    	TextView combitech = (TextView) findViewById(R.id.progress_combitech);
-    	combitech.getLayoutParams().height = height;
-    	combitech.getLayoutParams().width = (int)(combitech_ratio*multiple);
-    	combitech.requestLayout();
-    	
-    	TextView saab = (TextView) findViewById(R.id.progress_saab);
-    	saab.getLayoutParams().height = height;
-    	saab.getLayoutParams().width = (int)(saab_ratio*multiple);
-    	saab.requestLayout();
-    	
-    	TextView volvo = (TextView) findViewById(R.id.progress_volvo);
-    	volvo.getLayoutParams().height = height;
-    	volvo.getLayoutParams().width = (int)(volvo_ratio*multiple);
-    	volvo.requestLayout();    	
-    	
-    	TextView helikopter = (TextView) findViewById(R.id.progress_helikopter);
-    	helikopter.getLayoutParams().height = height;
-    	helikopter.getLayoutParams().width = (int)(helikopter_ratio*multiple);
-    	helikopter.requestLayout();
     	
     }
 }

@@ -8,6 +8,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 public class TimelogDataSource {
 	
@@ -85,6 +86,18 @@ public class TimelogDataSource {
 	    cursor.close();
 	    
 	    return timeLogs;
+	}
+	
+	public double getWorkTimeByName(String p_name) {
+		List<Timelog> timeLogs = getTimelogsByName(p_name);
+		
+		double sum = 0;
+		
+		for(int i = 0; i < timeLogs.size(); i++) {
+    		sum = sum + timeLogs.get(i).getWorkedTimeInNumbers();
+    	}
+		
+		return sum;
 	}
 	
 	//Returns a list of all timelogs in database
