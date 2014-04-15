@@ -6,8 +6,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ListActivity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -15,12 +17,13 @@ import android.support.v4.app.NavUtils;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import au.com.bytecode.opencsv.CSVWriter;
 
 import com.example.kartela.TimeReportActivity;
@@ -43,6 +46,43 @@ public class DisplayTimeReportActivity extends ListActivity {
         
         ListAdapter adapter = new ListAdapter(this, values);
         setListAdapter(adapter);
+        
+        Button btn = (Button) findViewById(R.id.send_report);
+        btn.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				openAlert(v);
+			}
+		});
+	}
+	
+	public void openAlert(final View view) {
+		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(DisplayTimeReportActivity.this);
+		
+		alertDialogBuilder.setTitle("Vill du skicka in?");
+		alertDialogBuilder.setMessage("Alla tider kommer låsas och det finns ingen möjlighet att ändra tider i efterhand.");
+		
+		alertDialogBuilder.setPositiveButton("Skicka", new DialogInterface.OnClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				// TODO Auto-generated method stub
+				sendTimeReportMail(view);
+			}
+		});
+		
+		alertDialogBuilder.setNegativeButton("Avbryt", new DialogInterface.OnClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				dialog.cancel();
+			}
+		});
+		
+		AlertDialog alertDialog = alertDialogBuilder.create();
+		alertDialog.show();
 	}
 	
 	public void onClick(View view) {

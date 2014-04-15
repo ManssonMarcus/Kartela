@@ -10,10 +10,10 @@
     tools:context=".TestDatabaseActivity" >
 
     <Button
+        android:id="@+id/send_report"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/send_mail_button"
-        android:onClick="sendTimeReportMail" />
+        android:text="@string/send_mail_button" />
 
     <Button    
    		android:id="@+id/deleteall"
