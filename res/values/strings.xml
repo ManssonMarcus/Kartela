@@ -8,11 +8,13 @@
     <string name="input_end_time">Sluttid</string>
     <string name="input_break_time">Rast (i minuter)</string> 
     <string name="input_comment">Comment</string>   
-    <string name="send_button">Send</string>
+    <string name="send_button">Spara tid</string>
     <string name="send_mail_button">Send my report by mail</string>
     <string name="delete_button">Delete latest time</string>
     <string name="title_time_report_activity">TimeReport</string>
     <string name="title_display_time_report_activity">My TimeReport</string>
     <string name="view_button">Show my time reports</string>
+    <string name="add_timereport">Tidsrapportering</string>
+    <string name="valj_projekt">Valj projekt</string>
 
 </resources>

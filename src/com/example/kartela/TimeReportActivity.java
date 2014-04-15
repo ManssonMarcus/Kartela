@@ -3,6 +3,7 @@ package com.example.kartela;
 import java.util.ArrayList;
 
 import android.os.Bundle;
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog.OnDateSetListener;
 import android.app.DialogFragment;
 import android.app.TimePickerDialog.OnTimeSetListener;
@@ -36,7 +37,7 @@ public class TimeReportActivity extends FragmentActivity implements OnDateSetLis
 		NumberPicker np = (NumberPicker) findViewById(R.id.breakTime);
 		np.setMaxValue(100);
 		np.setMinValue(0);
-		
+			
         datasource = new TimelogDataSource(this);
         datasource.open();
 	}
@@ -50,6 +51,8 @@ public class TimeReportActivity extends FragmentActivity implements OnDateSetLis
 
 	
 	public void showDatePickerDialog(View view) {
+
+		Log.d("kartela", "datum klickat");
 		DialogFragment dialogFragment = new DatePickerFragment();
 		dialogFragment.show(getFragmentManager(), "datePicker");
 	}
@@ -77,6 +80,7 @@ public class TimeReportActivity extends FragmentActivity implements OnDateSetLis
     	spinner.setAdapter(adapter);
     }
 	
+	@SuppressLint("DefaultLocale")
 	public void onDateSet(DatePicker view, int year, int month, int day) {
 		
 		String monthString, dayString;
@@ -85,7 +89,7 @@ public class TimeReportActivity extends FragmentActivity implements OnDateSetLis
 		//Log.d("kartela", "fel" + monthString + " " + month);
 		dayString = String.format("%02d", day);
 		
-		((Button) findViewById(R.id.date)).setText(year+"-"+monthString+"-"+dayString);
+		((EditText) findViewById(R.id.date)).setText(year+"-"+monthString+"-"+dayString);
         
     }
 	

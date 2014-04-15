@@ -5,14 +5,21 @@
     android:orientation="vertical"
     tools:context=".TimeReportActivity" >
 
-    <Button
+    <Spinner
+	    android:id="@+id/projects_spinner"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content" />
+    
+    <EditText
         android:id="@+id/date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:focusable="false"
         android:ems="10"
+        android:inputType="date"
         android:onClick="showDatePickerDialog"
         android:text="@string/input_date" >
-    </Button>
+    </EditText>
     
     <Button
         android:id="@+id/startTime"
@@ -46,23 +53,15 @@
         android:hint="@string/input_comment" >
     </EditText>    
     
-    <Spinner
-	    android:id="@+id/projects_spinner"
-	    android:layout_width="match_parent"
-	    android:layout_height="wrap_content" />
     
-
-    
+ 
     <Button
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="@string/send_button"
+        android:background="@color/green_color"
         android:onClick="saveTimeReport" />
     
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/view_button"
-        android:onClick="showTimeReports" />
+
     
 </LinearLayout>
