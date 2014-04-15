@@ -56,15 +56,15 @@ public class TabLayoutActivity extends TabActivity {
         tabHost.addTab(displayspec); 
         
         //tabHost.getTabWidget().getChildAt(0).setBackgroundColor(Color.LTGRAY); 
-        tabHost.getTabWidget().getChildAt(0).setBackgroundResource(R.drawable.ic_action_accept);
+        tabHost.getTabWidget().getChildAt(0).setBackgroundResource(R.drawable.clock);
         tabHost.addTab(timespec); 
-        tabHost.getTabWidget().getChildAt(1).setBackgroundResource(R.drawable.ic_action_edit);
+        tabHost.getTabWidget().getChildAt(1).setBackgroundResource(R.drawable.addtime);
         tabHost.addTab(projectspec);
-        tabHost.getTabWidget().getChildAt(2).setBackgroundResource(R.drawable.ic_action_labels);
+        tabHost.getTabWidget().getChildAt(2).setBackgroundResource(R.drawable.projektknapp);
         tabHost.addTab(reportspec);
-        tabHost.getTabWidget().getChildAt(3).setBackgroundResource(R.drawable.ic_action_email);
+        tabHost.getTabWidget().getChildAt(3).setBackgroundResource(R.drawable.paperplane);
         tabHost.addTab(settingsspec);
-        tabHost.getTabWidget().getChildAt(4).setBackgroundResource(R.drawable.ic_action_settings);
+        tabHost.getTabWidget().getChildAt(4).setBackgroundResource(R.drawable.settings);
         
         
         //tabHost.setCurrentTab(0);
