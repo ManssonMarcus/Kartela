@@ -131,8 +131,11 @@ public class TimeReportActivity extends FragmentActivity implements OnDateSetLis
 		
 		EditText startTime = (EditText) findViewById(R.id.startTime);
 		EditText endTime = (EditText) findViewById(R.id.endTime);
+	
+		//lägg tiden i fältet
+		activeTimeID.setText(timeString);
 		
-		if(startTime.length() > 0 && endTime.length() >0 ){
+		if(startTime.getText().toString().length() > 0 && endTime.getText().toString().length() >0 ){
 			//Compare the times so that endTime comes after startTime
 			int c = compareStringTime(startTime.getText().toString(), endTime.getText().toString());
 			
@@ -143,6 +146,8 @@ public class TimeReportActivity extends FragmentActivity implements OnDateSetLis
 				timeVerified = true;
 			}
 			else{
+				Log.d("kartela", c + "");
+				
 	    		Context context = getApplicationContext();
 	    		CharSequence text = "starttiden måste ligga innan sluttiden";
 	    		int duration = Toast.LENGTH_SHORT;			
@@ -154,7 +159,7 @@ public class TimeReportActivity extends FragmentActivity implements OnDateSetLis
 			}
 		}
 		
-		activeTimeID.setText(timeString);
+		
 	}
 	
 	
