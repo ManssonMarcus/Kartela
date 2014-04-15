@@ -3,6 +3,7 @@ package com.example.kartela;
 import java.util.ArrayList;
 
 import android.os.Bundle;
+import android.app.Activity;
 import android.app.DatePickerDialog.OnDateSetListener;
 import android.app.DialogFragment;
 import android.app.TimePickerDialog.OnTimeSetListener;
@@ -17,6 +18,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.NumberPicker;
 import android.widget.Spinner;
+import android.widget.TabHost;
 import android.widget.TimePicker;
 
 public class TimeReportActivity extends FragmentActivity implements OnDateSetListener, OnTimeSetListener{
@@ -25,7 +27,6 @@ public class TimeReportActivity extends FragmentActivity implements OnDateSetLis
 
 	private TimelogDataSource datasource;
 	private Button activeTimeID;
-
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -97,7 +98,9 @@ public class TimeReportActivity extends FragmentActivity implements OnDateSetLis
 	
 	public void saveTimeReport(View view) {
 		ArrayList<String> timeReportItems = new ArrayList<String>();
-    	Intent intent = new Intent(this, DisplayTimeReportActivity.class);
+    	
+		Intent intent = new Intent(this, TabLayoutActivity.class);
+		
     	Button editText = (Button) findViewById(R.id.date);
     	String message = editText.getText().toString();
 
@@ -118,12 +121,20 @@ public class TimeReportActivity extends FragmentActivity implements OnDateSetLis
     	
     	Timelog timelog = datasource.createTimelog(message5, comment, message2,message3,Integer.parseInt(message4),message); 
     	
+    	//need to reload the tabview after adding information to the database.
     	startActivity(intent);
+    	//TabLayoutActivity.tabHost.setCurrentTab(0);
     }
 	
 	public void showTimeReports(View view){
-		Intent intent = new Intent(this, DisplayTimeReportActivity.class);
-		startActivity(intent);
+		//Intent intent = new Intent(this, DisplayTimeReportActivity.class);
+		//startActivity(intent);
+		
+		//Intent i = new Intent(this, TabLayoutActivity.class);
+		//startActivity(i);
+		TabLayoutActivity.tabHost.setCurrentTab(0);
+		
+		
 	}
 
 }

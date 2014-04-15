@@ -10,12 +10,15 @@ import android.widget.TabHost.TabSpec;
 @SuppressWarnings("deprecation")
 public class TabLayoutActivity extends TabActivity {
     /** Called when the activity is first created. */
+	
+	static TabHost tabHost;
+	
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tab_layout);
          
-        TabHost tabHost = getTabHost();
+        tabHost = getTabHost();
          
 
          
@@ -36,6 +39,7 @@ public class TabLayoutActivity extends TabActivity {
         projectspec.setIndicator("");
         Intent projectIntent = new Intent(this, DisplayTimeReportActivity.class);
         projectspec.setContent(projectIntent);
+        
         
         TabSpec reportspec = tabHost.newTabSpec("Send");        
         reportspec.setIndicator("");
@@ -63,7 +67,9 @@ public class TabLayoutActivity extends TabActivity {
         tabHost.getTabWidget().getChildAt(4).setBackgroundResource(R.drawable.ic_action_settings);
         
         
-        tabHost.setCurrentTab(0);
+        //tabHost.setCurrentTab(0);
         
     }
+    
+    
 }
