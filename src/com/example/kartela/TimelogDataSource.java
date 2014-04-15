@@ -146,8 +146,7 @@ public class TimelogDataSource {
 			}
     		
     		
-    	}
-    	
+    	}	
     	return returnTimelogs;	
     }
     
