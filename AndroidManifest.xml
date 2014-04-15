@@ -5,7 +5,7 @@
     android:versionName="1.0" >
 
     <uses-sdk
-        android:minSdkVersion="11"
+        android:minSdkVersion="13"
         android:targetSdkVersion="19" />
     
     <uses-permission
@@ -33,9 +33,19 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.kartela.TimeReportActivity" />
         </activity>
+        
         <activity
             android:name="com.example.kartela.DisplaySettingsActivity"
             android:label="@string/title_display_settings_activity"
+            android:parentActivityName="com.example.kartela.TimeReportActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.kartela.TimeReportActivity" />
+        </activity>
+        
+        <activity
+            android:name="com.example.kartela.ProjectListActivity"
+            android:label="@string/title_project_list_activity"
             android:parentActivityName="com.example.kartela.TimeReportActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
