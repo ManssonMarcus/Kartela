@@ -252,7 +252,13 @@ public class TimeReportActivity extends FragmentActivity implements OnDateSetLis
         } catch (ParseException e){
             // Exception handling goes here
         }
-		return result;	
+		return result;
+	}
+	
+	public void showSettings(View view){
+		Intent intent = new Intent(this, DisplaySettingsActivity.class);
+		
+		startActivity(intent);
 	}
 
 }
