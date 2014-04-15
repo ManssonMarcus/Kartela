@@ -8,6 +8,7 @@ import android.app.DialogFragment;
 import android.app.TimePickerDialog.OnTimeSetListener;
 import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -80,7 +81,8 @@ public class TimeReportActivity extends FragmentActivity implements OnDateSetLis
 		
 		String monthString, dayString;
 
-		monthString = String.format("%02d", month);
+		monthString = String.format("%02d", month + 1);
+		//Log.d("kartela", "fel" + monthString + " " + month);
 		dayString = String.format("%02d", day);
 		
 		((Button) findViewById(R.id.date)).setText(year+"-"+monthString+"-"+dayString);
@@ -99,6 +101,7 @@ public class TimeReportActivity extends FragmentActivity implements OnDateSetLis
     	Intent intent = new Intent(this, DisplayTimeReportActivity.class);
     	Button editText = (Button) findViewById(R.id.date);
     	String message = editText.getText().toString();
+    	
 
     	Button editText2 = (Button) findViewById(R.id.startTime);
     	String message2 = editText2.getText().toString();

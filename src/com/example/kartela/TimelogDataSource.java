@@ -1,13 +1,19 @@
 package com.example.kartela;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 public class TimelogDataSource {
 	
@@ -70,6 +76,7 @@ public class TimelogDataSource {
     	if(p_name.length()<=0){
     		return getAllTimelogs();
     	}
+    	
 		List<Timelog> timeLogs = new ArrayList<Timelog>();
 
 	    Cursor cursor = database.query(MySQLiteHelper.TABLE_TIMELOGS, null, MySQLiteHelper.COLUMN_PROJECTNAME + " = ?", 
@@ -103,6 +110,45 @@ public class TimelogDataSource {
 	    cursor.close();
 	    
 	    return allTimelogs;
+    }
+    
+    //Returns timelogs by weeknumber
+    @SuppressLint("SimpleDateFormat")
+	public List<Timelog> getTimeInterval(int weeknumber){
+    	List<Timelog> returnTimelogs = new ArrayList<Timelog>();
+    	List<Timelog> allTimelogs = getAllTimelogs();
+    	
+    	// Get calendar, clear it and set week number and year.
+    	Calendar calendar = Calendar.getInstance();
+    	 	
+    	//calendar.set(Calendar.WEEK_OF_YEAR, weeknumber);
+    	String pattern = "yyyy-MM-d";
+    	for(int i = 0; i < allTimelogs.size();i++){
+    		//Log.d("kartela", allTimelogs.get(i).getDate());
+    		
+    		try {
+    			calendar.setFirstDayOfWeek(Calendar.MONDAY);
+    			SimpleDateFormat df = new SimpleDateFormat(pattern);
+				Date date = df.parse(allTimelogs.get(i).getDate() + " " + allTimelogs.get(i).getEndTime());
+				calendar.setTime(date);
+				
+				if(calendar.get(Calendar.WEEK_OF_YEAR) == weeknumber){
+					returnTimelogs.add(allTimelogs.get(i));
+				}
+				
+//				Log.d("kartela", "datum: " + allTimelogs.get(i).getDate() + " " + allTimelogs.get(i).getEndTime());
+//				Log.d("kartela", "date: " + date);
+//				Log.d("kartela", "vecko-nr: " +  calendar.get(Calendar.WEEK_OF_YEAR) + "");
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				Log.d("kartela", "BUGG");
+				e.printStackTrace();
+			}
+    		
+    		
+    	}
+    	
+    	return returnTimelogs;	
     }
     
 	public int updateTimelog(Timelog timelog, String p_name, String p_comment, String p_startTime, String p_endTime, int p_breakTime, boolean p_editable, String p_date){
