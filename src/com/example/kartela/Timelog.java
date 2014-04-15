@@ -138,7 +138,7 @@ public class Timelog {
 	  int hours = (int) ((timeDiff - (1000*60*60*24*days)) / (1000*60*60));
 	  int min = (int) (timeDiff - (1000*60*60*24*days) - (1000*60*60*hours)) / (1000*60);
 	  
-	  diff = hours + "H " + min + "M";
+	  diff = hours + "h " + min + "m";
 	  	
 	  return diff;
   }
