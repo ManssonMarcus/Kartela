@@ -1,67 +1,98 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView  
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".TimeReportActivity" >
+    android:layout_height="match_parent">
+	
+	<LinearLayout
+        android:layout_width="match_parent"
+    	android:layout_height="wrap_content"
+	    android:orientation="vertical"
+	    tools:context=".TimeReportActivity" >
+	
+	    <Spinner
+		    android:id="@+id/projects_spinner"
+		    android:layout_width="match_parent"
+		    android:layout_margin="@dimen/element_margin"
+    	    android:fontFamily="sans-serif-light"
+		    android:layout_height="@dimen/element_height" />
+	    
+	    <EditText
+	        android:id="@+id/date"
+       	    android:fontFamily="sans-serif-light"
+	        android:layout_width="match_parent"
+	        android:layout_height="@dimen/element_height"
+	        android:layout_margin="@dimen/element_margin"
+	        android:focusable="false"
+	        android:ems="10"
+	        android:inputType="date"
+	        android:onClick="showDatePickerDialog"
+	        android:hint="@string/input_date" >
+	    </EditText>
+	    
+	    <LinearLayout 
+	        android:layout_width="fill_parent"
+	    	android:layout_height="@dimen/element_height"
+	        android:layout_margin="@dimen/element_margin"
+	    	android:orientation="horizontal">
+	         
+		    <EditText
+		        android:id="@+id/startTime"
+        	    android:fontFamily="sans-serif-light"
+		        android:layout_width="wrap_content"
+		        android:layout_height="@dimen/element_height"
+		        android:layout_margin="@dimen/element_margin"
+		        android:focusable="false"
+		   	    android:ems="10"
+		   	    android:layout_weight="0.5"
+		   	    android:inputType="time"
+		        android:onClick="showStartTimePickerDialog"
+		        android:hint="@string/input_start_time" >
+		    </EditText>
+		    
+		    <EditText
+		        android:id="@+id/endTime"
+        	    android:fontFamily="sans-serif-light"
+		        android:layout_width="wrap_content"
+		        android:layout_height="@dimen/element_height"
+		        android:layout_margin="@dimen/element_margin"
+		        android:focusable="false"
+	            android:layout_weight="0.5"
+		        android:ems="10"
+		        android:inputType="time"
+		        android:onClick="showEndTimePickerDialog"
+		        android:hint="@string/input_end_time" >
+		    </EditText>   
+	    </LinearLayout> 
+	
+	    <EditText
+		    android:id="@+id/breakTime"
+		    android:fontFamily="sans-serif-light"
+		    android:layout_width="fill_parent"
+	        android:layout_height="@dimen/element_height"
+	        android:layout_margin="@dimen/element_margin"
+		    android:hint="@string/input_break_time"
+		    android:imeOptions="normal"
+		    android:inputType="phone" />
+	    
+	    <EditText
+	        android:id="@+id/comment"
+       	    android:fontFamily="sans-serif-light"
+	        android:layout_width="match_parent"
+	        android:layout_height="@dimen/element_height"
+	        android:layout_margin="@dimen/element_margin"
+	        android:ems="10"
+	        android:inputType="text" 
+	        android:hint="@string/input_comment" />
 
-    <Spinner
-	    android:id="@+id/projects_spinner"
-	    android:layout_width="match_parent"
-	    android:layout_height="wrap_content" />
-    
-    <EditText
-        android:id="@+id/date"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:focusable="false"
-        android:ems="10"
-        android:inputType="date"
-        android:onClick="showDatePickerDialog"
-        android:text="@string/input_date" >
-    </EditText>
-    
-    <Button
-        android:id="@+id/startTime"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-   	    android:ems="10"
-        android:onClick="showStartTimePickerDialog"
-        android:text="@string/input_start_time" >
-    </Button>
-    
-    <Button
-        android:id="@+id/endTime"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:onClick="showEndTimePickerDialog"
-        android:text="@string/input_end_time" >
-    </Button>    
-
-    <NumberPicker
-        android:id="@+id/breakTime"
-	    android:layout_width="match_parent"
-	    android:layout_height="wrap_content" />
-    
-    <EditText
-        android:id="@+id/comment"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="text" 
-        android:hint="@string/input_comment" >
-    </EditText>    
-    
-    
- 
-    <Button
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/send_button"
-        android:background="@color/green_color"
-        android:onClick="saveTimeReport" />
-    
-
-    
-</LinearLayout>
+	    <Button
+	        android:layout_width="fill_parent"
+       	    android:fontFamily="sans-serif-light"
+	        android:layout_height="@dimen/element_height"
+	        android:layout_margin="@dimen/element_margin"
+	        android:text="@string/send_button"
+	        android:background="@color/button_green"
+	        android:onClick="saveTimeReport" />
+	        
+	</LinearLayout>
+</ScrollView>

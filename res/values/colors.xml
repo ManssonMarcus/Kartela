@@ -5,5 +5,15 @@
     <color name="volvo_color">#7570b3</color>
     <color name="helikopter_color">#e7298a</color>
     <color name="combitech_color">#66a61e</color>
-    <color name="green_color">#56b000</color>
+ 
+    <!-- Button colors -->
+    <color name="button_blue">#003772</color>
+    <color name="button_green">#078919</color>
+    <color name="button_red">#A54710</color>
+    
+    <!--  Button colors pressed -->
+    <color name="button_blue_pressed">#001B38</color>
+    <color name="button_green_pressed">#03440C</color>
+    <color name="button_red_pressed">#522308</color>
+
 </resources>
