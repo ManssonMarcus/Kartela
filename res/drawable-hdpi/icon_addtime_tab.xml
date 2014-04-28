@@ -4,5 +4,5 @@
     <item android:drawable="@drawable/addtime"
           android:state_selected="true" />
     <!-- When not selected -->
-    <item android:drawable="@drawable/addtime" />
+    <item android:drawable="@drawable/addtimeinv" />
 </selector>

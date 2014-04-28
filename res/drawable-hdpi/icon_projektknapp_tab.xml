@@ -4,5 +4,5 @@
     <item android:drawable="@drawable/projektknapp"
           android:state_selected="true" />
     <!-- When not selected -->
-    <item android:drawable="@drawable/projektknapp" />
+    <item android:drawable="@drawable/projektknappinv" />
 </selector>

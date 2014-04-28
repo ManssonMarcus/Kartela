@@ -4,5 +4,5 @@
     <item android:drawable="@drawable/settings"
           android:state_selected="true" />
     <!-- When not selected -->
-    <item android:drawable="@drawable/settings" />
+    <item android:drawable="@drawable/settingsinv" />
 </selector>

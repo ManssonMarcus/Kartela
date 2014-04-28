@@ -4,5 +4,5 @@
     <item android:drawable="@drawable/paperplane"
           android:state_selected="true" />
     <!-- When not selected -->
-    <item android:drawable="@drawable/paperplane" />
+    <item android:drawable="@drawable/paperplaneinv" />
 </selector>
