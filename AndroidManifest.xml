@@ -48,6 +48,7 @@
         <activity android:name=".DisplayTimeReportActivity" />
         <activity android:name=".ProjectListActivity" />
         <activity android:name=".DisplaySettingsActivity" />
+        <activity android:name=".StartscreenActivity" />
     </application>
 
 </manifest>

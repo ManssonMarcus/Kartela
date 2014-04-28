@@ -30,5 +30,7 @@
 
     <string name="title_project_list_activity">Project List</string>
     <string name="project_list_button">Show my projects</string>
+    <string name="minus_button">-</string>
+    <string name="plus_button">+</string>
 
 </resources>
