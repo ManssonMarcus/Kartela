@@ -19,12 +19,14 @@ public class TabLayoutActivity extends TabActivity {
         setContentView(R.layout.tab_layout);
          
         tabHost = getTabHost();
+
+        // Tab for displaying time reports
+        TabSpec startspec = tabHost.newTabSpec("Start");        
+		startspec.setIndicator("", getResources().getDrawable(R.drawable.icon_clock_tab));
+        Intent startIntent = new Intent(this, StartscreenActivity.class);
+        startspec.setContent(startIntent);
+
         
-        TabSpec displayspec = tabHost.newTabSpec("Display");
-        displayspec.setIndicator("", getResources().getDrawable(R.drawable.icon_clock_tab));
-        Intent displayIntent = new Intent(this, DisplayTimeReportActivity.class);
-        displayspec.setContent(displayIntent);
-         
         TabSpec timespec = tabHost.newTabSpec("TimeReport");        
         timespec.setIndicator("", getResources().getDrawable(R.drawable.icon_addtime_tab));
         Intent timeReportIntent = new Intent(this, TimeReportActivity.class);
@@ -45,8 +47,10 @@ public class TabLayoutActivity extends TabActivity {
         Intent settingsIntent = new Intent(this, DisplaySettingsActivity.class);
         settingsspec.setContent(settingsIntent);
          
-        tabHost.addTab(displayspec);
-        tabHost.addTab(timespec);
+
+        // Adding all TabSpec to TabHost
+        tabHost.addTab(startspec); 
+        tabHost.addTab(timespec); 
         tabHost.addTab(projectspec);
         tabHost.addTab(reportspec);
         tabHost.addTab(settingsspec);                 
