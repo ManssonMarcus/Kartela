@@ -67,7 +67,6 @@ public class StartscreenListAdapter extends ArrayAdapter<Timelog> {
 	    View rowView = inflater.inflate(R.layout.day_row_layout, parent, false);
 	
 	    TextView dayTitle = (TextView) rowView.findViewById(R.id.day_title);
-	    LinearLayout progressBar = (LinearLayout) rowView.findViewById(R.id.day_progress_bar);
 	    
 	    dayTitle.setText(weekdaysArray.get(position));
 
