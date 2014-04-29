@@ -44,25 +44,8 @@
         
             
     </PreferenceScreen>
-    
-    <!-- gammalt -->
-<!--     <PreferenceCategory android:title="@string/pref_reminder" >   -->
-<!--     	<CheckBoxPreference -->
-<!--         	android:key="pref_sync" -->
-<!--         	android:title="@string/pref_sync" -->
-<!--         	android:summary="@string/pref_sync_summ" -->
-<!--         	android:defaultValue="true" /> -->
     	
-    	
-		
-<!--     <ListPreference -->
-<!--         android:dependency="pref_sync" -->
-<!--         android:key="@string/settingsKey" -->
-<!--         android:title="@string/pref_syncConnectionType" -->
-<!--         android:dialogTitle="@string/pref_syncConnectionType" -->
-<!--         android:entries="@array/pref_syncConnectionTypes_entries" -->
-<!--         android:entryValues="@array/pref_syncConnectionTypes_values" -->
-<!--         android:defaultValue="@string/pref_syncConnectionTypes_default" />-->  -->
+	 <com.example.kartela.TimePreference android:key="settings_time" android:title="@string/pref_timeTitle"/>
         
 <!-- 	</PreferenceCategory> -->
 	<PreferenceCategory android:title="@string/pref_send">

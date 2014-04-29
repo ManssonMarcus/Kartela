@@ -87,8 +87,6 @@ public class SettingsActivity extends PreferenceFragment implements OnSharedPref
 	                }
 	            }
 	        }
-	        
-	        
 	    }
 
 
