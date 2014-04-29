@@ -49,7 +49,10 @@ public class SettingsActivity extends PreferenceFragment implements OnSharedPref
 	        // Set up a listener whenever a key changes
 	        getPreferenceScreen().getSharedPreferences()
 	            .registerOnSharedPreferenceChangeListener(this);
-	        updatePreference("pref_mail");
+	        
+	        if(getPreferenceScreen().getSharedPreferences().contains("pref_mail")){
+	        	updatePreference("pref_mail");
+	        }	        
 	    }
 	 
 	    @Override
@@ -70,13 +73,16 @@ public class SettingsActivity extends PreferenceFragment implements OnSharedPref
 	 
 	    private void updatePreference(String key){
 	        if (key.equals("pref_mail")){
+	        	Log.d("test filter", "nr 1");
 	            Preference preference = findPreference(key);
 	            if (preference instanceof EditTextPreference){
-	            	
+	            	Log.d("test filter", "nr 2");
 	                EditTextPreference editTextPreference =  (EditTextPreference)preference;
+	                Log.d("test filter", Integer.toString(editTextPreference.getText().trim().length()));
 	                if (editTextPreference.getText().trim().length() > 0){
 	                    editTextPreference.setSummary(editTextPreference.getText());
 	                }else{
+	                	Log.d("test filter", "nr 3");
 	                    editTextPreference.setSummary("Enter mejladdress");
 	                }
 	            }
