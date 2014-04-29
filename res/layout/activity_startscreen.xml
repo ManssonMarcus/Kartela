@@ -105,7 +105,7 @@
 		    android:gravity="center"
 		    android:textColor="#FFF" />
 	    
-    </LinearLayout>   
+    </LinearLayout>
         
     <ListView
      android:id="@+id/listViewWeekdays"

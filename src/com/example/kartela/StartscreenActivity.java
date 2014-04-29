@@ -19,13 +19,13 @@ package com.example.kartela;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
 import android.app.Activity;
+import android.app.ListActivity;
 import android.content.res.Resources;
 import android.graphics.Point;
 import android.os.Bundle;
@@ -35,13 +35,10 @@ import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.view.View.OnClickListener;
-
 import android.widget.Button;
 import android.widget.EditText;
-
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-
 import android.widget.NumberPicker;
 import android.widget.TextView;
 
@@ -58,7 +55,6 @@ public class StartscreenActivity extends Activity implements OnClickListener{
 	private List<String> projects;
 	private ArrayList<String> weekdaysArray;
 	
-	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
@@ -87,20 +83,22 @@ public class StartscreenActivity extends Activity implements OnClickListener{
         String timeSpan = updateTimeSpan(currentWeeknumber);
         tvTimespan = (TextView)findViewById(R.id.textViewTimespan);
         tvTimespan.setText(timeSpan);
-                
-
-        int currentWeeknumber1 = time.getWeekNumber();
         
         ListView weekdayList = (ListView)findViewById(R.id.listViewWeekdays);
         weekdaysArray = new ArrayList<String>();
         getWeekDays();
         
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, weekdaysArray);
-        weekdayList.setAdapter(arrayAdapter);
+//        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, weekdaysArray);
+//        weekdayList.setAdapter(arrayAdapter);
         
         values = datasource.getTimeInterval(currentWeeknumber);
         
+        StartscreenListAdapter adapter = new StartscreenListAdapter(this, values, weekdaysArray);
+        weekdayList.setAdapter(adapter);
+
+        Log.d("grejs", "before upd. progressbar");
 		updateProgressBar();
+        Log.d("grejs", "Update progressbar");
 	 }
 	
 	void getWeekDays() {
@@ -216,7 +214,7 @@ public class StartscreenActivity extends Activity implements OnClickListener{
     			temp_ratio = Math.ceil(temp_ratio);
     		}
     		
-    		temp_name = "progress_" + projects.get(i);    		
+    		temp_name = "progress_" + projects.get(i);
     		temp_id = getResources().getIdentifier(temp_name, "id", getApplicationContext().getPackageName());    		
     		temp_view = (TextView) findViewById(temp_id);
     		
