@@ -4,7 +4,9 @@ import android.app.TabActivity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TabHost;
+import android.widget.TabHost.OnTabChangeListener;
 import android.widget.TabHost.TabSpec;
 
 @SuppressWarnings("deprecation")
@@ -12,6 +14,11 @@ public class TabLayoutActivity extends TabActivity {
     /** Called when the activity is first created. */
 	
 	static TabHost tabHost;
+	
+	protected void onStart(){
+		super.onStart();
+		tabHost.getTabWidget().getChildAt(tabHost.getCurrentTab()).setBackgroundColor(Color.parseColor("#999999"));
+	}
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -53,9 +60,20 @@ public class TabLayoutActivity extends TabActivity {
         tabHost.addTab(timespec); 
         tabHost.addTab(projectspec);
         tabHost.addTab(reportspec);
-        tabHost.addTab(settingsspec);                 
+        tabHost.addTab(settingsspec);
+        
+        tabHost.setOnTabChangedListener(new OnTabChangeListener() {
 
-    }
-    
-    
+//        	@Override
+        	public void onTabChanged(String tabId) {
+
+	        	for(int j=0;j<tabHost.getTabWidget().getChildCount();j++)
+	            {
+	        		tabHost.getTabWidget().getChildAt(j).setBackgroundColor(Color.parseColor("#FFFFFF")); //unselected
+	            }
+	        	tabHost.getTabWidget().getChildAt(tabHost.getCurrentTab()).setBackgroundColor(Color.parseColor("#999999"));
+
+        	}
+        });
+    }    
 }
