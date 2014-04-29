@@ -6,10 +6,12 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
+import android.preference.CheckBoxPreference;
 import android.preference.EditTextPreference;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceFragment;
+import android.preference.PreferenceScreen;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -69,8 +71,6 @@ public class SettingsActivity extends PreferenceFragment implements OnSharedPref
 	        updatePreference(key);
 	    }
 	    
-	    
-	 
 	    private void updatePreference(String key){
 	        if (key.equals("pref_mail")){
 	        	Log.d("test filter", "nr 1");
@@ -86,9 +86,6 @@ public class SettingsActivity extends PreferenceFragment implements OnSharedPref
 	                    editTextPreference.setSummary("Enter mejladdress");
 	                }
 	            }
-	        }
-	        if(key.equals("pref_sync")){
-	        	Log.d("agilgruppfilter", "whaaaaaa");
 	        }
 	    }
 
