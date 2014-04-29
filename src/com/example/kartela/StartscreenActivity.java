@@ -125,6 +125,8 @@ public class StartscreenActivity extends Activity implements OnClickListener{
 		
 		Calendar c = Calendar.getInstance();
 		c.set(Calendar.WEEK_OF_YEAR, v);
+		c.add(Calendar.MONTH,1);
+		c.add(Calendar.DATE,-1);
 					
 		weekdaysArray.add("måndag " + c.get(Calendar.YEAR)  + "-" + c.get(Calendar.MONTH) + "-" +c.get(Calendar.DATE) );
 		c.add(Calendar.DATE, 1);
@@ -177,6 +179,7 @@ public class StartscreenActivity extends Activity implements OnClickListener{
 		
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.WEEK_OF_YEAR, v);
+        calendar.add(Calendar.DATE,-1);
 
         SimpleDateFormat formatter = new SimpleDateFormat("dd MMM");
         Date startDate = calendar.getTime();
