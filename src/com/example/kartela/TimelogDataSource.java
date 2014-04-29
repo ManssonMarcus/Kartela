@@ -96,8 +96,20 @@ public class TimelogDataSource {
 	}
 	
 	public double getWorkTimeByName(String p_name) {
-		List<Timelog> timeLogs = getTimelogsByName(p_name);
+		return getWorkTimeByName(p_name, null);
+	}
+	
+	public double getWorkTimeByName(String p_name, Integer week) {
+		week = (week != null ? week : -1);
+		List<Timelog> timeLogs;
 		
+		if (week == -1) {
+			timeLogs = getTimelogsByName(p_name);
+		} else {
+			timeLogs = getTimeInterval(week, p_name);
+		}
+
+		Log.d("logTime", timeLogs.toString());
 		double sum = 0;
 		
 		for(int i = 0; i < timeLogs.size(); i++) {
@@ -125,11 +137,17 @@ public class TimelogDataSource {
 	    return allTimelogs;
     }
     
-    //Returns timelogs by weeknumber
-    @SuppressLint("SimpleDateFormat")
-	public List<Timelog> getTimeInterval(int weeknumber){
+    public List<Timelog> getTimeInterval(int weeknumber, String p_name) {
+    	p_name = (p_name != null ? p_name : "-1");
+    	
     	List<Timelog> returnTimelogs = new ArrayList<Timelog>();
-    	List<Timelog> allTimelogs = getAllTimelogs();
+    	List<Timelog> allTimelogs;
+    	
+    	if (p_name == "-1") { 
+    		allTimelogs = getAllTimelogs();
+    	} else {
+    		allTimelogs = getTimelogsByName(p_name);
+    	}
     	
     	// Get calendar, clear it and set week number and year.
     	Calendar calendar = Calendar.getInstance();
@@ -161,6 +179,12 @@ public class TimelogDataSource {
     		
     	}	
     	return returnTimelogs;
+    }
+    
+    //Returns timelogs by weeknumber
+    @SuppressLint("SimpleDateFormat")
+	public List<Timelog> getTimeInterval(int weeknumber){
+    	return getTimeInterval(weeknumber, null);
     }
     
     public List<String> getAllProjects(Resources res) {

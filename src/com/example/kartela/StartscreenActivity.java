@@ -36,6 +36,7 @@ public class StartscreenActivity extends Activity implements OnClickListener{
 	private Time time = new Time(); 
 	private NumberPicker weekPicker;
 	private List<String> projects;
+	private int currentWeeknumber;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +48,7 @@ public class StartscreenActivity extends Activity implements OnClickListener{
         datasource.open();
 		
         time.setToNow(); 
-        int currentWeeknumber = time.getWeekNumber();
+        currentWeeknumber = time.getWeekNumber();
 
         Resources res = getResources();
         projects = datasource.getAllProjects(res);
@@ -80,13 +81,11 @@ public class StartscreenActivity extends Activity implements OnClickListener{
     }
     
     public void updateProgressBar() {
-
-    	Log.d("test","inne");
     	// set "100 % progress" to screen width
     	Display display = getWindowManager().getDefaultDisplay();
     	Point size = new Point();
     	display.getSize(size);
-    	Log.d("test",Integer.toString(size.x));
+
     	int paddings = 40;
     	int multiple = size.x - paddings;
     	
@@ -98,17 +97,16 @@ public class StartscreenActivity extends Activity implements OnClickListener{
     	String temp_name;
     	int temp_id;
 
-    	Log.d("test", "fdsjfew");
-    	Log.d("test", Integer.toString(values.size()));
     	// get total worked time
     	for (int i = 0; i < values.size(); i++) {
     		total_sum = total_sum + values.get(i).getWorkedTimeInNumbers();
-    	}    	
+    	}
+    	Log.d("test", Double.toString(total_sum));
     	
     	// update progress bar for each project
     	for(int i = 0; i < projects.size(); i++) {
-        	Log.d("test","projects loop");
-    		temp_sum = datasource.getWorkTimeByName(projects.get(i));
+//        	Log.d("test","projects loop");
+    		temp_sum = datasource.getWorkTimeByName(projects.get(i), currentWeeknumber);
     		temp_ratio = (temp_sum/total_sum)*100;
     		
     		// check ratio to round up or down

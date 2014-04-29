@@ -87,7 +87,7 @@
 		    android:id="@+id/progress_None"
 		    android:background="@drawable/shape_rect"
 		    android:layout_height="50dp"
-		    android:layout_width="500dp"
+		    android:layout_width="0dp"
 		    android:gravity="center"
 		    android:textColor="#FFF" />
 	    
