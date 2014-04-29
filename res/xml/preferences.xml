@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
 
+   
     <PreferenceCategory android:title="@string/pref_reminder" >  
     	<CheckBoxPreference
         	android:key="pref_sync"
@@ -9,15 +10,7 @@
         	android:defaultValue="true" />
     	
     	
-		
-<!--     <ListPreference
-        android:dependency="pref_sync"
-        android:key="@string/settingsKey"
-        android:title="@string/pref_syncConnectionType"
-        android:dialogTitle="@string/pref_syncConnectionType"
-        android:entries="@array/pref_syncConnectionTypes_entries"
-        android:entryValues="@array/pref_syncConnectionTypes_values"
-        android:defaultValue="@string/pref_syncConnectionTypes_default" />--> 
+	 <com.example.kartela.TimePreference android:key="settings_time" android:title="@string/pref_timeTitle"/>
         
 	</PreferenceCategory>
 	<PreferenceCategory android:title="@string/pref_send">

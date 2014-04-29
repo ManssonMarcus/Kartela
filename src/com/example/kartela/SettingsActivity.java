@@ -87,6 +87,9 @@ public class SettingsActivity extends PreferenceFragment implements OnSharedPref
 	                }
 	            }
 	        }
+	        if(key.equals("pref_sync")){
+	        	Log.d("agilgruppfilter", "whaaaaaa");
+	        }
 	    }
 
 
