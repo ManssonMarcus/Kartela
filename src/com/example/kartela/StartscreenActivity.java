@@ -18,7 +18,6 @@ package com.example.kartela;
 import java.util.List;
 
 import android.app.Activity;
-import android.app.ListActivity;
 import android.content.res.Resources;
 import android.graphics.Point;
 import android.os.Bundle;
@@ -97,7 +96,7 @@ public class StartscreenActivity extends Activity implements OnClickListener{
     	String temp_name;
     	int temp_id;
 
-    	// get total worked time
+    	// get total worked time this week
     	for (int i = 0; i < values.size(); i++) {
     		total_sum = total_sum + values.get(i).getWorkedTimeInNumbers();
     	}
