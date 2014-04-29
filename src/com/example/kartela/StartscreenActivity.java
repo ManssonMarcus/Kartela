@@ -4,10 +4,12 @@ package com.example.kartela;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+
 import android.app.Activity;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -16,10 +18,13 @@ import android.text.format.Time;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+
 import android.widget.Button;
 import android.widget.EditText;
+
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+
 import android.widget.NumberPicker;
 import android.widget.TextView;
 
@@ -27,11 +32,14 @@ public class StartscreenActivity extends Activity implements OnClickListener{
 	private TimelogDataSource datasource;
 	private List<Timelog> values;
 	private Time time = new Time(); 
+
 	private TextView tvCurrentWeek, tvTimespan;
 	private Button btnDecreaseWeek, btnIncreaseWeek;
 	private int currentWeeknumber;
+
 	private NumberPicker weekPicker;
 	private ArrayList<String> weekdaysArray;
+
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +68,8 @@ public class StartscreenActivity extends Activity implements OnClickListener{
         tvTimespan = (TextView)findViewById(R.id.textViewTimespan);
         tvTimespan.setText(timeSpan);
                 
+
+        int currentWeeknumber1 = time.getWeekNumber();
         
         ListView weekdayList = (ListView)findViewById(R.id.listViewWeekdays);
         weekdaysArray = new ArrayList<String>();
@@ -67,8 +77,6 @@ public class StartscreenActivity extends Activity implements OnClickListener{
         
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, weekdaysArray);
         weekdayList.setAdapter(arrayAdapter);
-
-        Log.d("kartela", "veckonummer " + currentWeeknumber + "");
         
         values = datasource.getTimeInterval(currentWeeknumber);
 	 }
