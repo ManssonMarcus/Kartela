@@ -3,22 +3,15 @@ package com.example.kartela;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.sql.DataSource;
-
 import android.content.Context;
-import android.graphics.Color;
 import android.graphics.Point;
-import android.renderscript.Int2;
 import android.text.format.Time;
-import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.webkit.WebView.FindListener;
 import android.widget.ArrayAdapter;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class StartscreenListAdapter extends ArrayAdapter<Timelog> {
@@ -88,7 +81,9 @@ public class StartscreenListAdapter extends ArrayAdapter<Timelog> {
 	    	temp_view = (TextView) rowView.findViewById(temp_id);
 
     		// update project textview
-    		temp_view.setText(Double.toString((double)temp_sum/3600000) + "h");
+	    	Double hours = (double)temp_sum/3600000;
+	    	String str = String.format("%1.2f", hours);
+    		temp_view.setText(str + "h");
     		temp_view.getLayoutParams().height = 50;
     		temp_view.getLayoutParams().width = ((int)(temp_ratio*multiple/100));
 	    }
