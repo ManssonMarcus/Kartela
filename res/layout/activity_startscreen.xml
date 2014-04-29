@@ -43,5 +43,54 @@
 
 
     </LinearLayout>
+    
+     <LinearLayout
+        android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:orientation="horizontal"
+		android:paddingBottom="@dimen/activity_vertical_margin"
+		android:gravity="center" >
+		
+        <TextView
+		    android:id="@+id/progress_Combitech"
+		    android:background="@drawable/combitech_rect"
+		    android:layout_height="50dp"
+		    android:layout_width="500dp"
+		    android:gravity="center"
+		    android:textColor="#FFF" />
+    
+	    <TextView
+		    android:id="@+id/progress_Saab"
+		    android:background="@drawable/saab_rect"
+		    android:layout_height="50dp"
+		    android:layout_width="500dp"
+		    android:gravity="center"
+		    android:textColor="#FFF" />
+	    
+	    <TextView
+		    android:id="@+id/progress_Volvo"
+		    android:background="@drawable/volvo_rect"
+		    android:layout_height="50dp"
+		    android:layout_width="500dp"
+		    android:gravity="center"
+		    android:textColor="#FFF" />
+	    
+	    <TextView
+		    android:id="@+id/progress_Helikopter"
+		    android:background="@drawable/helikopter_rect"
+		    android:layout_height="50dp"
+		    android:layout_width="500dp"
+		    android:gravity="center"
+		    android:textColor="#FFF" />
+	    
+	    <TextView
+		    android:id="@+id/progress_None"
+		    android:background="@drawable/shape_rect"
+		    android:layout_height="50dp"
+		    android:layout_width="500dp"
+		    android:gravity="center"
+		    android:textColor="#FFF" />
+	    
+    </LinearLayout>
 
 </LinearLayout>
