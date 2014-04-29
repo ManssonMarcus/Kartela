@@ -47,7 +47,7 @@ public class StartscreenActivity extends Activity implements OnClickListener{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_startscreen);
 	
-		//add lsiteners to buttons
+		//add listeners to buttons
         btnDecreaseWeek = (Button) findViewById(R.id.minus_button);   
         btnDecreaseWeek.setOnClickListener(this);
         
@@ -67,13 +67,10 @@ public class StartscreenActivity extends Activity implements OnClickListener{
         String timeSpan = updateTimeSpan(currentWeeknumber);
         tvTimespan = (TextView)findViewById(R.id.textViewTimespan);
         tvTimespan.setText(timeSpan);
-                
-
-        int currentWeeknumber1 = time.getWeekNumber();
         
         ListView weekdayList = (ListView)findViewById(R.id.listViewWeekdays);
         weekdaysArray = new ArrayList<String>();
-        getWeekDays();
+        getCurrentWeekDays(currentWeeknumber);
         
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, weekdaysArray);
         weekdayList.setAdapter(arrayAdapter);
@@ -86,7 +83,7 @@ public class StartscreenActivity extends Activity implements OnClickListener{
 		Calendar c = Calendar.getInstance();
 
 		c.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);	
-		weekdaysArray.add("mŒndag " + c.get(Calendar.YEAR)  + "-" + c.get(Calendar.MONTH) + "-" +c.get(Calendar.DATE) );
+		weekdaysArray.add("måndag " + c.get(Calendar.YEAR)  + "-" + c.get(Calendar.MONTH) + "-" +c.get(Calendar.DATE) );
 		c.set(Calendar.DAY_OF_WEEK, Calendar.TUESDAY);	
 		weekdaysArray.add("tisdag " + c.get(Calendar.YEAR)  + "-" + c.get(Calendar.MONTH) + "-" +c.get(Calendar.DATE));
 		c.set(Calendar.DAY_OF_WEEK, Calendar.WEDNESDAY);	
@@ -96,6 +93,28 @@ public class StartscreenActivity extends Activity implements OnClickListener{
 		c.set(Calendar.DAY_OF_WEEK, Calendar.FRIDAY);	
 		weekdaysArray.add("fredag " + c.get(Calendar.YEAR)  + "-" + c.get(Calendar.MONTH) + "-" +c.get(Calendar.DATE));
 		
+	}
+	
+	void getCurrentWeekDays(int v) {
+		
+		weekdaysArray.clear();
+		
+		Calendar c = Calendar.getInstance();
+		c.set(Calendar.WEEK_OF_YEAR, v);
+					
+		weekdaysArray.add("måndag " + c.get(Calendar.YEAR)  + "-" + c.get(Calendar.MONTH) + "-" +c.get(Calendar.DATE) );
+		c.add(Calendar.DATE, 1);
+		weekdaysArray.add("tisdag " + c.get(Calendar.YEAR)  + "-" + c.get(Calendar.MONTH) + "-" +c.get(Calendar.DATE));
+		c.add(Calendar.DATE, 1);				
+		weekdaysArray.add("onsdag " + c.get(Calendar.YEAR)  + "-" + c.get(Calendar.MONTH) + "-" +c.get(Calendar.DATE));
+		c.add(Calendar.DATE, 1);
+		weekdaysArray.add("torsdag " + c.get(Calendar.YEAR)  + "-" + c.get(Calendar.MONTH) + "-" +c.get(Calendar.DATE));
+		c.add(Calendar.DATE, 1);	
+		weekdaysArray.add("fredag " + c.get(Calendar.YEAR)  + "-" + c.get(Calendar.MONTH) + "-" +c.get(Calendar.DATE));
+		
+		ListView weekdayList = (ListView)findViewById(R.id.listViewWeekdays);
+		ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, weekdaysArray);
+        weekdayList.setAdapter(arrayAdapter);
 	}
 	
 	@Override
@@ -111,6 +130,7 @@ public class StartscreenActivity extends Activity implements OnClickListener{
         	tvTimespan.setText(updateTimeSpan(currentWeeknumber));
         	values = datasource.getTimeInterval(currentWeeknumber);
         	tvCurrentWeek.setText(Integer.toString(currentWeeknumber));
+        	getCurrentWeekDays(currentWeeknumber);
 
           break;
         case R.id.plus_button:
@@ -123,6 +143,7 @@ public class StartscreenActivity extends Activity implements OnClickListener{
         	tvTimespan.setText(updateTimeSpan(currentWeeknumber));
         	values = datasource.getTimeInterval(currentWeeknumber);
         	tvCurrentWeek.setText(Integer.toString(currentWeeknumber));
+        	getCurrentWeekDays(currentWeeknumber);
           break;
       }
 		
