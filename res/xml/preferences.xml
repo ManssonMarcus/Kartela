@@ -22,7 +22,7 @@
 	</PreferenceCategory>
 	<PreferenceCategory android:title="@string/pref_send">
 	     <EditTextPreference
-    	     android:key="pref_reminderTime"
+    	     android:key="pref_mail"
 		     android:summary="andreas@företag.se"
 		     android:title="Mejladress">
 		 </EditTextPreference>

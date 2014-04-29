@@ -49,7 +49,7 @@ public class SettingsActivity extends PreferenceFragment implements OnSharedPref
 	        // Set up a listener whenever a key changes
 	        getPreferenceScreen().getSharedPreferences()
 	            .registerOnSharedPreferenceChangeListener(this);
-	        //updatePreference("pref_reminderTime");
+	        updatePreference("pref_mail");
 	    }
 	 
 	    @Override
@@ -69,7 +69,7 @@ public class SettingsActivity extends PreferenceFragment implements OnSharedPref
 	    
 	 
 	    private void updatePreference(String key){
-	        if (key.equals("pref_reminderTime")){
+	        if (key.equals("pref_mail")){
 	            Preference preference = findPreference(key);
 	            if (preference instanceof EditTextPreference){
 	            	
