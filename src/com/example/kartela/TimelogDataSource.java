@@ -96,8 +96,19 @@ public class TimelogDataSource {
 	}
 	
 	public double getWorkTimeByName(String p_name) {
-		List<Timelog> timeLogs = getTimelogsByName(p_name);
+		return getWorkTimeByName(p_name, null);
+	}
+	
+	public double getWorkTimeByName(String p_name, Integer week) {
+		List<Timelog> timeLogs;
 		
+		if (week == null) {
+			timeLogs = getTimelogsByName(p_name);
+		} else {
+			timeLogs = getTimeInterval(week, p_name);
+		}
+
+		Log.d("logTime", timeLogs.toString());
 		double sum = 0;
 		
 		for(int i = 0; i < timeLogs.size(); i++) {
@@ -124,12 +135,23 @@ public class TimelogDataSource {
 	    
 	    return allTimelogs;
     }
-    
+
     //Returns timelogs by weeknumber
     @SuppressLint("SimpleDateFormat")
 	public List<Timelog> getTimeInterval(int weeknumber){
+    	return getTimeInterval(weeknumber, null);
+    }
+    
+    public List<Timelog> getTimeInterval(int weeknumber, String p_name) {    	
     	List<Timelog> returnTimelogs = new ArrayList<Timelog>();
-    	List<Timelog> allTimelogs = getAllTimelogs();
+    	List<Timelog> allTimelogs;
+    	
+    	if (p_name == null) {
+    		allTimelogs = getAllTimelogs();
+    	} else {
+    		allTimelogs = getTimelogsByName(p_name);
+//    		Log.d("grejs", allTimelogs.toString());
+    	}
     	
     	// Get calendar, clear it and set week number and year.
     	Calendar calendar = Calendar.getInstance();
@@ -147,6 +169,7 @@ public class TimelogDataSource {
 				
 				if(calendar.get(Calendar.WEEK_OF_YEAR) == weeknumber){
 					returnTimelogs.add(allTimelogs.get(i));
+					Log.d("grejs", allTimelogs.get(i).toString());
 				}
 				
 //				Log.d("kartela", "datum: " + allTimelogs.get(i).getDate() + " " + allTimelogs.get(i).getEndTime());

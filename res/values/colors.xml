@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="shape_color">#1b9e77</color>
+    <color name="shape_color">#fff</color>
     <color name="saab_color">#d95f02</color>
     <color name="volvo_color">#7570b3</color>
     <color name="helikopter_color">#e7298a</color>
