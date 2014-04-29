@@ -36,5 +36,15 @@
     <string name="project_list_button">Show my projects</string>
     <string name="minus_button">-</string>
     <string name="plus_button">+</string>
+    
+    <string name="mon_button">Monday</string>
+    <string name="tue_button">Tuesday</string>
+    <string name="wed_button">Wednesday</string>
+    <string name="thu_button">Thursday</string>
+    <string name="fri_button">Friday</string>
+    <string name="sat_button">Saturday</string>
+    <string name="sun_button">Sunday</string>
+    
+    
 
 </resources>

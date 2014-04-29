@@ -1,25 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
 
-    <PreferenceCategory android:title="@string/pref_reminder" >  
-    	<CheckBoxPreference
-        	android:key="pref_sync"
-        	android:title="@string/pref_sync"
-        	android:summary="@string/pref_sync_summ"
-        	android:defaultValue="true" />
+    <PreferenceScreen
+        android:key="pref_sync"
+        android:title="@string/pref_sync"
+        android:persistent="false"
+        android:summary="Valda dagar">
+    
+        <CheckBoxPreference
+         	android:key="mon_key" 
+         	android:title="@string/mon_button" 
+         	android:defaultValue="false" />
+        
+        <CheckBoxPreference
+         	android:key="tue_key" 
+         	android:title="@string/tue_button" 
+         	android:defaultValue="false" />
+        
+        <CheckBoxPreference
+         	android:key="wed_key" 
+         	android:title="@string/wed_button" 
+         	android:defaultValue="false" />
+        
+        <CheckBoxPreference
+         	android:key="thu_key" 
+         	android:title="@string/thu_button"  
+         	android:defaultValue="false" />
+        
+        <CheckBoxPreference
+         	android:key="fri_key" 
+         	android:title="@string/fri_button" 
+         	android:defaultValue="false" />
+        
+        <CheckBoxPreference
+         	android:key="sat_key" 
+         	android:title="@string/sat_button"  
+         	android:defaultValue="false" />
+        
+        <CheckBoxPreference
+         	android:key="sun_key" 
+         	android:title="@string/sun_button"  
+         	android:defaultValue="false" />
+        
+            
+    </PreferenceScreen>
+    
+    <!-- gammalt -->
+<!--     <PreferenceCategory android:title="@string/pref_reminder" >   -->
+<!--     	<CheckBoxPreference -->
+<!--         	android:key="pref_sync" -->
+<!--         	android:title="@string/pref_sync" -->
+<!--         	android:summary="@string/pref_sync_summ" -->
+<!--         	android:defaultValue="true" /> -->
     	
     	
 		
-<!--     <ListPreference
-        android:dependency="pref_sync"
-        android:key="@string/settingsKey"
-        android:title="@string/pref_syncConnectionType"
-        android:dialogTitle="@string/pref_syncConnectionType"
-        android:entries="@array/pref_syncConnectionTypes_entries"
-        android:entryValues="@array/pref_syncConnectionTypes_values"
-        android:defaultValue="@string/pref_syncConnectionTypes_default" />--> 
+<!--     <ListPreference -->
+<!--         android:dependency="pref_sync" -->
+<!--         android:key="@string/settingsKey" -->
+<!--         android:title="@string/pref_syncConnectionType" -->
+<!--         android:dialogTitle="@string/pref_syncConnectionType" -->
+<!--         android:entries="@array/pref_syncConnectionTypes_entries" -->
+<!--         android:entryValues="@array/pref_syncConnectionTypes_values" -->
+<!--         android:defaultValue="@string/pref_syncConnectionTypes_default" />-->  -->
         
-	</PreferenceCategory>
+<!-- 	</PreferenceCategory> -->
 	<PreferenceCategory android:title="@string/pref_send">
 	     <EditTextPreference
     	     android:key="pref_mail"
