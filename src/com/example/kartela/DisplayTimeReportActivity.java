@@ -57,7 +57,7 @@ public class DisplayTimeReportActivity extends ListActivity {
 		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(DisplayTimeReportActivity.this);
 		
 		alertDialogBuilder.setTitle("Vill du skicka in?");
-		alertDialogBuilder.setMessage("Alla tider kommer låsas och det finns ingen möjlighet att ändra tider i efterhand.");
+		alertDialogBuilder.setMessage("Alla tider kommer lÃ¥sas och det finns ingen mÃ¶jlighet att Ã¤ndra tider i efterhand.");
 		
 		alertDialogBuilder.setPositiveButton("Skicka", new DialogInterface.OnClickListener() {
 			
@@ -94,7 +94,7 @@ public class DisplayTimeReportActivity extends ListActivity {
 		alertDialogBuilder.setTitle(name);
 		alertDialogBuilder.setMessage("Start tid: " + start + "\n" + "Slut tid: " + end + "\n" + "Rast: "  + bt + "\n" + "Kommentar: " + comment);
 		
-		alertDialogBuilder.setPositiveButton("Ändra", new DialogInterface.OnClickListener() {
+		alertDialogBuilder.setPositiveButton("Ã¤ndra", new DialogInterface.OnClickListener() {
 			
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
