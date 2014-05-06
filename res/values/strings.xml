@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-      
+
     <string name="set">set</string>
     <string name="cancel">Cancel</string>
     <string name="app_name">Kartela</string>
@@ -39,6 +39,8 @@
     <string name="project_list_button">Show my projects</string>
     <string name="minus_button">-</string>
     <string name="plus_button">+</string>
+    
+    <string name="statistics_period">Alla rapporterade tider</string>
     
     <string name="mon_button">Monday</string>
     <string name="tue_button">Tuesday</string>
