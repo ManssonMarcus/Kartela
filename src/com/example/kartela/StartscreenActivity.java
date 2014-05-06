@@ -98,6 +98,7 @@ public class StartscreenActivity extends Activity implements OnClickListener{
     	for (int i = 0; i < values.size(); i++) {
     		total_sum = total_sum + values.get(i).getWorkedTimeInNumbers();
     	}
+    	
         
         StartscreenListAdapter adapter = new StartscreenListAdapter(this, values, weekdaysArray, total_sum, projects, datasource);
         weekdayList.setAdapter(adapter);
@@ -144,35 +145,39 @@ public class StartscreenActivity extends Activity implements OnClickListener{
 	}
 	
 	@Override
-	public void onClick(View v) {
+	public void onClick(View v) {        
         switch(v.getId()) {
-        case R.id.minus_button:
-        	if(currentWeeknumber <= 1){
-        		currentWeeknumber = 52;
-        	}
-        	else{
-        		currentWeeknumber--;
-        	}
-        	tvTimespan.setText(updateTimeSpan(currentWeeknumber));
-        	values = datasource.getTimeInterval(currentWeeknumber);
-        	tvCurrentWeek.setText(Integer.toString(currentWeeknumber));
-        	getCurrentWeekDays(currentWeeknumber);
+	        case R.id.minus_button:
+	        	if(currentWeeknumber <= 1){
+	        		currentWeeknumber = 52;
+	        	}
+	        	else{
+	        		currentWeeknumber--;
+	        	}
+	        	tvTimespan.setText(updateTimeSpan(currentWeeknumber));
+	        	values = datasource.getTimeInterval(currentWeeknumber);
+	        	tvCurrentWeek.setText(Integer.toString(currentWeeknumber));
+	        	getCurrentWeekDays(currentWeeknumber);
+	
+	          break;
+	        case R.id.plus_button:
+	        	if(currentWeeknumber >= 52){
+	        		currentWeeknumber = 1;
+	        	}
+	        	else{
+	        		currentWeeknumber++;
+	        	}
+	        	tvTimespan.setText(updateTimeSpan(currentWeeknumber));
+	        	values = datasource.getTimeInterval(currentWeeknumber);
+	        	tvCurrentWeek.setText(Integer.toString(currentWeeknumber));
+	        	getCurrentWeekDays(currentWeeknumber);
+	        	
+	          break;
+        }
 
-          break;
-        case R.id.plus_button:
-        	if(currentWeeknumber >= 52){
-        		currentWeeknumber = 1;
-        	}
-        	else{
-        		currentWeeknumber++;
-        	}
-        	tvTimespan.setText(updateTimeSpan(currentWeeknumber));
-        	values = datasource.getTimeInterval(currentWeeknumber);
-        	tvCurrentWeek.setText(Integer.toString(currentWeeknumber));
-        	getCurrentWeekDays(currentWeeknumber);
-          break;
-      }
-		
+        ListView weekdayList = (ListView)findViewById(R.id.listViewWeekdays);
+        StartscreenListAdapter adapter = new StartscreenListAdapter(this, values, weekdaysArray, total_sum, projects, datasource);
+        weekdayList.setAdapter(adapter);
 	}	
 	
 	private String updateTimeSpan(int v){
