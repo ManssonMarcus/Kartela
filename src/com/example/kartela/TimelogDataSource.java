@@ -122,7 +122,7 @@ public class TimelogDataSource {
     public List<Timelog> getAllTimelogs() {
     	List<Timelog> allTimelogs = new ArrayList<Timelog>();
 
-	    Cursor cursor = database.query(MySQLiteHelper.TABLE_TIMELOGS, null, null, null, null, null, MySQLiteHelper.COLUMN_DATE);
+	    Cursor cursor = database.query(MySQLiteHelper.TABLE_TIMELOGS, null, null, null, null, null, null);
 
 	    cursor.moveToFirst();
 	    while (!cursor.isAfterLast()) {
