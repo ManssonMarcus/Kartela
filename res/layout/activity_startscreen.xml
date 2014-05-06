@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin" >
+
+    <TextView
+	    android:id="@+id/textViewTimespan"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+     	android:layout_margin="@dimen/element_margin"
+    	android:text="test"
+     	android:fontFamily="sans-serif-light"
+   	    android:gravity="center"/>
+    
+       
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" 
+        android:orientation="horizontal"
+        android:layout_alignParentBottom = "true">
+
+        <Button
+            android:id="@+id/minus_button"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/element_height"
+            android:layout_margin="@dimen/element_margin"
+            android:background="@color/button_red"
+            android:fontFamily="sans-serif-light"
+            android:text="@string/minus_button"
+            android:textColor="#FFF" 
+            android:layout_alignParentLeft = "true"/>
+
+       <TextView
+            android:id="@+id/textViewCurrentWeek"
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/element_height"
+            android:layout_margin="@dimen/element_margin"
+            android:text="1"
+            android:fontFamily="sans-serif-light"
+            android:layout_toLeftOf = "@+id/plus_button"
+     		android:layout_toRightOf = "@+id/minus_button"
+     		android:gravity="center"/>
+        
+        <Button
+            android:id="@+id/plus_button"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/element_height"
+            android:layout_margin="@dimen/element_margin"
+            android:background="@color/button_green"
+            android:fontFamily="sans-serif-light"
+            android:text="@string/plus_button"
+            android:textColor="#FFF" 
+            android:layout_alignParentRight = "true" />
+    </RelativeLayout>
+        
+    <ListView
+     android:id="@+id/listViewWeekdays"
+     android:layout_width="fill_parent"
+     android:layout_height="wrap_content"
+     android:background="#FFF"
+     android:text="@+string/hello"
+     android:layout_marginTop="10dp" />
+
+</LinearLayout>

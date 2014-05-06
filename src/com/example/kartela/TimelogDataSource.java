@@ -1,13 +1,50 @@
+/*
+Copyright (c) 2014, Student group C in course TNM082 at Linköpings University
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+
+* Redistributions of source code must retain the above copyright notice, this
+  list of conditions and the following disclaimer.
+
+* Redistributions in binary form must reproduce the above copyright notice,
+  this list of conditions and the following disclaimer in the documentation
+  and/or other materials provided with the distribution.
+
+* Neither the name of the {organization} nor the names of its
+  contributors may be used to endorse or promote products derived from
+  this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/
+
 package com.example.kartela;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 public class TimelogDataSource {
 	
@@ -70,6 +107,7 @@ public class TimelogDataSource {
     	if(p_name.length()<=0){
     		return getAllTimelogs();
     	}
+    	
 		List<Timelog> timeLogs = new ArrayList<Timelog>();
 
 	    Cursor cursor = database.query(MySQLiteHelper.TABLE_TIMELOGS, null, MySQLiteHelper.COLUMN_PROJECTNAME + " = ?", 
@@ -85,6 +123,29 @@ public class TimelogDataSource {
 	    cursor.close();
 	    
 	    return timeLogs;
+	}
+	
+	public double getWorkTimeByName(String p_name) {
+		return getWorkTimeByName(p_name, null);
+	}
+	
+	public double getWorkTimeByName(String p_name, Integer week) {
+		List<Timelog> timeLogs;
+		
+		if (week == null) {
+			timeLogs = getTimelogsByName(p_name);
+		} else {
+			timeLogs = getTimeInterval(week, p_name);
+		}
+
+		Log.d("logTime", timeLogs.toString());
+		double sum = 0;
+		
+		for(int i = 0; i < timeLogs.size(); i++) {
+    		sum = sum + timeLogs.get(i).getWorkedTimeInNumbers();
+    	}
+		
+		return sum;
 	}
 	
 	//Returns a list of all timelogs in database
@@ -103,6 +164,67 @@ public class TimelogDataSource {
 	    cursor.close();
 	    
 	    return allTimelogs;
+    }
+
+    //Returns timelogs by weeknumber
+    @SuppressLint("SimpleDateFormat")
+	public List<Timelog> getTimeInterval(int weeknumber){
+    	return getTimeInterval(weeknumber, null);
+    }
+    
+    public List<Timelog> getTimeInterval(int weeknumber, String p_name) {    	
+    	List<Timelog> returnTimelogs = new ArrayList<Timelog>();
+    	List<Timelog> allTimelogs;
+    	
+    	if (p_name == null) {
+    		allTimelogs = getAllTimelogs();
+    	} else {
+    		allTimelogs = getTimelogsByName(p_name);
+//    		Log.d("grejs", allTimelogs.toString());
+    	}
+    	
+    	// Get calendar, clear it and set week number and year.
+    	Calendar calendar = Calendar.getInstance();
+    	 	
+    	//calendar.set(Calendar.WEEK_OF_YEAR, weeknumber);
+    	String pattern = "yyyy-MM-d";
+    	for(int i = 0; i < allTimelogs.size();i++){
+    		//Log.d("kartela", allTimelogs.get(i).getDate());
+    		
+    		try {
+    			calendar.setFirstDayOfWeek(Calendar.MONDAY);
+    			SimpleDateFormat df = new SimpleDateFormat(pattern);
+				Date date = df.parse(allTimelogs.get(i).getDate() + " " + allTimelogs.get(i).getEndTime());
+				calendar.setTime(date);
+				
+				if(calendar.get(Calendar.WEEK_OF_YEAR) == weeknumber){
+					returnTimelogs.add(allTimelogs.get(i));
+					Log.d("grejs", allTimelogs.get(i).toString());
+				}
+				
+//				Log.d("kartela", "datum: " + allTimelogs.get(i).getDate() + " " + allTimelogs.get(i).getEndTime());
+//				Log.d("kartela", "date: " + date);
+//				Log.d("kartela", "vecko-nr: " +  calendar.get(Calendar.WEEK_OF_YEAR) + "");
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				Log.d("kartela", "BUGG");
+				e.printStackTrace();
+			}
+    		
+    		
+    	}	
+    	return returnTimelogs;
+    }
+    
+    public List<String> getAllProjects(Resources res) {
+    	String[] temp = res.getStringArray(R.array.projects_array);
+    	List<String> projects = new ArrayList<String>();
+    	
+    	for(int i = 0; i < temp.length; i++) {
+    		projects.add(temp[i]);
+    	}
+    	
+    	return projects;
     }
     
 	public int updateTimelog(Timelog timelog, String p_name, String p_comment, String p_startTime, String p_endTime, int p_breakTime, boolean p_editable, String p_date){

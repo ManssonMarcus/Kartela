@@ -1,9 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="projects_array">
+        <item>Combitech</item>
         <item>Saab</item>
         <item>Volvo</item>
         <item>Helikopter</item>
-        <item>Combitech</item>
     </string-array>
+    
+	 <string-array name="pref_syncConnectionTypes_entries">
+	    <item>Saab</item>
+	    <item>Volvo</item>
+	    <item>Helikopter</item>
+	    <item>Combitech</item>
+	</string-array>
+	
+	 <string-array name="pref_syncConnectionTypes_values">
+	    <item>1</item>
+	    <item>2</item>
+	    <item>3</item>
+	    <item>4</item>
+	</string-array>
+
+    
 </resources>

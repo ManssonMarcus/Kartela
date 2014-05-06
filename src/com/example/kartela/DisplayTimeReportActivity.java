@@ -1,3 +1,33 @@
+/*
+Copyright (c) 2014, Student group C in course TNM082 at Linköpings University
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+
+* Redistributions of source code must retain the above copyright notice, this
+  list of conditions and the following disclaimer.
+
+* Redistributions in binary form must reproduce the above copyright notice,
+  this list of conditions and the following disclaimer in the documentation
+  and/or other materials provided with the distribution.
+
+* Neither the name of the {organization} nor the names of its
+  contributors may be used to endorse or promote products derived from
+  this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/
+
 package com.example.kartela;
 
 import java.io.FileWriter;
@@ -6,24 +36,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.annotation.SuppressLint;
-import android.app.Dialog;
+import android.app.AlertDialog;
 import android.app.ListActivity;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
+import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
-
 import au.com.bytecode.opencsv.CSVWriter;
-
-import com.example.kartela.TimeReportActivity;
 
 
 public class DisplayTimeReportActivity extends ListActivity {
@@ -44,6 +74,102 @@ public class DisplayTimeReportActivity extends ListActivity {
         ListAdapter adapter = new ListAdapter(this, values);
 
         setListAdapter(adapter);
+        
+        Button btn = (Button) findViewById(R.id.send_report);
+        btn.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				
+				if(haveNetworkConnection()){
+					openAlert(v);
+				} else {
+					AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(DisplayTimeReportActivity.this);
+					
+					alertDialogBuilder.setTitle("OBS!");
+					alertDialogBuilder.setMessage("Du kan inte skicka in din rapport utan internet. Var vŠnligen fšrsšk igen nŠr du Šr uppkopplat till internet.");
+					
+					alertDialogBuilder.setNegativeButton("Ok", new DialogInterface.OnClickListener() {
+						
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							dialog.cancel();
+						}
+					});
+					
+					AlertDialog alertDialog = alertDialogBuilder.create();
+					alertDialog.show();
+				
+				}
+				
+			}
+		});
+	}
+	
+	public void openAlert(final View view) {
+		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(DisplayTimeReportActivity.this);
+		
+		alertDialogBuilder.setTitle("Vill du skicka in?");
+		alertDialogBuilder.setMessage("Alla tider kommer låsas och det finns ingen möjlighet att ändra tider i efterhand.");
+		
+		alertDialogBuilder.setPositiveButton("Skicka", new DialogInterface.OnClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				// TODO Auto-generated method stub
+				sendTimeReportMail(view);
+			}
+		});
+		
+		alertDialogBuilder.setNegativeButton("Avbryt", new DialogInterface.OnClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				dialog.cancel();
+			}
+		});
+		
+		AlertDialog alertDialog = alertDialogBuilder.create();
+		alertDialog.show();
+	}
+	
+	
+	public void openEditAlert(final ListView l, final View view, final int position, long id) {
+		
+		String name = values.get(position).getName();
+		String start = values.get(position).getStartTime();
+		String end = values.get(position).getEndTime();
+		int bt = values.get(position).getBreakTime();
+		String comment = values.get(position).getComment();
+
+		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(DisplayTimeReportActivity.this);
+		
+		alertDialogBuilder.setTitle(name);
+		alertDialogBuilder.setMessage("Start tid: " + start + "\n" + "Slut tid: " + end + "\n" + "Rast: "  + bt + "\n" + "Kommentar: " + comment);
+		
+		alertDialogBuilder.setPositiveButton("Ändra", new DialogInterface.OnClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				// TODO Auto-generated method stub
+				Context c = getApplicationContext();
+				Intent intent = new Intent(c, TimeReportActivity.class);
+				intent.putExtra("hej", values.get(position).getId());
+				startActivity(intent);
+				
+			}
+		});
+		
+		alertDialogBuilder.setNegativeButton("Avbryt", new DialogInterface.OnClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				dialog.cancel();
+			}
+		});
+		
+		AlertDialog alertDialog = alertDialogBuilder.create();
+		alertDialog.show();
 	}
 	
 	public void onClick(View view) {
@@ -66,36 +192,15 @@ public class DisplayTimeReportActivity extends ListActivity {
 	      }
 	      adapter.notifyDataSetChanged();
 	    }
-
+	
+	/*
+	 * 
+	 * 
+	 */
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		
-		Log.d("kartela", "" + values.get(position).getName());
-		
-		String name = values.get(position).getName();
-		String start = values.get(position).getStartTime();
-		String end = values.get(position).getEndTime();
-		int bt = values.get(position).getBreakTime();
-		String comment = values.get(position).getComment();
-		
-		Dialog dialog = new Dialog(this);
-		dialog.setContentView(R.layout.popupview);//popup view is the layout you created
-		
-		dialog.setTitle(name);
-		
-		TextView txt1 = (TextView)dialog.findViewById(R.id.popup_start);
-		txt1.setText("Starttid: " + start);
-		
-		TextView txt2 = (TextView)dialog.findViewById(R.id.popup_end);
-		txt2.setText("Sluttid: " + end);
-		
-		TextView txt3 = (TextView)dialog.findViewById(R.id.popup_break);
-		txt3.setText("Rast: " + bt);
-		
-		TextView txt4 = (TextView)dialog.findViewById(R.id.popup_comment);
-		txt4.setText("Kommentar: " + comment);
-		
-		dialog.show();
+		openEditAlert(l,v,position,id);
 	}
 	
 	@Override
@@ -170,9 +275,28 @@ public class DisplayTimeReportActivity extends ListActivity {
 			emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{"kartela.agilen@gmail.com"});
 			emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Message from Kartela");
 			startActivity(Intent.createChooser(emailIntent, "Send email..."));
+			
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
- 		
 	}
+    
+    private boolean haveNetworkConnection() {
+        boolean haveConnectedWifi = false;
+        boolean haveConnectedMobile = false;
+
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo[] netInfo = cm.getAllNetworkInfo();
+        for (NetworkInfo ni : netInfo) {
+            if (ni.getTypeName().equalsIgnoreCase("WIFI"))
+                if (ni.isConnected())
+                    haveConnectedWifi = true;
+            if (ni.getTypeName().equalsIgnoreCase("MOBILE"))
+                if (ni.isConnected())
+                    haveConnectedMobile = true;
+        }
+        return haveConnectedWifi || haveConnectedMobile;
+    }
+
 }
