@@ -4,57 +4,21 @@
 	<PreferenceCategory 
 	    android:title="@string/settings_header"> 
 	</PreferenceCategory>
-        
-    <PreferenceScreen
-        android:key="pref_sync"
-        android:title="@string/pref_sync"
-        android:persistent="false"
-        android:summary="Valda dagar">
-        
-    
-        <CheckBoxPreference
-         	android:key="mon_key" 
-         	android:title="@string/mon_button" 
-         	android:defaultValue="false" />
-        
-        <CheckBoxPreference
-         	android:key="tue_key" 
-         	android:title="@string/tue_button" 
-         	android:defaultValue="false" />
-        
-        <CheckBoxPreference
-         	android:key="wed_key" 
-         	android:title="@string/wed_button" 
-         	android:defaultValue="false" />
-        
-        <CheckBoxPreference
-         	android:key="thu_key" 
-         	android:title="@string/thu_button"  
-         	android:defaultValue="false" />
-        
-        <CheckBoxPreference
-         	android:key="fri_key" 
-         	android:title="@string/fri_button" 
-         	android:defaultValue="false" />
-        
-        <CheckBoxPreference
-         	android:key="sat_key" 
-         	android:title="@string/sat_button"  
-         	android:defaultValue="false" />
-        
-        <CheckBoxPreference
-         	android:key="sun_key" 
-         	android:title="@string/sun_button"  
-         	android:defaultValue="false" />
-        
-            
-    </PreferenceScreen>
+	
+	<MultiSelectListPreference
+	    android:dialogTitle="@string/pref_sync"
+	    android:key="pref_sync"
+	    android:summary="Välj dagar"
+	    android:title="@string/pref_sync"
+	    android:entries="@array/pref_syncConnectionTypes_days"
+	    android:entryValues="@array/pref_syncConnectionTypes_values"
+	    android:defaultValue="@array/pref_syncConnectionTypes_values"
+	    />
     	
 	 <com.example.kartela.TimePreference 
 	     android:key="settings_time" 
 	     android:title="@string/pref_timeTitle"/>
         
-<!-- 	</PreferenceCategory> -->
 	<PreferenceCategory android:title="@string/pref_send">
 	     <EditTextPreference
     	     android:key="pref_mail"

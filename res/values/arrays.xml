@@ -14,7 +14,16 @@
 	    <item>Combitech</item>
 	</string-array>
 	
+	 <string-array name="pref_syncConnectionTypes_days">
+	    <item>Måndag</item>
+	    <item>Tisdag</item>
+	    <item>Onsdag</item>
+	    <item>Torsdag</item>
+	    <item>Fredag</item>
+	</string-array>
+	
 	 <string-array name="pref_syncConnectionTypes_values">
+	    <item>0</item>
 	    <item>1</item>
 	    <item>2</item>
 	    <item>3</item>
