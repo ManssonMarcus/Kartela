@@ -237,7 +237,7 @@ public class TimeReportActivity extends FragmentActivity implements OnDateSetLis
 	//Hjälpfunktioner
 	private boolean isValidDate(String date)
 	{   
-	    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-d");
+	    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 	    Date testDate = null;
 	    String errorMessage;
 	    try
