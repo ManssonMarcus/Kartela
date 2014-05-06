@@ -71,6 +71,9 @@ public class SettingsActivity extends PreferenceFragment implements OnSharedPref
 	        updatePreference(key);
 	    }
 	    
+	    
+	    
+	    
 	    private void updatePreference(String key){
 	        if (key.equals("pref_mail")){
 	        	Log.d("test filter", "nr 1");

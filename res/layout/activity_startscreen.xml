@@ -8,6 +8,14 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin" >
 
+  	<TextView 
+		android:layout_width="match_parent"
+		android:layout_height="@dimen/element_height"
+		android:text="@string/start_header"
+		android:textSize="25sp"
+		android:fontFamily="sans-serif-light" />   
+    
+    
     <TextView
 	    android:id="@+id/textViewTimespan"
 	    android:layout_width="fill_parent"
@@ -16,8 +24,7 @@
     	android:text="test"
      	android:fontFamily="sans-serif-light"
    	    android:gravity="center"/>
-    
-       
+	    
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content" 

@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
-
+	
+	<PreferenceCategory 
+	    android:title="@string/settings_header"> 
+	</PreferenceCategory>
+        
     <PreferenceScreen
         android:key="pref_sync"
         android:title="@string/pref_sync"
         android:persistent="false"
         android:summary="Valda dagar">
+        
     
         <CheckBoxPreference
          	android:key="mon_key" 
@@ -45,7 +50,9 @@
             
     </PreferenceScreen>
     	
-	 <com.example.kartela.TimePreference android:key="settings_time" android:title="@string/pref_timeTitle"/>
+	 <com.example.kartela.TimePreference 
+	     android:key="settings_time" 
+	     android:title="@string/pref_timeTitle"/>
         
 <!-- 	</PreferenceCategory> -->
 	<PreferenceCategory android:title="@string/pref_send">
@@ -53,9 +60,7 @@
     	     android:key="pref_mail"
 		     android:summary="andreas@företag.se"
 		     android:title="Mejladress">
-		 </EditTextPreference>
-	    
-	    
+		 </EditTextPreference>    
 	</PreferenceCategory>
 
 </PreferenceScreen>
