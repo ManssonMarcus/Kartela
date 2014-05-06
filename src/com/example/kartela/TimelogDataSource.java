@@ -187,6 +187,24 @@ public class TimelogDataSource {
 	    return allTimelogs;
     }
 
+	//Returns a list of all timelogs in database
+    public List<Timelog> getAllTimelogsByDate() {
+    	List<Timelog> allTimelogs = new ArrayList<Timelog>();
+
+	    Cursor cursor = database.query(MySQLiteHelper.TABLE_TIMELOGS, null, null, null, null, null, MySQLiteHelper.COLUMN_DATE);
+
+	    cursor.moveToFirst();
+	    while (!cursor.isAfterLast()) {
+	        Timelog timelog = cursorToTimelog(cursor);
+	        allTimelogs.add(timelog);
+	    	cursor.moveToNext();
+	    }
+	    // make sure to close the cursor
+	    cursor.close();
+	    
+	    return allTimelogs;
+    }
+    
     //Returns timelogs by weeknumber
     @SuppressLint("SimpleDateFormat")
 	public List<Timelog> getTimeInterval(int weeknumber){
