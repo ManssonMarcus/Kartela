@@ -71,11 +71,7 @@ public class DisplayTimeReportActivity extends ListActivity {
 		setContentView(R.layout.activity_display_time_report);
 		
         datasource = new TimelogDataSource(this);
-<<<<<<< HEAD
         datasource.open();
-=======
-        datasource.open();
->>>>>>> martin
 
         values = datasource.getAllTimelogsByDate();
 
