@@ -15,22 +15,22 @@
 	    android:background="#FFF">
 		
 	    <TextView 
-	     android:layout_width="match_parent"
-	     android:layout_height="40dp"
-	     android:text="@string/send_header"
-	     android:textSize="25sp"
-	     android:fontFamily="sans-serif-light" />
+			android:layout_width="match_parent"
+			android:layout_height="@dimen/element_height"
+			android:text="@string/send_header"
+			android:textSize="25sp"
+			android:fontFamily="sans-serif-light" />
 	   
 	    <TextView 
-	     android:layout_width="fill_parent"
-	     android:layout_height="30dp"
-	     android:gravity="center"
-	     android:text="Vecka 45"
-	     android:textSize="18sp"
-	     android:fontFamily="sans-serif-light"
-	     android:background="@color/dark_grey"
-	     android:layout_marginBottom="6dp"
-	     android:textColor="#FFFFFF"/>
+		     android:layout_width="fill_parent"
+		     android:layout_height="30dp"
+		     android:gravity="center"
+		     android:text="Vecka 45"
+		     android:textSize="18sp"
+		     android:fontFamily="sans-serif-light"
+		     android:background="@color/dark_grey"
+		     android:layout_marginBottom="6dp"
+		     android:textColor="#FFFFFF"/>
 	     
 	
 	    <ListView
