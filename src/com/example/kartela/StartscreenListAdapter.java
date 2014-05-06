@@ -35,7 +35,9 @@ import java.util.List;
 
 import android.content.Context;
 import android.graphics.Point;
+import android.hardware.Camera.Size;
 import android.text.format.Time;
+import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -44,7 +46,7 @@ import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-public class StartscreenListAdapter extends ArrayAdapter<Timelog> {
+public class StartscreenListAdapter extends ArrayAdapter<String> {
 	  
 	  private final Context context;
 	  private final List<Timelog> values;
@@ -56,7 +58,7 @@ public class StartscreenListAdapter extends ArrayAdapter<Timelog> {
 	  private int currentWeeknumber;
 
 	public StartscreenListAdapter(Context context, List<Timelog> values, ArrayList<String> weekdaysArray, double total_sum, List<String> projects, TimelogDataSource datasource) {
-	    super(context, R.layout.day_row_layout, values);
+	    super(context, R.layout.day_row_layout, weekdaysArray);
 	    this.context = context;
 	    this.values = values;
 	    this.weekdaysArray = weekdaysArray;
@@ -69,7 +71,24 @@ public class StartscreenListAdapter extends ArrayAdapter<Timelog> {
 	
 	@Override
   	public View getView(int position, View convertView, ViewGroup parent) {
-		
+//		Log.d("updprb", Integer.toString(position));
+    	
+	    LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+	    convertView = inflater.inflate(R.layout.day_row_layout, parent, false);
+	    TextView dayTitle = (TextView) convertView.findViewById(R.id.day_title);
+	    dayTitle.setText(weekdaysArray.get(position));
+
+	    updateProgressBar(convertView);
+
+//		temp_sum = datasource.getWorkTimeByName(projects.get(i), currentWeeknumber);
+//		temp_view.setText(Integer.toString((int)50) + " %");
+//		temp_view.getLayoutParams().height = height;
+//		temp_view.getLayoutParams().width = ((int)(temp_ratio*multiple/100));
+
+	    return convertView;
+	}
+	
+	public void updateProgressBar(View convertView) {
 		WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
 		Display display = wm.getDefaultDisplay();
 
@@ -85,15 +104,7 @@ public class StartscreenListAdapter extends ArrayAdapter<Timelog> {
     	String temp_name;
     	int temp_id;
     	
-	    LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-	    
-	    View rowView = inflater.inflate(R.layout.day_row_layout, parent, false);
-	
-	    TextView dayTitle = (TextView) rowView.findViewById(R.id.day_title);
-	    
-	    dayTitle.setText(weekdaysArray.get(position));
-
-	    this.total = 3600000*40;
+    	this.total = 3600000*40;
 	    for (int i=0; i<projects.size(); i++) {
     		temp_sum = datasource.getWorkTimeByName(projects.get(i), currentWeeknumber);
     		temp_ratio = (temp_sum/this.total)*100;
@@ -108,7 +119,7 @@ public class StartscreenListAdapter extends ArrayAdapter<Timelog> {
     		
 			temp_name = "progress_" + projects.get(i);
 		    temp_id = context.getResources().getIdentifier(temp_name, "id", context.getPackageName());
-	    	temp_view = (TextView) rowView.findViewById(temp_id);
+	    	temp_view = (TextView) convertView.findViewById(temp_id);
 
     		// update project textview
 	    	Double hours = (double)temp_sum/3600000;
@@ -117,14 +128,7 @@ public class StartscreenListAdapter extends ArrayAdapter<Timelog> {
     		temp_view.getLayoutParams().height = 50;
     		temp_view.getLayoutParams().width = ((int)(temp_ratio*multiple/100));
 	    }
-	    
-//
-//		temp_sum = datasource.getWorkTimeByName(projects.get(i), currentWeeknumber);
-//		temp_view.setText(Integer.toString((int)50) + " %");
-//		temp_view.getLayoutParams().height = height;
-//		temp_view.getLayoutParams().width = ((int)(temp_ratio*multiple/100));
-//	    
-	    return rowView;
+
 	}
 
 }
