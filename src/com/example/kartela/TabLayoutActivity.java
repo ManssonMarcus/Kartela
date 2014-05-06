@@ -47,7 +47,7 @@ public class TabLayoutActivity extends TabActivity {
 	
 	protected void onStart(){
 		super.onStart();
-		tabHost.getTabWidget().getChildAt(tabHost.getCurrentTab()).setBackgroundColor(Color.parseColor("#999999"));
+		tabHost.getTabWidget().getChildAt(tabHost.getCurrentTab()).setBackgroundColor(Color.parseColor("#FFFFFF"));
 	}
 	
     @Override
@@ -99,9 +99,9 @@ public class TabLayoutActivity extends TabActivity {
 
 	        	for(int j=0;j<tabHost.getTabWidget().getChildCount();j++)
 	            {
-	        		tabHost.getTabWidget().getChildAt(j).setBackgroundColor(Color.parseColor("#FFFFFF")); //unselected
+	        		tabHost.getTabWidget().getChildAt(j).setBackgroundColor(Color.parseColor("#999999")); //unselected
 	            }
-	        	tabHost.getTabWidget().getChildAt(tabHost.getCurrentTab()).setBackgroundColor(Color.parseColor("#999999"));
+	        	tabHost.getTabWidget().getChildAt(tabHost.getCurrentTab()).setBackgroundColor(Color.parseColor("#FFFFFF"));
 
         	}
         });
