@@ -201,14 +201,14 @@ public class TimelogDataSource {
     		allTimelogs = getAllTimelogs();
     	} else {
     		allTimelogs = getTimelogsByName(p_name);
-//    		Log.d("grejs", allTimelogs.toString());
+    		//Log.d("test", allTimelogs.toString());
     	}
     	
     	// Get calendar, clear it and set week number and year.
     	Calendar calendar = Calendar.getInstance();
     	 	
     	//calendar.set(Calendar.WEEK_OF_YEAR, weeknumber);
-    	String pattern = "yyyy-MM-d";
+    	String pattern = "yyyy-MM-dd";
     	for(int i = 0; i < allTimelogs.size();i++){
     		//Log.d("kartela", allTimelogs.get(i).getDate());
     		
