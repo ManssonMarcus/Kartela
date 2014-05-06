@@ -115,7 +115,6 @@ public class DisplayTimeReportActivity extends ListActivity {
 			
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				// TODO Auto-generated method stub
 				sendTimeReportMail(view);
 			}
 		});
@@ -135,25 +134,33 @@ public class DisplayTimeReportActivity extends ListActivity {
 	
 	public void openEditAlert(final ListView l, final View view, final int position, long id) {
 		
-		String name = values.get(position).getName();
-		String start = values.get(position).getStartTime();
-		String end = values.get(position).getEndTime();
-		int bt = values.get(position).getBreakTime();
-		String comment = values.get(position).getComment();
+		final String name = values.get(position).getName();
+		final String date = values.get(position).getDate();
+		final String start = values.get(position).getStartTime();
+		final String end = values.get(position).getEndTime();
+		final int bt = values.get(position).getBreakTime();
+		final String comment = values.get(position).getComment();
 
 		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(DisplayTimeReportActivity.this);
 		
 		alertDialogBuilder.setTitle(name);
-		alertDialogBuilder.setMessage("Start tid: " + start + "\n" + "Slut tid: " + end + "\n" + "Rast: "  + bt + "\n" + "Kommentar: " + comment);
+		alertDialogBuilder.setMessage("Datum: " + date + "\n" + "Start-tid: " + start + "\n" + "Slut-tid: " + end + "\n" + "Rast: "  + bt + "\n" + "Kommentar: " + comment);
 		
 		alertDialogBuilder.setPositiveButton("ändra", new DialogInterface.OnClickListener() {
 			
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				// TODO Auto-generated method stub
+				
 				Context c = getApplicationContext();
 				Intent intent = new Intent(c, TimeReportActivity.class);
-				intent.putExtra("hej", values.get(position).getId());
+				intent.putExtra("name", name);
+				intent.putExtra("date", date);
+				intent.putExtra("start", start);
+				intent.putExtra("end", end);
+				intent.putExtra("bt", bt);
+				intent.putExtra("comment", comment);
+				intent.putExtra("timelogId", values.get(position).getId());
+				
 				startActivity(intent);
 				
 			}

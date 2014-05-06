@@ -93,7 +93,7 @@ public class TimelogDataSource {
 	    
 	    return newTimelog;
 	}
-	
+		
 	//delete a timelog 
 	public void deleteTimelog(Timelog timelog) {
 		long id = timelog.getId();
@@ -147,6 +147,27 @@ public class TimelogDataSource {
 		
 		return sum;
 	}
+	
+	public Timelog getSpecificTimelog(long timelogId) {
+    	
+    	Timelog timelog = new Timelog();
+
+	    Cursor cursor = database.query(MySQLiteHelper.TABLE_TIMELOGS, null, null, null, null, null, null);
+	    cursor.moveToFirst();
+	    
+	    while (!cursor.isAfterLast()) {
+	        timelog = cursorToTimelog(cursor);
+	        if(timelog.getId() == timelogId) {
+	        	return timelog;
+	        }
+	        cursor.moveToNext();
+	    }
+	    
+	    // make sure to close the cursor
+	    cursor.close();
+	    
+	    return timelog;
+    }
 	
 	//Returns a list of all timelogs in database
     public List<Timelog> getAllTimelogs() {
