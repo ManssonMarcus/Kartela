@@ -138,11 +138,13 @@ public class TimelogDataSource {
 			timeLogs = getTimeInterval(week, p_name);
 		}
 
-		Log.d("logTime", timeLogs.toString());
+//		Log.d("logTime", timeLogs.get(0).getDate());
 		double sum = 0;
 		
 		for(int i = 0; i < timeLogs.size(); i++) {
-    		sum = sum + timeLogs.get(i).getWorkedTimeInNumbers();
+    		if (timeLogs.get(i).getDate().equals("2014-05-06")) {
+    			sum = sum + timeLogs.get(i).getWorkedTimeInNumbers();
+    		}
     	}
 		
 		return sum;
@@ -180,7 +182,6 @@ public class TimelogDataSource {
     		allTimelogs = getAllTimelogs();
     	} else {
     		allTimelogs = getTimelogsByName(p_name);
-//    		Log.d("grejs", allTimelogs.toString());
     	}
     	
     	// Get calendar, clear it and set week number and year.
@@ -199,7 +200,6 @@ public class TimelogDataSource {
 				
 				if(calendar.get(Calendar.WEEK_OF_YEAR) == weeknumber){
 					returnTimelogs.add(allTimelogs.get(i));
-					Log.d("grejs", allTimelogs.get(i).toString());
 				}
 				
 //				Log.d("kartela", "datum: " + allTimelogs.get(i).getDate() + " " + allTimelogs.get(i).getEndTime());

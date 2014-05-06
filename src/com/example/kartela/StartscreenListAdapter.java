@@ -47,15 +47,16 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 public class StartscreenListAdapter extends ArrayAdapter<String> {
-	  
-	  private final Context context;
-	  private final List<Timelog> values;
-	  private final ArrayList<String> weekdaysArray;
-	  private final List<String> projects;
-	  private double total;
-	  private final TimelogDataSource datasource;
-	  private Time time = new Time();
-	  private int currentWeeknumber;
+	
+	private static final int HOURS_IN_MS = 3600000;
+	private final Context context;
+  	private final List<Timelog> values;
+  	private final ArrayList<String> weekdaysArray;
+  	private final List<String> projects;
+  	private double total;
+  	private final TimelogDataSource datasource;
+  	private Time time = new Time();
+  	private int currentWeeknumber;
 
 	public StartscreenListAdapter(Context context, List<Timelog> values, ArrayList<String> weekdaysArray, double total_sum, List<String> projects, TimelogDataSource datasource) {
 	    super(context, R.layout.day_row_layout, weekdaysArray);
@@ -104,9 +105,10 @@ public class StartscreenListAdapter extends ArrayAdapter<String> {
     	String temp_name;
     	int temp_id;
     	
-    	this.total = 3600000*40;
+    	this.total = HOURS_IN_MS*40;
 	    for (int i=0; i<projects.size(); i++) {
     		temp_sum = datasource.getWorkTimeByName(projects.get(i), currentWeeknumber);
+    		Log.d("logTime", Double.toString(temp_sum));
     		temp_ratio = (temp_sum/this.total)*100;
     		
     		// check ratio to round up or down
@@ -122,7 +124,7 @@ public class StartscreenListAdapter extends ArrayAdapter<String> {
 	    	temp_view = (TextView) convertView.findViewById(temp_id);
 
     		// update project textview
-	    	Double hours = (double)temp_sum/3600000;
+	    	Double hours = (double)temp_sum/HOURS_IN_MS;
 	    	String str = String.format("%1.2f", hours);
     		temp_view.setText(str + "h");
     		temp_view.getLayoutParams().height = 50;
