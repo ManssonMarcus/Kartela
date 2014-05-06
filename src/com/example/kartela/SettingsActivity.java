@@ -51,28 +51,14 @@ import android.widget.Toast;
 
 public class SettingsActivity extends PreferenceFragment implements OnSharedPreferenceChangeListener {
 
-	
+	public static final String KEY_PREF_MAIL = "pref_mail";
 	 
 	 @Override
 	 public void onCreate(Bundle savedInstanceState) {
-		 // TODO Auto-generated method stub
 		 super.onCreate(savedInstanceState);
-		 //setContentView(R.xml.preferences);
  
 		 // Load the preferences from an XML resource
-        addPreferencesFromResource(R.xml.preferences);
-        
-   /*     Preference p = (Preference) findPreference("pref_reminderTime");
-        p.setOnPreferenceClickListener(new OnPreferenceClickListener() {
-    		public boolean onPreferenceClick(Preference preference) {
-    			// TODO Auto-generated method stub
-    			DialogFragment dialogFragment = new TimePickerFragment();
-    			dialogFragment.show(getFragmentManager(), "timePicker");
-    			return false;
-    		}
-        });*/
-        
-        
+        addPreferencesFromResource(R.xml.preferences);        
 	 }
 	 
 	 
@@ -102,21 +88,14 @@ public class SettingsActivity extends PreferenceFragment implements OnSharedPref
 	        updatePreference(key);
 	    }
 	    
-	    
-	    
-	    
 	    private void updatePreference(String key){
-	        if (key.equals("pref_mail")){
-	        	Log.d("test filter", "nr 1");
+	        if (key.equals(KEY_PREF_MAIL)){
 	            Preference preference = findPreference(key);
 	            if (preference instanceof EditTextPreference){
-	            	Log.d("test filter", "nr 2");
 	                EditTextPreference editTextPreference =  (EditTextPreference)preference;
-	                Log.d("test filter", Integer.toString(editTextPreference.getText().trim().length()));
 	                if (editTextPreference.getText().trim().length() > 0){
 	                    editTextPreference.setSummary(editTextPreference.getText());
 	                }else{
-	                	Log.d("test filter", "nr 3");
 	                    editTextPreference.setSummary("Enter mejladdress");
 	                }
 	            }
