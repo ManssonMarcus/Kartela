@@ -142,9 +142,7 @@ public class TimelogDataSource {
 		double sum = 0;
 		
 		for(int i = 0; i < timeLogs.size(); i++) {
-    		if (timeLogs.get(i).getDate().equals("2014-05-06")) {
-    			sum = sum + timeLogs.get(i).getWorkedTimeInNumbers();
-    		}
+			sum = sum + timeLogs.get(i).getWorkedTimeInNumbers();
     	}
 		
 		return sum;
