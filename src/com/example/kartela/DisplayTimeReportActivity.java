@@ -85,7 +85,6 @@ public class DisplayTimeReportActivity extends ListActivity {
 			
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				// TODO Auto-generated method stub
 				sendTimeReportMail(view);
 			}
 		});
@@ -115,13 +114,13 @@ public class DisplayTimeReportActivity extends ListActivity {
 		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(DisplayTimeReportActivity.this);
 		
 		alertDialogBuilder.setTitle(name);
-		alertDialogBuilder.setMessage("Start tid: " + start + "\n" + "Slut tid: " + end + "\n" + "Rast: "  + bt + "\n" + "Kommentar: " + comment);
+		alertDialogBuilder.setMessage("Datum: " + date + "\n" + "Start-tid: " + start + "\n" + "Slut-tid: " + end + "\n" + "Rast: "  + bt + "\n" + "Kommentar: " + comment);
 		
 		alertDialogBuilder.setPositiveButton("Ändra", new DialogInterface.OnClickListener() {
 			
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				// TODO Auto-generated method stub
+				
 				Context c = getApplicationContext();
 				Intent intent = new Intent(c, TimeReportActivity.class);
 				intent.putExtra("name", name);
@@ -130,6 +129,7 @@ public class DisplayTimeReportActivity extends ListActivity {
 				intent.putExtra("end", end);
 				intent.putExtra("bt", bt);
 				intent.putExtra("comment", comment);
+				intent.putExtra("timelogId", values.get(position).getId());
 				
 				startActivity(intent);
 				
