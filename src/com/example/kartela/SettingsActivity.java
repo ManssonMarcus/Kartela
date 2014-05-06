@@ -36,6 +36,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.CheckBoxPreference;
 import android.preference.EditTextPreference;
 import android.preference.Preference;
@@ -123,7 +124,7 @@ public class SettingsActivity extends PreferenceFragment implements OnSharedPref
 	    }
 
 
-
+	  
 	
 	
 }
