@@ -21,6 +21,10 @@
     <string name="add_timereport">Tidsrapportering</string>
     <string name="valj_projekt">Välj projekt</string>
     <string name="send_header">Utkast för tidsrapport</string>
+    <string name ="start_header">Översikt</string>
+    <string name="timereport_header">Skapa ny tidsrapport</string>
+    <string name="settings_header">Inställningar</string>
+    <string name="list_header">Statistik</string>
     
     <string name="settings_button">Inställningar</string>
 	 <!-- for settings -->
