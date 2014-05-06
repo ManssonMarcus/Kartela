@@ -105,11 +105,12 @@ public class DisplayTimeReportActivity extends ListActivity {
 	
 	public void openEditAlert(final ListView l, final View view, final int position, long id) {
 		
-		String name = values.get(position).getName();
-		String start = values.get(position).getStartTime();
-		String end = values.get(position).getEndTime();
-		int bt = values.get(position).getBreakTime();
-		String comment = values.get(position).getComment();
+		final String name = values.get(position).getName();
+		final String date = values.get(position).getDate();
+		final String start = values.get(position).getStartTime();
+		final String end = values.get(position).getEndTime();
+		final int bt = values.get(position).getBreakTime();
+		final String comment = values.get(position).getComment();
 
 		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(DisplayTimeReportActivity.this);
 		
@@ -123,7 +124,13 @@ public class DisplayTimeReportActivity extends ListActivity {
 				// TODO Auto-generated method stub
 				Context c = getApplicationContext();
 				Intent intent = new Intent(c, TimeReportActivity.class);
-				intent.putExtra("hej", values.get(position).getId());
+				intent.putExtra("name", name);
+				intent.putExtra("date", date);
+				intent.putExtra("start", start);
+				intent.putExtra("end", end);
+				intent.putExtra("bt", bt);
+				intent.putExtra("comment", comment);
+				
 				startActivity(intent);
 				
 			}

@@ -40,6 +40,8 @@ public class TimeReportActivity extends FragmentActivity implements OnDateSetLis
 	private EditText activeTimeID;
 	private boolean dateVerified = false;
 	private boolean timeVerified = false;
+	private Bundle extras; 
+	private EditText dateEditText;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +67,28 @@ public class TimeReportActivity extends FragmentActivity implements OnDateSetLis
     	//initialize database as datasource		
         datasource = new TimelogDataSource(this);
         datasource.open();
+        
+        //if an existing entry should be updated, Intent contains the current values
+        extras = getIntent().getExtras();
+        if (extras != null)
+        {	
+        	dateEditText = (EditText) findViewById(R.id.date);
+        	dateEditText.setText(extras.getString("date"));
+        	
+            EditText start = (EditText) findViewById(R.id.startTime);
+            start.setText(extras.getString("start"));
+            
+            EditText end = (EditText) findViewById(R.id.endTime);
+            end.setText(extras.getString("end"));
+            
+            EditText bt = (EditText) findViewById(R.id.breakTime);
+            bt.setText(extras.getString("bt"));
+            
+        	EditText comment = (EditText) findViewById(R.id.comment);
+            comment.setText(extras.getString("comment"));
+            
+        }
+        
 	}
 
 	@Override
@@ -169,9 +193,9 @@ public class TimeReportActivity extends FragmentActivity implements OnDateSetLis
 	
 	public void saveTimeReport(View view) {
 //		Intent intent = new Intent(this, DisplayTimeReportActivity.class);
-    	
-    	EditText date = (EditText) findViewById(R.id.date);
-    	String dateMessage = date.getText().toString();
+		
+    	//EditText date = (EditText) findViewById(R.id.date);
+    	String dateMessage = dateEditText.getText().toString();
     	
     	EditText startTime = (EditText) findViewById(R.id.startTime);
     	String startTimeMessage = startTime.getText().toString();
