@@ -105,5 +105,6 @@ public class TabLayoutActivity extends TabActivity {
 
         	}
         });
-    }    
+    }   
+    
 }

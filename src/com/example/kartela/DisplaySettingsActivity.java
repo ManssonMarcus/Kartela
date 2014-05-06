@@ -33,11 +33,13 @@ package com.example.kartela;
 import android.app.Activity;
 import android.app.DialogFragment;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.EditTextPreference;
 import android.preference.Preference;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 public class DisplaySettingsActivity extends FragmentActivity {	 
 	 
@@ -52,4 +54,24 @@ public class DisplaySettingsActivity extends FragmentActivity {
 	 }
  
 
+	//Dubbelt bakåtklick för att avsluta appen.
+	    private boolean doubleBackToExitPressedOnce = false;
+	    @Override
+	    public void onBackPressed() {
+	        if (doubleBackToExitPressedOnce) {
+	            super.onBackPressed();
+	            return;
+	        }
+
+	        this.doubleBackToExitPressedOnce = true;
+	        Toast.makeText(this, "Tryck på tillbaka igen för att avsluta", Toast.LENGTH_SHORT).show();
+
+	        new Handler().postDelayed(new Runnable() {
+
+	            @Override
+	            public void run() {
+	                doubleBackToExitPressedOnce=false;                       
+	            }
+	        }, 2000);
+	    }
 }
