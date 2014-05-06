@@ -41,10 +41,12 @@ import android.app.ListActivity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.NavUtils;
 import android.util.Log;
 import android.view.MenuItem;
@@ -86,7 +88,7 @@ public class DisplayTimeReportActivity extends ListActivity {
 					AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(DisplayTimeReportActivity.this);
 					
 					alertDialogBuilder.setTitle("OBS!");
-					alertDialogBuilder.setMessage("Du kan inte skicka in din rapport utan internet. Var vŠnligen fšrsšk igen nŠr du Šr uppkopplat till internet.");
+					alertDialogBuilder.setMessage("Du kan inte skicka in din rapport utan internet. Var vänligen försök igen när du är uppkopplat till internet.");
 					
 					alertDialogBuilder.setNegativeButton("Ok", new DialogInterface.OnClickListener() {
 						
@@ -109,7 +111,7 @@ public class DisplayTimeReportActivity extends ListActivity {
 		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(DisplayTimeReportActivity.this);
 		
 		alertDialogBuilder.setTitle("Vill du skicka in?");
-		alertDialogBuilder.setMessage("Alla tider kommer lÃ¥sas och det finns ingen mÃ¶jlighet att Ã¤ndra tider i efterhand.");
+		alertDialogBuilder.setMessage("Alla tider kommer låsas och det finns ingen möjlighet att ändra tider i efterhand.");
 		
 		alertDialogBuilder.setPositiveButton("Skicka", new DialogInterface.OnClickListener() {
 			
@@ -146,7 +148,7 @@ public class DisplayTimeReportActivity extends ListActivity {
 		alertDialogBuilder.setTitle(name);
 		alertDialogBuilder.setMessage("Datum: " + date + "\n" + "Start-tid: " + start + "\n" + "Slut-tid: " + end + "\n" + "Rast: "  + bt + "\n" + "Kommentar: " + comment);
 		
-		alertDialogBuilder.setPositiveButton("Ã¤ndra", new DialogInterface.OnClickListener() {
+		alertDialogBuilder.setPositiveButton("Ändra", new DialogInterface.OnClickListener() {
 			
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
@@ -274,11 +276,16 @@ public class DisplayTimeReportActivity extends ListActivity {
 	    	csvWriter.writeAll(data);
 	    	csvWriter.close();
 	    	
+	    	SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+	    	String mail = sharedPreferences.getString(SettingsActivity.KEY_PREF_MAIL,"");
+	    	
+	    	Log.d("test filter",mail);
+	    	
 	    	// Send email with csv file as attachment
 	    	final Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
 			emailIntent.setType("plain/text");
 			emailIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse("file://" + csvLocation));
-			emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{"kartela.agilen@gmail.com"});
+			emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{mail});
 			emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Message from Kartela");
 			startActivity(Intent.createChooser(emailIntent, "Send email..."));
 			
