@@ -36,9 +36,11 @@ import android.app.ListActivity;
 import android.content.res.Resources;
 import android.graphics.Point;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.Display;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class ProjectListActivity extends ListActivity {
 	private TimelogDataSource datasource;
@@ -128,5 +130,25 @@ public class ProjectListActivity extends ListActivity {
 	    	}
 	    	
 	    }
+	//Dubbelt bakåtklick för att avsluta appen.
+    private boolean doubleBackToExitPressedOnce = false;
+    @Override
+    public void onBackPressed() {
+        if (doubleBackToExitPressedOnce) {
+            super.onBackPressed();
+            return;
+        }
+
+        this.doubleBackToExitPressedOnce = true;
+        Toast.makeText(this, "Tryck på tillbaka igen för att avsluta", Toast.LENGTH_SHORT).show();
+
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce=false;                       
+            }
+        }, 2000);
+    }
 	
 }

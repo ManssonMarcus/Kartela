@@ -33,12 +33,9 @@ package com.example.kartela;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import android.os.Bundle;
+import android.os.Handler;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.DatePickerDialog.OnDateSetListener;
@@ -49,15 +46,11 @@ import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.NumberPicker;
 import android.widget.Spinner;
-import android.widget.TabHost;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -70,31 +63,59 @@ public class TimeReportActivity extends FragmentActivity implements OnDateSetLis
 	private EditText activeTimeID;
 	private boolean dateVerified = false;
 	private boolean timeVerified = false;
+	private Bundle extras; 
+	private EditText dateEditText, startEditText, endEditText, breakEditText, commentEditText;
+	private Spinner spinner;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_time_report);
 		addItemsOnProjectSpinner();
-			
-		//Set text on time/datepickers
-//		Calendar calendar = Calendar.getInstance();
-//		String year = calendar.get(Calendar.YEAR) + "";
-//		String month = calendar.get(Calendar.MONTH) + 1 + "";
-//		if(month.length() < 2 ) month = "0"+month;
-//		String day = calendar.get(Calendar.DAY_OF_MONTH) + "";
-//		String hour = calendar.get(Calendar.HOUR_OF_DAY) + "";
-//		if(hour.length() < 2 ) hour = "0" + hour;
-//		String minute = calendar.get(Calendar.MINUTE) + "";
-//		if(minute.length() < 2 ) minute = "0" + minute;
-//			
-//		String dateString = year + "-" + month + '-' + day;
-//		EditText dateText = (EditText) findViewById(R.id.date);
-//		dateText.setText(dateString);
     	   	
     	//initialize database as datasource		
         datasource = new TimelogDataSource(this);
         datasource.open();
+        
+        //if an existing entry should be updated, Intent contains the current values
+        extras = getIntent().getExtras();
+        if (extras != null)
+        {
+        	
+        	spinner = (Spinner) findViewById(R.id.projects_spinner);
+        	
+        	int project_name_index = 0;
+        	
+        	for (int i = 0; i < spinner.getCount(); i++) {
+        		if (spinner.getItemAtPosition(i).equals(extras.get("name"))) {
+        			project_name_index = i;
+        		}
+        	}        	
+        	
+        	// update selected item on spinner to project for the timelog being edited
+        	spinner.setSelection(project_name_index);
+        	
+        	// date and time has already been verified for the timelog being edited
+        	dateVerified = true;
+        	timeVerified = true;
+        	
+        	dateEditText = (EditText) findViewById(R.id.date);
+        	dateEditText.setText(extras.getString("date"));
+        	
+            startEditText = (EditText) findViewById(R.id.startTime);
+            startEditText.setText(extras.getString("start"));
+            
+            endEditText = (EditText) findViewById(R.id.endTime);
+            endEditText.setText(extras.getString("end"));
+            
+            breakEditText = (EditText) findViewById(R.id.breakTime);
+            breakEditText.setText(String.valueOf((extras.getInt("bt"))));
+            
+        	commentEditText = (EditText) findViewById(R.id.comment);
+        	commentEditText.setText(extras.getString("comment"));
+            
+        }
+        
 	}
 
 	@Override
@@ -124,7 +145,7 @@ public class TimeReportActivity extends FragmentActivity implements OnDateSetLis
 	}
 	
 	public void addItemsOnProjectSpinner() {
-    	Spinner spinner = (Spinner) findViewById(R.id.projects_spinner);
+    	spinner = (Spinner) findViewById(R.id.projects_spinner);
     	// Create an ArrayAdapter using the string array and a default spinner layout
     	ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
     	        R.array.projects_array, android.R.layout.simple_spinner_item);
@@ -196,61 +217,78 @@ public class TimeReportActivity extends FragmentActivity implements OnDateSetLis
 		
 	}
 	
-	
-	public void saveTimeReport(View view) {
-//		Intent intent = new Intent(this, DisplayTimeReportActivity.class);
-    	
-    	EditText date = (EditText) findViewById(R.id.date);
-    	String dateMessage = date.getText().toString();
-    	
-    	EditText startTime = (EditText) findViewById(R.id.startTime);
-    	String startTimeMessage = startTime.getText().toString();
-
-		ArrayList<String> timeReportItems = new ArrayList<String>();
-    	
+	public void updateTimeReport(View view) {
+		
 		Intent intent = new Intent(this, TabLayoutActivity.class);
-
-    	EditText endTime = (EditText) findViewById(R.id.endTime);
-    	String endTimeMessage = endTime.getText().toString();
-
-    	EditText breakTime = (EditText) findViewById(R.id.breakTime);
-    	String breakTimeMessage = breakTime.getText().toString();
-    	if(breakTimeMessage.length()<=0) breakTimeMessage = "0";
-    	
+		
+		long timelogId = extras.getLong("timelogId");
     	Spinner project = (Spinner) findViewById(R.id.projects_spinner);
     	String projectMessage = project.getSelectedItem().toString();
-    	
-    	EditText comment =  (EditText) findViewById(R.id.comment);
-    	String commentMessage = comment.getText().toString();
-    	
-    	//Lägg till i databasen om allt är ok annars skriv ut felmeddelande
-    	if(timeVerified && dateVerified){
-        	Timelog timelog = datasource.createTimelog(projectMessage, commentMessage, startTimeMessage, endTimeMessage, Integer.parseInt(breakTimeMessage), dateMessage);   	
-        	startActivity(intent);	
-    	}
-    	else{
-    		CharSequence text = "";
-    		if(!timeVerified && !dateVerified) {
-        		text = "Du måste ange datum, starttid och sluttid";
-    		}
-    		else if(!timeVerified){
-    			text = "Du måste ange korrekt starttid och sluttid";
-    		}
-    		else{
-    			text = "Du måste ange datum";
-    		}
-    		
-    		Context context = getApplicationContext();
-
-    		int duration = Toast.LENGTH_SHORT;
+				
+		int b = datasource.updateTimelog(datasource.getSpecificTimelog(timelogId), projectMessage, commentEditText.getText().toString(), startEditText.getText().toString(), endEditText.getText().toString(), Integer.parseInt(breakEditText.getText().toString()), true, dateEditText.getText().toString());
+				
+		startActivity(intent);
 		
-    		Toast.makeText(context, text, duration).show();
-    	}
-    	
+	}
+	
+	
+	public void saveTimeReport(View view) {
+		
+		if (extras != null) {
+			updateTimeReport(view);
+        }
+		else {
+			EditText date = (EditText) findViewById(R.id.date);
+	    	String dateMessage = date.getText().toString();
+	    	
+	    	EditText startTime = (EditText) findViewById(R.id.startTime);
+	    	String startTimeMessage = startTime.getText().toString();
 
-    	//need to reload the tabview after adding information to the database.
-    	startActivity(intent);
-    	//TabLayoutActivity.tabHost.setCurrentTab(0);
+			ArrayList<String> timeReportItems = new ArrayList<String>();
+	    	
+			Intent intent = new Intent(this, TabLayoutActivity.class);
+
+	    	EditText endTime = (EditText) findViewById(R.id.endTime);
+	    	String endTimeMessage = endTime.getText().toString();
+
+	    	EditText breakTime = (EditText) findViewById(R.id.breakTime);
+	    	String breakTimeMessage = breakTime.getText().toString();
+	    	if(breakTimeMessage.length()<=0) breakTimeMessage = "0";
+	    	
+	    	Spinner project = (Spinner) findViewById(R.id.projects_spinner);
+	    	String projectMessage = project.getSelectedItem().toString();
+	    	
+	    	EditText comment =  (EditText) findViewById(R.id.comment);
+	    	String commentMessage = comment.getText().toString();
+	    	
+	    	//Lägg till i databasen om allt är ok annars skriv ut felmeddelande
+	    	if(timeVerified && dateVerified){
+	        	Timelog timelog = datasource.createTimelog(projectMessage, commentMessage, startTimeMessage, endTimeMessage, Integer.parseInt(breakTimeMessage), dateMessage);   	
+	        	startActivity(intent);	
+	    	}
+	    	else{
+	    		CharSequence text = "";
+	    		if(!timeVerified && !dateVerified) {
+	        		text = "Du måste ange datum, starttid och sluttid";
+	    		}
+	    		else if(!timeVerified){
+	    			text = "Du måste ange korrekt starttid och sluttid";
+	    		}
+	    		else{
+	    			text = "Du måste ange datum";
+	    		}
+	    		
+	    		Context context = getApplicationContext();
+
+	    		int duration = Toast.LENGTH_SHORT;
+			
+	    		Toast.makeText(context, text, duration).show();
+	    	}	    	
+
+	    	//need to reload the tabview after adding information to the database.
+	    	startActivity(intent);
+	    	//TabLayoutActivity.tabHost.setCurrentTab(0);
+		}		
     }
 	
 	public void showTimeReports(View view){
@@ -306,14 +344,26 @@ public class TimeReportActivity extends FragmentActivity implements OnDateSetLis
         }
 		return result;
 	}
-	
-//	public void showSettings(View view){
-//		Intent intent = new Intent(this, DisplaySettingsActivity.class);
-//		startActivity(intent);
-//	}
-//	
-//	public void showProjectList(View view){
-//		Intent intent = new Intent(this, ProjectListActivity.class);
-//		startActivity(intent);
-//	}
+
+	//Dubbelt bakåtklick för att avsluta appen.
+    private boolean doubleBackToExitPressedOnce = false;
+    @Override
+    public void onBackPressed() {
+        if (doubleBackToExitPressedOnce) {
+            super.onBackPressed();
+            return;
+        }
+
+        this.doubleBackToExitPressedOnce = true;
+        Toast.makeText(this, "Tryck på tillbaka igen för att avsluta", Toast.LENGTH_SHORT).show();
+
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce=false;                       
+            }
+        }, 2000);
+    }
 }
+

@@ -32,30 +32,26 @@ package com.example.kartela;
 
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
-
+import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.ListActivity;
 import android.content.res.Resources;
-import android.graphics.Point;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.format.DateFormat;
 import android.text.format.Time;
 import android.util.Log;
-import android.view.Display;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.NumberPicker;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class StartscreenActivity extends Activity implements OnClickListener{
 	private TimelogDataSource datasource;
@@ -64,7 +60,7 @@ public class StartscreenActivity extends Activity implements OnClickListener{
 
 	private TextView tvCurrentWeek, tvTimespan;
 	private Button btnDecreaseWeek, btnIncreaseWeek;
-	private int currentWeeknumber;
+	private int currentWeeknumber, currentYear;
 	private double total_sum = 0;
 
 	private NumberPicker weekPicker;
@@ -72,7 +68,6 @@ public class StartscreenActivity extends Activity implements OnClickListener{
 	private ArrayList<String> weekdaysArray;
 	
 	protected void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_startscreen);
 	
@@ -87,7 +82,8 @@ public class StartscreenActivity extends Activity implements OnClickListener{
         datasource.open();
 		
         time.setToNow();
-        
+        currentYear = time.year;
+        Log.d("test", Integer.toString(currentYear));
         currentWeeknumber = time.getWeekNumber();
 
         Resources res = getResources();
@@ -102,7 +98,7 @@ public class StartscreenActivity extends Activity implements OnClickListener{
         
         ListView weekdayList = (ListView)findViewById(R.id.listViewWeekdays);
         weekdaysArray = new ArrayList<String>();
-        getCurrentWeekDays(currentWeeknumber);
+        getCurrentWeekDays(currentWeeknumber, currentYear);
         
 //        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, weekdaysArray);
 //        weekdayList.setAdapter(arrayAdapter);
@@ -124,35 +120,56 @@ public class StartscreenActivity extends Activity implements OnClickListener{
 		Calendar c = Calendar.getInstance();
 
 		c.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);	
-		weekdaysArray.add("måndag " + c.get(Calendar.YEAR)  + "-" + c.get(Calendar.MONTH) + "-" +c.get(Calendar.DATE) );
+		weekdaysArray.add("måndag" + c.get(Calendar.YEAR)  + "-" + c.get(Calendar.MONTH) + "-" +c.get(Calendar.DAY_OF_MONTH) + "tjena" + c.get(Calendar.DAY_OF_WEEK));
 		c.set(Calendar.DAY_OF_WEEK, Calendar.TUESDAY);	
-		weekdaysArray.add("tisdag " + c.get(Calendar.YEAR)  + "-" + c.get(Calendar.MONTH) + "-" +c.get(Calendar.DATE));
+		weekdaysArray.add("tisdag " + c.get(Calendar.YEAR)  + "-" + c.get(Calendar.MONTH) + "-" +c.get(Calendar.DAY_OF_MONTH));
 		c.set(Calendar.DAY_OF_WEEK, Calendar.WEDNESDAY);	
-		weekdaysArray.add("onsdag " + c.get(Calendar.YEAR)  + "-" + c.get(Calendar.MONTH) + "-" +c.get(Calendar.DATE));
+		weekdaysArray.add("onsdag " + c.get(Calendar.YEAR)  + "-" + c.get(Calendar.MONTH) + "-" +c.get(Calendar.DAY_OF_MONTH));
 		c.set(Calendar.DAY_OF_WEEK, Calendar.THURSDAY);	
-		weekdaysArray.add("torsdag " + c.get(Calendar.YEAR)  + "-" + c.get(Calendar.MONTH) + "-" +c.get(Calendar.DATE));
+		weekdaysArray.add("torsdag " + c.get(Calendar.YEAR)  + "-" + c.get(Calendar.MONTH) + "-" +c.get(Calendar.DAY_OF_MONTH));
 		c.set(Calendar.DAY_OF_WEEK, Calendar.FRIDAY);	
-		weekdaysArray.add("fredag " + c.get(Calendar.YEAR)  + "-" + c.get(Calendar.MONTH) + "-" +c.get(Calendar.DATE));
+		weekdaysArray.add("fredag " + c.get(Calendar.YEAR)  + "-" + c.get(Calendar.MONTH) + "-" +c.get(Calendar.DAY_OF_MONTH));
 	}
 	
-	void getCurrentWeekDays(int v) {
+	@SuppressLint("SimpleDateFormat") void getCurrentWeekDays(int v, int y) {
 		
 		weekdaysArray.clear();
 		
 		Calendar c = Calendar.getInstance();
+		
+		String Days[] = {"Måndag", "Tisdag", "Onsdag", "Torsdag", "Fredag", "Lördag", "Söndag"};
+		
 		c.set(Calendar.WEEK_OF_YEAR, v);
-		c.add(Calendar.MONTH,1);
-		c.add(Calendar.DATE,-1);
-					
-		weekdaysArray.add("måndag " + c.get(Calendar.YEAR)  + "-" + c.get(Calendar.MONTH) + "-" +c.get(Calendar.DATE) );
+		c.set(Calendar.YEAR, y);
+		c.add(Calendar.DAY_OF_WEEK,-1);
+		
+		SimpleDateFormat format1 = new SimpleDateFormat("MM-dd");
+		Date monday = c.getTime();
+        String mondayInString = format1.format(monday);
+        Log.d("kartela", "start " + mondayInString);
+		
+		
+		weekdaysArray.add("Måndag " + c.get(Calendar.YEAR)  + "-" + mondayInString);
+		
 		c.add(Calendar.DATE, 1);
-		weekdaysArray.add("tisdag " + c.get(Calendar.YEAR)  + "-" + c.get(Calendar.MONTH) + "-" +c.get(Calendar.DATE));
-		c.add(Calendar.DATE, 1);				
-		weekdaysArray.add("onsdag " + c.get(Calendar.YEAR)  + "-" + c.get(Calendar.MONTH) + "-" +c.get(Calendar.DATE));
+		Date tuesday = c.getTime();
+        String tuesdayInString = format1.format(tuesday);
+		weekdaysArray.add("Tisdag " + c.get(Calendar.YEAR)  + "-" + tuesdayInString);
+		
 		c.add(Calendar.DATE, 1);
-		weekdaysArray.add("torsdag " + c.get(Calendar.YEAR)  + "-" + c.get(Calendar.MONTH) + "-" +c.get(Calendar.DATE));
-		c.add(Calendar.DATE, 1);	
-		weekdaysArray.add("fredag " + c.get(Calendar.YEAR)  + "-" + c.get(Calendar.MONTH) + "-" +c.get(Calendar.DATE));
+		Date wednesday = c.getTime();
+        String wednesdayInString = format1.format(wednesday);
+		weekdaysArray.add("Onsdag " + c.get(Calendar.YEAR)  + "-" + wednesdayInString);
+		
+		c.add(Calendar.DATE, 1);
+		Date thursday = c.getTime();
+        String thursdayInString = format1.format(thursday);
+		weekdaysArray.add("Torsdag " + c.get(Calendar.YEAR)  + "-" + thursdayInString);
+		
+		c.add(Calendar.DATE, 1);
+		Date friday = c.getTime();
+        String fridayInString = format1.format(friday);
+		weekdaysArray.add("Fredag " + c.get(Calendar.YEAR)  + "-" + fridayInString);
 		
 		ListView weekdayList = (ListView)findViewById(R.id.listViewWeekdays);
 		ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, weekdaysArray);
@@ -165,6 +182,7 @@ public class StartscreenActivity extends Activity implements OnClickListener{
 	        case R.id.minus_button:
 	        	if(currentWeeknumber <= 1){
 	        		currentWeeknumber = 52;
+	        		currentYear --;
 	        	}
 	        	else{
 	        		currentWeeknumber--;
@@ -172,27 +190,26 @@ public class StartscreenActivity extends Activity implements OnClickListener{
 	        	tvTimespan.setText(updateTimeSpan(currentWeeknumber));
 	        	values = datasource.getTimeInterval(currentWeeknumber);
 	        	tvCurrentWeek.setText(Integer.toString(currentWeeknumber));
-	        	getCurrentWeekDays(currentWeeknumber);
+	        	getCurrentWeekDays(currentWeeknumber, currentYear);
 	
 	          break;
 	        case R.id.plus_button:
 	        	if(currentWeeknumber >= 52){
 	        		currentWeeknumber = 1;
+	        		currentYear++;
 	        	}
 	        	else{
-	        		currentWeeknumber++;
+	        		currentWeeknumber++;        		
 	        	}
 	        	tvTimespan.setText(updateTimeSpan(currentWeeknumber));
 	        	values = datasource.getTimeInterval(currentWeeknumber);
 	        	tvCurrentWeek.setText(Integer.toString(currentWeeknumber));
-	        	getCurrentWeekDays(currentWeeknumber);
-	        	
+	        	getCurrentWeekDays(currentWeeknumber, currentYear);
 	          break;
-        }
-
-        ListView weekdayList = (ListView)findViewById(R.id.listViewWeekdays);
-        StartscreenListAdapter adapter = new StartscreenListAdapter(this, values, weekdaysArray, total_sum, projects, datasource);
-        weekdayList.setAdapter(adapter);
+	      	}
+			ListView weekdayList = (ListView)findViewById(R.id.listViewWeekdays);
+			StartscreenListAdapter adapter = new StartscreenListAdapter(this, values, weekdaysArray, total_sum, projects, datasource);
+			weekdayList.setAdapter(adapter);
 	}	
 	
 	private String updateTimeSpan(int v){
@@ -204,12 +221,10 @@ public class StartscreenActivity extends Activity implements OnClickListener{
         SimpleDateFormat formatter = new SimpleDateFormat("dd MMM");
         Date startDate = calendar.getTime();
         String startDateInStr = formatter.format(startDate);
-        Log.d("kartela", "start " + startDateInStr);
 
         calendar.add(Calendar.DATE, 6);
         Date enddate = calendar.getTime();
         String endDaString = formatter.format(enddate);
-        Log.d("kartela", "end " + endDaString);
 		
 		return "Vecka " + v + " (" + startDateInStr + " - " + endDaString + ")";
 	}
@@ -225,4 +240,26 @@ public class StartscreenActivity extends Activity implements OnClickListener{
       datasource.close();
       super.onPause();
     }
+   
+    //Dubbelt bakåtklick för att avsluta appen.
+    private boolean doubleBackToExitPressedOnce = false;
+    @Override
+    public void onBackPressed() {
+        if (doubleBackToExitPressedOnce) {
+            super.onBackPressed();
+            return;
+        }
+
+        this.doubleBackToExitPressedOnce = true;
+        Toast.makeText(this, "Tryck på tillbaka igen för att avsluta", Toast.LENGTH_SHORT).show();
+
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce=false;                       
+            }
+        }, 2000);
+    }
+    
 }

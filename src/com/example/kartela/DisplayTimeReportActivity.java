@@ -41,10 +41,13 @@ import android.app.ListActivity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.support.v4.app.NavUtils;
 import android.util.Log;
 import android.view.MenuItem;
@@ -53,6 +56,7 @@ import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 import au.com.bytecode.opencsv.CSVWriter;
 
 
@@ -68,10 +72,11 @@ public class DisplayTimeReportActivity extends ListActivity {
 		
         datasource = new TimelogDataSource(this);
         datasource.open();
-        
-        values = datasource.getAllTimelogs();
-        
+
+        values = datasource.getAllTimelogsByDate();
+
         ListAdapter adapter = new ListAdapter(this, values);
+
         setListAdapter(adapter);
         
         Button btn = (Button) findViewById(R.id.send_report);
@@ -86,7 +91,7 @@ public class DisplayTimeReportActivity extends ListActivity {
 					AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(DisplayTimeReportActivity.this);
 					
 					alertDialogBuilder.setTitle("OBS!");
-					alertDialogBuilder.setMessage("Du kan inte skicka in din rapport utan internet. Var vŠnligen fšrsšk igen nŠr du Šr uppkopplat till internet.");
+					alertDialogBuilder.setMessage("Du kan inte skicka in din rapport utan internet. Var vänligen försök igen när du är uppkopplat till internet.");
 					
 					alertDialogBuilder.setNegativeButton("Ok", new DialogInterface.OnClickListener() {
 						
@@ -109,13 +114,12 @@ public class DisplayTimeReportActivity extends ListActivity {
 		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(DisplayTimeReportActivity.this);
 		
 		alertDialogBuilder.setTitle("Vill du skicka in?");
-		alertDialogBuilder.setMessage("Alla tider kommer lÃ¥sas och det finns ingen mÃ¶jlighet att Ã¤ndra tider i efterhand.");
+		alertDialogBuilder.setMessage("Alla tider kommer låsas och det finns ingen möjlighet att ändra tider i efterhand.");
 		
 		alertDialogBuilder.setPositiveButton("Skicka", new DialogInterface.OnClickListener() {
 			
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				// TODO Auto-generated method stub
 				sendTimeReportMail(view);
 			}
 		});
@@ -135,25 +139,33 @@ public class DisplayTimeReportActivity extends ListActivity {
 	
 	public void openEditAlert(final ListView l, final View view, final int position, long id) {
 		
-		String name = values.get(position).getName();
-		String start = values.get(position).getStartTime();
-		String end = values.get(position).getEndTime();
-		int bt = values.get(position).getBreakTime();
-		String comment = values.get(position).getComment();
+		final String name = values.get(position).getName();
+		final String date = values.get(position).getDate();
+		final String start = values.get(position).getStartTime();
+		final String end = values.get(position).getEndTime();
+		final int bt = values.get(position).getBreakTime();
+		final String comment = values.get(position).getComment();
 
 		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(DisplayTimeReportActivity.this);
 		
 		alertDialogBuilder.setTitle(name);
-		alertDialogBuilder.setMessage("Start tid: " + start + "\n" + "Slut tid: " + end + "\n" + "Rast: "  + bt + "\n" + "Kommentar: " + comment);
+		alertDialogBuilder.setMessage("Datum: " + date + "\n" + "Start-tid: " + start + "\n" + "Slut-tid: " + end + "\n" + "Rast: "  + bt + "\n" + "Kommentar: " + comment);
 		
-		alertDialogBuilder.setPositiveButton("Ã¤ndra", new DialogInterface.OnClickListener() {
+		alertDialogBuilder.setPositiveButton("Ändra", new DialogInterface.OnClickListener() {
 			
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				// TODO Auto-generated method stub
+				
 				Context c = getApplicationContext();
 				Intent intent = new Intent(c, TimeReportActivity.class);
-				intent.putExtra("hej", values.get(position).getId());
+				intent.putExtra("name", name);
+				intent.putExtra("date", date);
+				intent.putExtra("start", start);
+				intent.putExtra("end", end);
+				intent.putExtra("bt", bt);
+				intent.putExtra("comment", comment);
+				intent.putExtra("timelogId", values.get(position).getId());
+				
 				startActivity(intent);
 				
 			}
@@ -267,11 +279,16 @@ public class DisplayTimeReportActivity extends ListActivity {
 	    	csvWriter.writeAll(data);
 	    	csvWriter.close();
 	    	
+	    	SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+	    	String mail = sharedPreferences.getString(SettingsActivity.KEY_PREF_MAIL,"");
+	    	
+	    	Log.d("test filter",mail);
+	    	
 	    	// Send email with csv file as attachment
 	    	final Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
 			emailIntent.setType("plain/text");
 			emailIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse("file://" + csvLocation));
-			emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{"kartela.agilen@gmail.com"});
+			emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{mail});
 			emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Message from Kartela");
 			startActivity(Intent.createChooser(emailIntent, "Send email..."));
 			
@@ -297,5 +314,26 @@ public class DisplayTimeReportActivity extends ListActivity {
         }
         return haveConnectedWifi || haveConnectedMobile;
     }
+  //Dubbelt bakåtklick för att avsluta appen.
+    private boolean doubleBackToExitPressedOnce = false;
+    @Override
+    public void onBackPressed() {
+        if (doubleBackToExitPressedOnce) {
+            super.onBackPressed();
+            return;
+        }
+
+        this.doubleBackToExitPressedOnce = true;
+        Toast.makeText(this, "Tryck på tillbaka igen för att avsluta", Toast.LENGTH_SHORT).show();
+
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce=false;                       
+            }
+        }, 2000);
+    }
+    
 
 }

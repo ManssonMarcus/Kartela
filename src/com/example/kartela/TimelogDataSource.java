@@ -93,7 +93,7 @@ public class TimelogDataSource {
 	    
 	    return newTimelog;
 	}
-	
+		
 	//delete a timelog 
 	public void deleteTimelog(Timelog timelog) {
 		long id = timelog.getId();
@@ -148,6 +148,27 @@ public class TimelogDataSource {
 		return sum;
 	}
 	
+	public Timelog getSpecificTimelog(long timelogId) {
+    	
+    	Timelog timelog = new Timelog();
+
+	    Cursor cursor = database.query(MySQLiteHelper.TABLE_TIMELOGS, null, null, null, null, null, null);
+	    cursor.moveToFirst();
+	    
+	    while (!cursor.isAfterLast()) {
+	        timelog = cursorToTimelog(cursor);
+	        if(timelog.getId() == timelogId) {
+	        	return timelog;
+	        }
+	        cursor.moveToNext();
+	    }
+	    
+	    // make sure to close the cursor
+	    cursor.close();
+	    
+	    return timelog;
+    }
+	
 	//Returns a list of all timelogs in database
     public List<Timelog> getAllTimelogs() {
     	List<Timelog> allTimelogs = new ArrayList<Timelog>();
@@ -166,6 +187,24 @@ public class TimelogDataSource {
 	    return allTimelogs;
     }
 
+	//Returns a list of all timelogs in database
+    public List<Timelog> getAllTimelogsByDate() {
+    	List<Timelog> allTimelogs = new ArrayList<Timelog>();
+
+	    Cursor cursor = database.query(MySQLiteHelper.TABLE_TIMELOGS, null, null, null, null, null, MySQLiteHelper.COLUMN_DATE);
+
+	    cursor.moveToFirst();
+	    while (!cursor.isAfterLast()) {
+	        Timelog timelog = cursorToTimelog(cursor);
+	        allTimelogs.add(timelog);
+	    	cursor.moveToNext();
+	    }
+	    // make sure to close the cursor
+	    cursor.close();
+	    
+	    return allTimelogs;
+    }
+    
     //Returns timelogs by weeknumber
     @SuppressLint("SimpleDateFormat")
 	public List<Timelog> getTimeInterval(int weeknumber){
@@ -186,7 +225,7 @@ public class TimelogDataSource {
     	Calendar calendar = Calendar.getInstance();
     	 	
     	//calendar.set(Calendar.WEEK_OF_YEAR, weeknumber);
-    	String pattern = "yyyy-MM-d";
+    	String pattern = "yyyy-MM-dd";
     	for(int i = 0; i < allTimelogs.size();i++){
     		//Log.d("kartela", allTimelogs.get(i).getDate());
     		
