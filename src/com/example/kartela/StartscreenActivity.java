@@ -42,7 +42,6 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.format.DateFormat;
-
 import android.text.format.Time;
 import android.util.Log;
 import android.view.View;
@@ -180,34 +179,37 @@ public class StartscreenActivity extends Activity implements OnClickListener{
 	@Override
 	public void onClick(View v) {        
         switch(v.getId()) {
-        case R.id.minus_button:
-        	if(currentWeeknumber <= 1){
-        		currentWeeknumber = 52;
-        		currentYear --;
-        	}
-        	else{
-        		currentWeeknumber--;
-        	}
-        	tvTimespan.setText(updateTimeSpan(currentWeeknumber));
-        	values = datasource.getTimeInterval(currentWeeknumber);
-        	tvCurrentWeek.setText(Integer.toString(currentWeeknumber));
-        	getCurrentWeekDays(currentWeeknumber, currentYear);
-
-          break;
-        case R.id.plus_button:
-        	if(currentWeeknumber >= 52){
-        		currentWeeknumber = 1;
-        		currentYear++;
-        	}
-        	else{
-        		currentWeeknumber++;        		
-        	}
-        	tvTimespan.setText(updateTimeSpan(currentWeeknumber));
-        	values = datasource.getTimeInterval(currentWeeknumber);
-        	tvCurrentWeek.setText(Integer.toString(currentWeeknumber));
-        	getCurrentWeekDays(currentWeeknumber, currentYear);
-          break;
-      }
+	        case R.id.minus_button:
+	        	if(currentWeeknumber <= 1){
+	        		currentWeeknumber = 52;
+	        		currentYear --;
+	        	}
+	        	else{
+	        		currentWeeknumber--;
+	        	}
+	        	tvTimespan.setText(updateTimeSpan(currentWeeknumber));
+	        	values = datasource.getTimeInterval(currentWeeknumber);
+	        	tvCurrentWeek.setText(Integer.toString(currentWeeknumber));
+	        	getCurrentWeekDays(currentWeeknumber, currentYear);
+	
+	          break;
+	        case R.id.plus_button:
+	        	if(currentWeeknumber >= 52){
+	        		currentWeeknumber = 1;
+	        		currentYear++;
+	        	}
+	        	else{
+	        		currentWeeknumber++;        		
+	        	}
+	        	tvTimespan.setText(updateTimeSpan(currentWeeknumber));
+	        	values = datasource.getTimeInterval(currentWeeknumber);
+	        	tvCurrentWeek.setText(Integer.toString(currentWeeknumber));
+	        	getCurrentWeekDays(currentWeeknumber, currentYear);
+	          break;
+	      	}
+			ListView weekdayList = (ListView)findViewById(R.id.listViewWeekdays);
+			StartscreenListAdapter adapter = new StartscreenListAdapter(this, values, weekdaysArray, total_sum, projects, datasource);
+			weekdayList.setAdapter(adapter);
 	}	
 	
 	private String updateTimeSpan(int v){
@@ -219,12 +221,10 @@ public class StartscreenActivity extends Activity implements OnClickListener{
         SimpleDateFormat formatter = new SimpleDateFormat("dd MMM");
         Date startDate = calendar.getTime();
         String startDateInStr = formatter.format(startDate);
-//        Log.d("kartela", "start " + startDateInStr);
 
         calendar.add(Calendar.DATE, 6);
         Date enddate = calendar.getTime();
         String endDaString = formatter.format(enddate);
-//        Log.d("kartela", "end " + endDaString);
 		
 		return "Vecka " + v + " (" + startDateInStr + " - " + endDaString + ")";
 	}
