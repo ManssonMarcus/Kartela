@@ -72,10 +72,11 @@ public class DisplayTimeReportActivity extends ListActivity {
 		
         datasource = new TimelogDataSource(this);
         datasource.open();
-        
+
         values = datasource.getAllTimelogsByDate();
 
         ListAdapter adapter = new ListAdapter(this, values);
+
         setListAdapter(adapter);
         
         Button btn = (Button) findViewById(R.id.send_report);

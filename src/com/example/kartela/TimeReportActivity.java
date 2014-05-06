@@ -33,10 +33,7 @@ package com.example.kartela;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -50,15 +47,11 @@ import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.NumberPicker;
 import android.widget.Spinner;
-import android.widget.TabHost;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -297,7 +290,6 @@ public class TimeReportActivity extends FragmentActivity implements OnDateSetLis
 	    	startActivity(intent);
 	    	//TabLayoutActivity.tabHost.setCurrentTab(0);
 		}		
-    	
     }
 	
 	public void showTimeReports(View view){
