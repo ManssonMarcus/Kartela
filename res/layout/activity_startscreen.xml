@@ -68,7 +68,7 @@
     <ListView
      android:id="@+id/listViewWeekdays"
      android:layout_width="fill_parent"
-     android:layout_height="wrap_content"
+     android:layout_height="fill_parent"
      android:background="#FFF"
      android:text="@+string/hello"
      android:layout_marginTop="10dp" />
