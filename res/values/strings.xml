@@ -13,6 +13,7 @@
     <string name="input_comment">Kommentar</string>
     <string name="send_button">Spara tid</string>
     <string name="send_mail_button">Skicka rapport</string>
+    <string name="sum_of_hours">50 h</string>
     <string name="delete_button">Ta bort senaste inlagda</string>
     <string name="title_time_report_activity">Tidsrapport</string>
     <string name="title_display_time_report_activity">Min Tidsrapport</string>
@@ -41,8 +42,8 @@
 
     <string name="title_project_list_activity">Projektlista</string>
     <string name="project_list_button">Visa mina projekt</string>
-    <string name="minus_button">-</string>
-    <string name="plus_button">+</string>
+    <string name="minus_button">&lt;</string>
+    <string name="plus_button">&gt;</string>
     
     <string name="statistics_period">Alla rapporterade tider</string>
 

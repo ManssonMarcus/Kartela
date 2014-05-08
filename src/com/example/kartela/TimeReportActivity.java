@@ -219,14 +219,14 @@ public class TimeReportActivity extends FragmentActivity implements OnDateSetLis
 	
 	public void updateTimeReport(View view) {
 		
-		Intent intent = new Intent(this, TabLayoutActivity.class);
-		
 		long timelogId = extras.getLong("timelogId");
     	Spinner project = (Spinner) findViewById(R.id.projects_spinner);
     	String projectMessage = project.getSelectedItem().toString();
 				
 		int b = datasource.updateTimelog(datasource.getSpecificTimelog(timelogId), projectMessage, commentEditText.getText().toString(), startEditText.getText().toString(), endEditText.getText().toString(), Integer.parseInt(breakEditText.getText().toString()), true, dateEditText.getText().toString());
-				
+		
+		Intent intent = new Intent(this, TabLayoutActivity.class);
+		intent.putExtra("message","Activity started from updateTimeReport");
 		startActivity(intent);
 		
 	}
@@ -286,6 +286,7 @@ public class TimeReportActivity extends FragmentActivity implements OnDateSetLis
 	    	}	    	
 
 	    	//need to reload the tabview after adding information to the database.
+	    	intent.putExtra("message","Activity started from saveTimeReport");
 	    	startActivity(intent);
 	    	//TabLayoutActivity.tabHost.setCurrentTab(0);
 		}		

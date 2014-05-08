@@ -35,7 +35,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
+import android.app.AlertDialog;
 import android.app.DialogFragment;
+import android.app.AlertDialog.Builder;
 import android.app.TimePickerDialog.OnTimeSetListener;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -66,7 +68,28 @@ public class SettingsActivity extends PreferenceFragment implements OnSharedPref
 		 super.onCreate(savedInstanceState);
  
 		 // Load the preferences from an XML resource
-        addPreferencesFromResource(R.xml.preferences);        
+        addPreferencesFromResource(R.xml.preferences); 
+        
+        findPreference(KEY_PREF_MAIL).setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+        	
+        	public boolean onPreferenceChange(Preference preference, Object newValue) {
+        		Boolean rtnval = true;
+        		
+        		String EMAIL_REGEX = "^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$";
+        		
+        		if (!((String) newValue).matches(EMAIL_REGEX)) {
+        			final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        			builder.setTitle("Fel format");
+        			builder.setMessage("Den angivna mailadressen är inkorrekt.");
+        			builder.setPositiveButton("OK", null);
+        			builder.show();
+        			rtnval = false;
+        		}
+        		return rtnval;
+        	}
+        	
+        });
+        
 	 }
 	
 	
