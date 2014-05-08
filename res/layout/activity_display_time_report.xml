@@ -21,7 +21,7 @@
 	     android:layout_width="fill_parent"
 	     android:layout_height="30dp"
 	     android:gravity="center"
-	     android:text="Alla rapporterade tider"
+	     android:text="@string/statistics_period"
 	     android:textSize="18sp"
 	     android:fontFamily="sans-serif-light"
 	     android:background="@color/dark_grey"
@@ -43,7 +43,7 @@
 	    <TextView
 			android:layout_width="fill_parent"
 	     	android:layout_height="30dp"
-	     	android:text=" Totalt:"
+	     	android:text="@string/total_time"
 	     	android:textSize="18sp"
 	     	android:fontFamily="sans-serif-light"
 	     	android:background="#FFFFFF"
@@ -62,48 +62,7 @@
 		    android:textColor="#FFFFFF"
 		    />
 		
-		</RelativeLayout>
-	
-	<RelativeLayout 
-    	android:layout_width="fill_parent"
-    	android:layout_height="wrap_content"
-   		android:orientation="horizontal" >
-    <TextView
-		android:layout_width="fill_parent"
-     	android:layout_height="30dp"
-     	android:text=" Totalt:"
-     	android:textSize="18sp"
-     	android:fontFamily="sans-serif-light"
-     	android:background="#FFFFFF"
-     	android:layout_marginBottom="6dp"/>
-    <TextView
-        android:text="50h"
-	    android:layout_height="wrap_content"
-	    android:layout_width="110dp"
-	    android:textSize="20sp"
-	    android:fontFamily="sans-serif-light"
-	    android:layout_alignParentRight="true"
-	    android:gravity="right"
-	    android:paddingRight="14dp"
-	    android:background="@color/dark_grey"
-	    android:textColor="#FFFFFF"
-	    />
-	
-	</RelativeLayout>
-
-    
-     
-    <Button    
-   		android:id="@+id/deleteall"
-   		android:background="@color/button_red"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:onClick="onClick"
-        android:fontFamily="sans-serif-light"
-        android:text="delete"
-        android:layout_gravity="center_horizontal|center" 
-       />
-    	
+		</RelativeLayout>    	
     	
         <Button
         android:id="@+id/send_report"

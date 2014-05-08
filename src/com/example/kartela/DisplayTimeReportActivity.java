@@ -213,17 +213,17 @@ public class DisplayTimeReportActivity extends ListActivity {
 		  Log.d("klickade pa ", view.getId() + "");
 	      
 	      
-	      switch (view.getId()) {
-
-			case R.id.deleteall:   	  
-			    if (getListAdapter().getCount() > 0) {
-			      timelog = (Timelog) getListAdapter().getItem(0);
-			      datasource.deleteTimelog(timelog);
-			      adapter.remove(timelog);
-			    }
-			break;
-
-	      }
+//	      switch (view.getId()) {
+//
+//			case R.id.deleteall:   	  
+//			    if (getListAdapter().getCount() > 0) {
+//			      timelog = (Timelog) getListAdapter().getItem(0);
+//			      datasource.deleteTimelog(timelog);
+//			      adapter.remove(timelog);
+//			    }
+//			break;
+//
+//	      }
 	      adapter.notifyDataSetChanged();
 	    }
 	

@@ -46,6 +46,7 @@
     <string name="plus_button">&gt;</string>
     
     <string name="statistics_period">Alla rapporterade tider</string>
+    <string name="total_time"> Totalt: </string>
 
     <string name="mon_button">Måndag</string>
     <string name="tue_button">Tisdag</string>

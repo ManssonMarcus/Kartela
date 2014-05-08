@@ -41,9 +41,7 @@ import android.app.Activity;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
-import android.text.format.DateFormat;
 import android.text.format.Time;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -105,12 +103,6 @@ public class StartscreenActivity extends Activity implements OnClickListener{
         values = datasource.getTimeInterval(currentWeeknumber);
         allTimelogs = datasource.getAllTimelogs();
         
-    	// get total worked time this week
-//    	for (int i = 0; i < values.size(); i++) {
-//    		total_sum = total_sum + values.get(i).getWorkedTimeInNumbers();
-//    	}
-    	
-        
         StartscreenListAdapter adapter = new StartscreenListAdapter(this, weekdaysArray, currentWeeknumber, currentYear, projects, datasource);
         weekdayList.setAdapter(adapter);
         
@@ -120,9 +112,6 @@ public class StartscreenActivity extends Activity implements OnClickListener{
     			//Hämta timeligsen för ett visst datum det datumet finns i Stringen "s";
     			String date = s;
     			allTimelogs = datasource.getTimelogsByDate(date);
-    			
-    			
-    			//Log.d("kartela", t.getDate() + "on " + myItemInt);
 			}
     	});
 	 }

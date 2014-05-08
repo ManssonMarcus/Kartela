@@ -30,17 +30,13 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package com.example.kartela;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import android.content.Context;
 import android.graphics.Point;
-import android.hardware.Camera.Size;
 import android.text.format.Time;
-import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -60,7 +56,6 @@ public class StartscreenListAdapter extends ArrayAdapter<String> {
   	private double total;
   	private final TimelogDataSource datasource;
   	private Time time = new Time();
-  	private int currentYear, currentWeeknumber;
 
 	private WindowManager wm;
 	private Display display;
@@ -76,8 +71,6 @@ public class StartscreenListAdapter extends ArrayAdapter<String> {
 	
 	private Calendar calendar;
 	private String date;
-	
-	private int k = 0;
 
 	public StartscreenListAdapter(Context context, ArrayList<String> weekdaysArray, int currentWeeknumber, int currentYear, List<String> projects, TimelogDataSource datasource) {
 	    super(context, R.layout.day_row_layout, weekdaysArray);
@@ -86,8 +79,6 @@ public class StartscreenListAdapter extends ArrayAdapter<String> {
 	    this.projects = projects;
 	    this.datasource = datasource;
 	    time.setToNow();
-	    this.currentYear = currentYear;
-        this.currentWeeknumber = currentWeeknumber;
         
         wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         display = wm.getDefaultDisplay();
@@ -101,9 +92,6 @@ public class StartscreenListAdapter extends ArrayAdapter<String> {
         calendar.set(Calendar.WEEK_OF_YEAR, currentWeeknumber);
         calendar.setFirstDayOfWeek(Calendar.MONDAY);
         calendar.set(Calendar.DAY_OF_WEEK, calendar.getFirstDayOfWeek());
-        
-        Log.d("logTime", "Week: " + weekdaysArray);
-    	
 	}
 	
 	@Override
@@ -118,11 +106,7 @@ public class StartscreenListAdapter extends ArrayAdapter<String> {
 
     	total = HOURS_IN_MS*WORK_TIME_PER_DAY;
 
-//		Log.d("logTime", "Date: " + date);
 	    updateProgressBar(convertView);
-//	    k++;
-//	    Log.d("logTime", "k = " + k);
-//	    Log.d("logTime", "position = " + position);
 	    
 	    return convertView;
 	}
@@ -134,8 +118,6 @@ public class StartscreenListAdapter extends ArrayAdapter<String> {
     	
 	    for (int i=0; i<projects.size(); i++) {
     		temp_sum[i] = datasource.getWorkTimeByNameDate(projects.get(i), date);
-
-//    		Log.d("logTime", projects.get(i) + ": " + temp_sum[i]);
     		
     		total_day += temp_sum[i];
 	    }
@@ -149,20 +131,6 @@ public class StartscreenListAdapter extends ArrayAdapter<String> {
 	    	
     		if (temp_sum[i] != 0) {
 	    		temp_ratio = (temp_sum[i]/total)*100;
-	    		
-//	    		Log.d("logTime", Double.toString(temp_ratio));
-	    		
-	    		// check ratio to round up or down
-//	    		temp_ratio = Math.round(temp_ratio);
-	    		
-//	    		if(temp_ratio - Math.floor(temp_ratio) < 0.5) {
-//	    			temp_ratio = Math.floor(temp_ratio);
-//	    		}
-//	    		else {
-//	    			temp_ratio = Math.ceil(temp_ratio);
-//	    		}
-//
-//	    		Log.d("logTime", Double.toString(temp_ratio));
 	    		
 	    		// update project textview
 		    	hours = (double)temp_sum[i]/HOURS_IN_MS;
