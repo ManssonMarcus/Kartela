@@ -39,12 +39,14 @@ import android.content.res.TypedArray;
 import android.preference.DialogPreference;
 import android.text.format.DateFormat;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.widget.TimePicker;
 
 public class TimePreference extends DialogPreference {
     private Calendar calendar;
     private TimePicker picker = null;
+    private int hour, minute;
 
     public TimePreference(Context ctxt) {
         this(ctxt, null);
@@ -83,6 +85,8 @@ public class TimePreference extends DialogPreference {
         if (positiveResult) {
             calendar.set(Calendar.HOUR_OF_DAY, picker.getCurrentHour());
             calendar.set(Calendar.MINUTE, picker.getCurrentMinute());
+            hour=picker.getCurrentHour();
+            minute=picker.getCurrentMinute();
 
             setSummary(getSummary());
             if (callChangeListener(calendar.getTimeInMillis())) {
@@ -123,4 +127,12 @@ public class TimePreference extends DialogPreference {
         }
         return DateFormat.getTimeFormat(getContext()).format(new Date(calendar.getTimeInMillis()));
     }
+    /*public int getHour() {
+    	Log.d("QuizLogTag", hour+"");
+    	return hour;
+    }
+    public int getMinute(){
+    	Log.d("QuizLogTag", minute+"");
+    	return minute;
+    }*/
 } 

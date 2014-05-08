@@ -33,12 +33,14 @@ package com.example.kartela;
 import java.util.List;
 
 import android.app.ListActivity;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.Display;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -150,5 +152,4 @@ public class ProjectListActivity extends ListActivity {
             }
         }, 2000);
     }
-	
 }

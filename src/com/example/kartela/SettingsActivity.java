@@ -62,6 +62,7 @@ public class SettingsActivity extends PreferenceFragment implements OnSharedPref
 
 	public static final String KEY_PREF_MAIL = "pref_mail";
 	public static final String KEY_PREF_REMINDER = "pref_sync";
+	public static final String PREF_TIME = "settings_time";
 	 
 	 @Override
 	 public void onCreate(Bundle savedInstanceState) {
@@ -106,6 +107,10 @@ public class SettingsActivity extends PreferenceFragment implements OnSharedPref
 	        
 	        if(getPreferenceScreen().getSharedPreferences().contains("pref_sync")){
 	        	updatePreference("pref_sync");
+	        }
+	        
+	        if(getPreferenceScreen().getSharedPreferences().contains("settings_time")){
+	        	updatePreference("settings_time");
 	        }
 	    }
 	 

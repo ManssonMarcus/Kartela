@@ -18,6 +18,18 @@
 	 <com.example.kartela.TimePreference 
 	     android:key="settings_time" 
 	     android:title="@string/pref_timeTitle"/>
+	 
+	 	<Preference
+		    android:title="Påminnelsenotifikation"
+		    android:summary="Ställ in datum och tid">
+
+		    <intent 
+		        android:action="android.intent.action.VIEW"
+		        android:targetPackage="com.example.kartela"
+		        android:targetClass="com.example.kartela.NotificationActivity"
+		    />
+
+		</Preference>
         
 	<PreferenceCategory android:title="@string/pref_send">
 	     <EditTextPreference
@@ -26,5 +38,5 @@
 		     android:title="Mejladress">
 		 </EditTextPreference>    
 	</PreferenceCategory>
-
+	
 </PreferenceScreen>
