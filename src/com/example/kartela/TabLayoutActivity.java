@@ -47,6 +47,17 @@ public class TabLayoutActivity extends TabActivity {
 	
 	protected void onStart(){
 		super.onStart();
+		
+		// special case for handling when TabLayoutActivity has been started from:
+		// 1. function updateTimeReport in TimeReportActivity.java
+		// 2. function saveTimeReport in TimeReportActivity.java
+		String s = getIntent().getStringExtra("message");
+		if(s!=null) {
+			if(s.equals("Activity started from updateTimeReport") || s.equals("Activity started from saveTimeReport")) {
+				tabHost.setCurrentTab(3);
+			}
+		}		
+		
 		tabHost.getTabWidget().getChildAt(tabHost.getCurrentTab()).setBackgroundColor(Color.parseColor("#FFFFFF"));
 	}
 	
