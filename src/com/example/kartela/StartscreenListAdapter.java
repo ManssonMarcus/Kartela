@@ -42,7 +42,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 public class StartscreenListAdapter extends ArrayAdapter<String> {
@@ -103,6 +105,7 @@ public class StartscreenListAdapter extends ArrayAdapter<String> {
 	    
 	    date = weekdaysArray.get(position);
 	    date = date.split("\\s+")[1];
+
 
     	total = HOURS_IN_MS*WORK_TIME_PER_DAY;
 

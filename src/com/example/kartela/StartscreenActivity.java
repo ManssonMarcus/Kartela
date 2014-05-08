@@ -36,8 +36,14 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
@@ -71,6 +77,8 @@ public class StartscreenActivity extends Activity implements OnClickListener{
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_startscreen);
+		
+		final Context context = this;
 	
 		//add listeners to buttons
         btnDecreaseWeek = (Button) findViewById(R.id.minus_button);   
@@ -101,29 +109,56 @@ public class StartscreenActivity extends Activity implements OnClickListener{
         values = datasource.getTimeInterval(currentWeeknumber);
         allTimelogs = datasource.getAllTimelogs();
         
-//<<<<<<< HEAD
     	// get total worked time this week
     	total_sum = datasource.getWorkTimeByWeek(currentWeeknumber);
     	
     	tvCurrentWeek = (TextView) findViewById(R.id.textViewCurrentWeek);  
     	tvCurrentWeek.setText(datasource.getTimeStringFromMilliSeconds(total_sum));
         
-        //StartscreenListAdapter adapter = new StartscreenListAdapter(this, values, weekdaysArray, total_sum, projects, datasource);
-        //weekdayList.setAdapter(adapter);    
-//=======
     	StartscreenListAdapter adapter = new StartscreenListAdapter(this, weekdaysArray, currentWeeknumber, currentYear, projects, datasource);
-        //StartscreenListAdapter adapter = new StartscreenListAdapter(this, weekdaysArray, currentWeeknumber, currentYear, projects, datasource);
         weekdayList.setAdapter(adapter);
-//>>>>>>> develop
         
     	weekdayList.setOnItemClickListener(new OnItemClickListener() {
     		public void onItemClick(AdapterView<?> myAdapter, View myView, int myItemInt, long mylng) {
-    			String s = (String) weekdayList.getItemAtPosition(myItemInt); 			
+    			String s = (String) weekdayList.getItemAtPosition(myItemInt); 		
+    			String date = s.split(" ")[1];
     			//Hämta timeligsen för ett visst datum det datumet finns i Stringen "s";
-    			String date = s;
     			allTimelogs = datasource.getTimelogsByDate(date);
-			}
-    	});
+    			
+    			if(allTimelogs.size() > 0){
+	    			StartscreenPopupAdapter adapter = new StartscreenPopupAdapter(context, allTimelogs);
+	    			
+	    			AlertDialog.Builder builder = new AlertDialog.Builder(context);
+	    			builder.setTitle(s);
+	    			builder.setAdapter(adapter, new DialogInterface.OnClickListener() {
+	    			    public void onClick(DialogInterface dialog, int item) {
+	    			    	Timelog t = allTimelogs.get(item);
+    			    	
+    						Context c = getApplicationContext();
+    						Intent intent = new Intent(c, TimeReportActivity.class);
+    						intent.putExtra("name", t.getName());
+    						intent.putExtra("date", t.getDate());
+    						intent.putExtra("start", t.getStartTime());
+    						intent.putExtra("end", t.getEndTime());
+    						intent.putExtra("bt", t.getBreakTime());
+    						intent.putExtra("comment", t.getComment());
+    						intent.putExtra("timelogId", t.getId());
+    						
+    						startActivity(intent); 	
+	    			    }
+	    			});
+	    			
+	    			builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+	                       public void onClick(DialogInterface dialog, int id) {
+	                           dialog.dismiss();
+	                       }
+	                   });
+	    			
+	    			builder.show();
+    			}
+
+			}                 
+    	});        
 	 }
 	
 	void getWeekDays() {
