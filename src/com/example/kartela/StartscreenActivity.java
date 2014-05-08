@@ -106,13 +106,13 @@ public class StartscreenActivity extends Activity implements OnClickListener{
         allTimelogs = datasource.getAllTimelogs();
         
     	// get total worked time this week
-    	for (int i = 0; i < values.size(); i++) {
-    		total_sum = total_sum + values.get(i).getWorkedTimeInNumbers();
-    	}
+//    	for (int i = 0; i < values.size(); i++) {
+//    		total_sum = total_sum + values.get(i).getWorkedTimeInNumbers();
+//    	}
     	
         
-        StartscreenListAdapter adapter = new StartscreenListAdapter(this, values, weekdaysArray, total_sum, projects, datasource);
-        weekdayList.setAdapter(adapter);    
+        StartscreenListAdapter adapter = new StartscreenListAdapter(this, weekdaysArray, currentWeeknumber, currentYear, projects, datasource);
+        weekdayList.setAdapter(adapter);
         
     	weekdayList.setOnItemClickListener(new OnItemClickListener() {
     		public void onItemClick(AdapterView<?> myAdapter, View myView, int myItemInt, long mylng) {
@@ -123,8 +123,8 @@ public class StartscreenActivity extends Activity implements OnClickListener{
     			
     			
     			//Log.d("kartela", t.getDate() + "on " + myItemInt);
-			}                 
-    	});        
+			}
+    	});
 	 }
 	
 	void getWeekDays() {
@@ -154,7 +154,8 @@ public class StartscreenActivity extends Activity implements OnClickListener{
 		c.clear();
 		c.set(Calendar.WEEK_OF_YEAR, v);
 		c.set(Calendar.YEAR, y);
-		c.add(Calendar.DAY_OF_WEEK, c.getFirstDayOfWeek());
+		c.setFirstDayOfWeek(Calendar.MONDAY);
+		c.set(Calendar.DAY_OF_WEEK, c.getFirstDayOfWeek());
 		
 		SimpleDateFormat format1 = new SimpleDateFormat("MM-dd");
 		Date monday = c.getTime();
@@ -219,7 +220,7 @@ public class StartscreenActivity extends Activity implements OnClickListener{
 	          break;
 	      	}
 			ListView weekdayList = (ListView)findViewById(R.id.listViewWeekdays);
-			StartscreenListAdapter adapter = new StartscreenListAdapter(this, values, weekdaysArray, total_sum, projects, datasource);
+			StartscreenListAdapter adapter = new StartscreenListAdapter(this, weekdaysArray, currentWeeknumber, currentYear, projects, datasource);
 			weekdayList.setAdapter(adapter);
 			
 
@@ -232,7 +233,8 @@ public class StartscreenActivity extends Activity implements OnClickListener{
         calendar.clear();
         calendar.set(Calendar.YEAR, y);
         calendar.set(Calendar.WEEK_OF_YEAR, v);
-        calendar.set(Calendar.DAY_OF_WEEK, calendar.getFirstDayOfWeek()+1);
+        calendar.setFirstDayOfWeek(Calendar.MONDAY);
+        calendar.set(Calendar.DAY_OF_WEEK, calendar.getFirstDayOfWeek());
 
         SimpleDateFormat formatter = new SimpleDateFormat("dd MMM");
         Date startDate = calendar.getTime();
