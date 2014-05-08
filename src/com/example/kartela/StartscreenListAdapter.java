@@ -49,6 +49,7 @@ import android.widget.TextView;
 public class StartscreenListAdapter extends ArrayAdapter<String> {
 	
 	private static final int HOURS_IN_MS = 3600000;
+	private static final int PADDING = 40;
 	private final Context context;
   	private final ArrayList<String> weekdaysArray;
   	private final List<String> projects;
@@ -56,6 +57,17 @@ public class StartscreenListAdapter extends ArrayAdapter<String> {
   	private final TimelogDataSource datasource;
   	private Time time = new Time();
   	private int currentWeeknumber;
+
+	private WindowManager wm;
+	private Display display;
+	private Point size;
+	private int multiple;
+	
+	// temp variables
+	private double temp_sum, temp_ratio, hours;
+	private TextView temp_view;
+	private String temp_name, str;
+	private int temp_id;
 
 	public StartscreenListAdapter(Context context, ArrayList<String> weekdaysArray, int currentWeeknumber, List<String> projects, TimelogDataSource datasource) {
 	    super(context, R.layout.day_row_layout, weekdaysArray);
@@ -65,6 +77,13 @@ public class StartscreenListAdapter extends ArrayAdapter<String> {
 	    this.datasource = datasource;
 	    time.setToNow();
         this.currentWeeknumber = currentWeeknumber;
+        
+        wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        display = wm.getDefaultDisplay();
+        size = new Point();
+    	display.getSize(size);
+    	multiple = size.x - PADDING;
+    	
 	}
 	
 	@Override
@@ -75,35 +94,18 @@ public class StartscreenListAdapter extends ArrayAdapter<String> {
 	    dayTitle.setText(weekdaysArray.get(position));
 
 	    updateProgressBar(convertView);
-
-//		temp_sum = datasource.getWorkTimeByName(projects.get(i), currentWeeknumber);
-//		temp_view.setText(Integer.toString((int)50) + " %");
-//		temp_view.getLayoutParams().height = height;
-//		temp_view.getLayoutParams().width = ((int)(temp_ratio*multiple/100));
-
+	    
 	    return convertView;
 	}
 	
 	public void updateProgressBar(View convertView) {
-		Log.d("logTime", "Går in");
-		WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-		Display display = wm.getDefaultDisplay();
-
-    	Point size = new Point();
-    	display.getSize(size);
-
-    	int paddings = 40;
-    	int multiple = size.x - paddings;
+    	total = HOURS_IN_MS*40;
     	
-    	// temp variables
-    	double temp_sum = 0, temp_ratio = 0;
-    	TextView temp_view;
-    	String temp_name;
-    	int temp_id;
+    	temp_sum = 0;
+    	temp_ratio = 0;
     	
-    	this.total = HOURS_IN_MS*40;
 	    for (int i=0; i<projects.size(); i++) {
-    		temp_sum = datasource.getWorkTimeByName(projects.get(i), currentWeeknumber);
+    		temp_sum = datasource.getWorkTimeByNameDate(projects.get(i), "2014-05-08");
 //    		Log.d("logTime", Double.toString(temp_sum));
 
 			temp_name = "progress_" + projects.get(i);
@@ -111,7 +113,7 @@ public class StartscreenListAdapter extends ArrayAdapter<String> {
 	    	temp_view = (TextView) convertView.findViewById(temp_id);
 	    	
     		if (temp_sum != 0) {
-	    		temp_ratio = (temp_sum/this.total)*100;
+	    		temp_ratio = (temp_sum/total)*100;
 	    		
 	    		// check ratio to round up or down
 	    		if(temp_ratio - Math.floor(temp_ratio) < 0.5) {
@@ -121,10 +123,9 @@ public class StartscreenListAdapter extends ArrayAdapter<String> {
 	    			temp_ratio = Math.ceil(temp_ratio);
 	    		}
 	    		
-	
 	    		// update project textview
-		    	Double hours = (double)temp_sum/HOURS_IN_MS;
-		    	String str = String.format("%1.2f", hours);
+		    	hours = (double)temp_sum/HOURS_IN_MS;
+		    	str = String.format("%1.2f", hours);
 	    		temp_view.setText(str + "h");
 	    		temp_view.getLayoutParams().height = 50;
 	    		temp_view.getLayoutParams().width = ((int)(temp_ratio*multiple/100));

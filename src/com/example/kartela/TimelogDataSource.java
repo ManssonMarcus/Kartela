@@ -125,7 +125,7 @@ public class TimelogDataSource {
 	    return timeLogs;
 	}
 	
-	//get all timelogs with the same projectname
+	//get all timelogs with the same date
 	public List<Timelog> getTimelogsByDate(String date) {
     	if(date.length()<=0){
     		return getAllTimelogs();
@@ -160,6 +160,21 @@ public class TimelogDataSource {
 		} else {
 			timeLogs = getTimeInterval(week, p_name);
 		}
+
+//		Log.d("logTime", timeLogs.get(0).getDate());
+		double sum = 0;
+		
+		for(int i = 0; i < timeLogs.size(); i++) {
+			sum = sum + timeLogs.get(i).getWorkedTimeInNumbers();
+    	}
+		
+		return sum;
+	}
+	
+	public double getWorkTimeByNameDate(String p_name, String date) {
+		List<Timelog> timeLogs;
+		
+		timeLogs = getTimeDateInterval(date, p_name);
 
 //		Log.d("logTime", timeLogs.get(0).getDate());
 		double sum = 0;
@@ -269,6 +284,29 @@ public class TimelogDataSource {
 				// TODO Auto-generated catch block
 				Log.d("kartela", "BUGG");
 				e.printStackTrace();
+			}
+    		
+    		
+    	}	
+    	return returnTimelogs;
+    }
+    
+    public List<Timelog> getTimeDateInterval(String current_date, String p_name) {    	
+    	List<Timelog> returnTimelogs = new ArrayList<Timelog>();
+    	List<Timelog> allTimelogs;
+    	
+		allTimelogs = getTimelogsByName(p_name);
+    	
+    	// Get calendar, clear it and set week number and year.
+    	Calendar calendar = Calendar.getInstance();
+    	 	
+    	//calendar.set(Calendar.WEEK_OF_YEAR, weeknumber);
+    	String pattern = "yyyy-MM-dd";
+    	for(int i = 0; i < allTimelogs.size();i++){
+    		//Log.d("kartela", allTimelogs.get(i).getDate());
+    		
+			if(allTimelogs.get(i).getDate().equals(current_date)){
+				returnTimelogs.add(allTimelogs.get(i));
 			}
     		
     		
