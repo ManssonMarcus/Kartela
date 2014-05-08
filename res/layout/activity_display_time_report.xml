@@ -56,7 +56,8 @@
 	     	android:background="#FFFFFF"
 	     	android:layout_marginBottom="6dp"/>
 	    <TextView
-	        android:text="50h"
+	        android:id="@+id/sum_text_view"
+	        android:text="@string/sum_of_hours"
 		    android:layout_height="wrap_content"
 		    android:layout_width="110dp"
 		    android:textSize="20sp"

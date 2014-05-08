@@ -56,6 +56,7 @@ import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 import au.com.bytecode.opencsv.CSVWriter;
 
@@ -74,6 +75,25 @@ public class DisplayTimeReportActivity extends ListActivity {
         datasource.open();
 
         values = datasource.getAllTimelogsByDate();
+        
+     	// get total worked time
+        double total_sum = 0;
+        
+    	for (int i = 0; i < values.size(); i++) {
+    		total_sum = total_sum + values.get(i).getWorkedTimeInNumbers();
+    		Log.d("test filter",String.valueOf(values.get(i).getWorkedTimeInNumbers()));
+    	}
+    	
+    	// extract days, hours and minutes from milliseconds
+    	int days = (int) (total_sum / (1000*60*60*24)); 
+  	    int hours = (int) ((total_sum - (1000*60*60*24*days)) / (1000*60*60));
+  	    int min = (int) (total_sum - (1000*60*60*24*days) - (1000*60*60*hours)) / (1000*60);
+	  	  
+  	    String s = hours + "h " + min + "m";
+    	
+  	    // update string for "sum of hours" text view
+    	TextView sum_text_view = (TextView) findViewById(R.id.sum_text_view);
+    	sum_text_view.setText(s);
 
         ListAdapter adapter = new ListAdapter(this, values);
 
@@ -151,25 +171,28 @@ public class DisplayTimeReportActivity extends ListActivity {
 		alertDialogBuilder.setTitle(name);
 		alertDialogBuilder.setMessage("Datum: " + date + "\n" + "Start-tid: " + start + "\n" + "Slut-tid: " + end + "\n" + "Rast: "  + bt + "\n" + "Kommentar: " + comment);
 		
-		alertDialogBuilder.setPositiveButton("Ändra", new DialogInterface.OnClickListener() {
+		// user should only be able to edit timelogs that haven't been locked yet
+		if(values.get(position).getEditable()) {
+			alertDialogBuilder.setPositiveButton("Ändra", new DialogInterface.OnClickListener() {
 			
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				
-				Context c = getApplicationContext();
-				Intent intent = new Intent(c, TimeReportActivity.class);
-				intent.putExtra("name", name);
-				intent.putExtra("date", date);
-				intent.putExtra("start", start);
-				intent.putExtra("end", end);
-				intent.putExtra("bt", bt);
-				intent.putExtra("comment", comment);
-				intent.putExtra("timelogId", values.get(position).getId());
-				
-				startActivity(intent);
-				
-			}
-		});
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					
+					Context c = getApplicationContext();
+					Intent intent = new Intent(c, TimeReportActivity.class);
+					intent.putExtra("name", name);
+					intent.putExtra("date", date);
+					intent.putExtra("start", start);
+					intent.putExtra("end", end);
+					intent.putExtra("bt", bt);
+					intent.putExtra("comment", comment);
+					intent.putExtra("timelogId", values.get(position).getId());
+					
+					startActivity(intent);
+					
+				}
+			});
+		}
 		
 		alertDialogBuilder.setNegativeButton("Avbryt", new DialogInterface.OnClickListener() {
 			
