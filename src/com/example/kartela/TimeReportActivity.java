@@ -102,6 +102,12 @@ public class TimeReportActivity extends FragmentActivity implements OnDateSetLis
         	dateEditText = (EditText) findViewById(R.id.date);
         	dateEditText.setText(extras.getString("date"));
         	
+			((EditText) findViewById(R.id.date)).setTextColor(getResources().getColor(R.color.button_green));
+			((EditText) findViewById(R.id.date)).setText(extras.getString("date"));
+	
+    		((EditText) findViewById(R.id.startTime)).setTextColor(getResources().getColor(R.color.button_green));
+			((EditText) findViewById(R.id.endTime)).setTextColor(getResources().getColor(R.color.button_green));
+        		
             startEditText = (EditText) findViewById(R.id.startTime);
             startEditText.setText(extras.getString("start"));
             

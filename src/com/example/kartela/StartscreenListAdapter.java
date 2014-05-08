@@ -43,7 +43,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 public class StartscreenListAdapter extends ArrayAdapter<String> {
@@ -71,7 +73,6 @@ public class StartscreenListAdapter extends ArrayAdapter<String> {
 	
 	@Override
   	public View getView(int position, View convertView, ViewGroup parent) {
-//		Log.d("updprb", Integer.toString(position));
     	
 	    LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	    convertView = inflater.inflate(R.layout.day_row_layout, parent, false);
@@ -79,11 +80,6 @@ public class StartscreenListAdapter extends ArrayAdapter<String> {
 	    dayTitle.setText(weekdaysArray.get(position));
 
 	    updateProgressBar(convertView);
-
-//		temp_sum = datasource.getWorkTimeByName(projects.get(i), currentWeeknumber);
-//		temp_view.setText(Integer.toString((int)50) + " %");
-//		temp_view.getLayoutParams().height = height;
-//		temp_view.getLayoutParams().width = ((int)(temp_ratio*multiple/100));
 
 	    return convertView;
 	}

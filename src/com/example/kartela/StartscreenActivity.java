@@ -36,12 +36,17 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
-import android.text.format.DateFormat;
 import android.text.format.Time;
 import android.util.Log;
 import android.view.View;
@@ -73,6 +78,8 @@ public class StartscreenActivity extends Activity implements OnClickListener{
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_startscreen);
+		
+		final Context context = this;
 	
 		//add listeners to buttons
         btnDecreaseWeek = (Button) findViewById(R.id.minus_button);   
@@ -116,13 +123,64 @@ public class StartscreenActivity extends Activity implements OnClickListener{
         
     	weekdayList.setOnItemClickListener(new OnItemClickListener() {
     		public void onItemClick(AdapterView<?> myAdapter, View myView, int myItemInt, long mylng) {
-    			String s = (String) weekdayList.getItemAtPosition(myItemInt); 			
+    			String s = (String) weekdayList.getItemAtPosition(myItemInt); 		
+    			String date = s.split(" ")[1];
     			//Hämta timeligsen för ett visst datum det datumet finns i Stringen "s";
-    			String date = s;
     			allTimelogs = datasource.getTimelogsByDate(date);
     			
+    			if(allTimelogs.size() > 0){
+	    			StartscreenPopupAdapter adapter = new StartscreenPopupAdapter(context, allTimelogs);
+	    			
+	    			AlertDialog.Builder builder = new AlertDialog.Builder(context);
+	    			builder.setTitle(s);
+	    			builder.setAdapter(adapter, new DialogInterface.OnClickListener() {
+	    			    public void onClick(DialogInterface dialog, int item) {
+	    			    	Timelog t = allTimelogs.get(item);
+    			    	
+    						Context c = getApplicationContext();
+    						Intent intent = new Intent(c, TimeReportActivity.class);
+    						intent.putExtra("name", t.getName());
+    						intent.putExtra("date", t.getDate());
+    						intent.putExtra("start", t.getStartTime());
+    						intent.putExtra("end", t.getEndTime());
+    						intent.putExtra("bt", t.getBreakTime());
+    						intent.putExtra("comment", t.getComment());
+    						intent.putExtra("timelogId", t.getId());
+    						
+    						startActivity(intent); 	
+	    			    }
+	    			});
+	    			
+	    			builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+	                       public void onClick(DialogInterface dialog, int id) {
+	                           dialog.dismiss();
+	                       }
+	                   });
+	    			
+	    			builder.show();
+    			}
+
+//    			Dialog dialog = new Dialog(context);
+//    			dialog.setContentView(R.layout.startscreen_popup);
+//    			
+//    			dialog.setTitle(s);
+//    			
+//    			TextView projectname = (TextView)dialog.findViewById(R.id.projectname);
+//    			projectname.setText(allTimelogs.get(0).getName() + " " + allTimelogs.get(0).getWorkedTime());
+//    			
+//    			TextView timespan = (TextView)dialog.findViewById(R.id.timespan);
+//    			timespan.setText(allTimelogs.get(0).getStartTime() + "-" + allTimelogs.get(0).getEndTime());
+//    			
+//    			TextView comments = (TextView)dialog.findViewById(R.id.comments);
+//    			comments.setText(allTimelogs.get(0).getComment());
+//    			
+//    			TextView paustime = (TextView)dialog.findViewById(R.id.paustime);
+//    			paustime.setText("Paus: " + allTimelogs.get(0).getBreakTime() + "Minuter");
+//    			
+//    			
+//    			dialog.show();
     			
-    			//Log.d("kartela", t.getDate() + "on " + myItemInt);
+    			//Log.d("kartela", s + "\n" + "antal timelogs detta datum: " + allTimelogs.size());
 			}                 
     	});        
 	 }
