@@ -46,6 +46,8 @@ import android.text.format.Time;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -56,6 +58,7 @@ import android.widget.Toast;
 public class StartscreenActivity extends Activity implements OnClickListener{
 	private TimelogDataSource datasource;
 	private List<Timelog> values;
+	private List<Timelog> allTimelogs;
 	private Time time = new Time(); 
 
 	private TextView tvCurrentWeek, tvTimespan;
@@ -83,7 +86,6 @@ public class StartscreenActivity extends Activity implements OnClickListener{
 		
         time.setToNow();
         currentYear = time.year;
-        Log.d("test", Integer.toString(currentYear));
         currentWeeknumber = time.getWeekNumber();
 
         Resources res = getResources();
@@ -92,18 +94,16 @@ public class StartscreenActivity extends Activity implements OnClickListener{
         tvCurrentWeek = (TextView) findViewById(R.id.textViewCurrentWeek);  
         tvCurrentWeek.setText(Integer.toString(currentWeeknumber));
         
-        String timeSpan = updateTimeSpan(currentWeeknumber);
+        String timeSpan = updateTimeSpan(currentWeeknumber, currentYear);
         tvTimespan = (TextView)findViewById(R.id.textViewTimespan);
         tvTimespan.setText(timeSpan);
         
-        ListView weekdayList = (ListView)findViewById(R.id.listViewWeekdays);
+        final ListView weekdayList = (ListView)findViewById(R.id.listViewWeekdays);
         weekdaysArray = new ArrayList<String>();
         getCurrentWeekDays(currentWeeknumber, currentYear);
-        
-//        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, weekdaysArray);
-//        weekdayList.setAdapter(arrayAdapter);
-        
+             
         values = datasource.getTimeInterval(currentWeeknumber);
+        allTimelogs = datasource.getAllTimelogs();
         
     	// get total worked time this week
     	for (int i = 0; i < values.size(); i++) {
@@ -112,7 +112,19 @@ public class StartscreenActivity extends Activity implements OnClickListener{
     	
         
         StartscreenListAdapter adapter = new StartscreenListAdapter(this, values, weekdaysArray, total_sum, projects, datasource);
-        weekdayList.setAdapter(adapter);
+        weekdayList.setAdapter(adapter);    
+        
+    	weekdayList.setOnItemClickListener(new OnItemClickListener() {
+    		public void onItemClick(AdapterView<?> myAdapter, View myView, int myItemInt, long mylng) {
+    			String s = (String) weekdayList.getItemAtPosition(myItemInt); 			
+    			//Hämta timeligsen för ett visst datum det datumet finns i Stringen "s";
+    			String date = s;
+    			allTimelogs = datasource.getTimelogsByDate(date);
+    			
+    			
+    			//Log.d("kartela", t.getDate() + "on " + myItemInt);
+			}                 
+    	});        
 	 }
 	
 	void getWeekDays() {
@@ -139,15 +151,14 @@ public class StartscreenActivity extends Activity implements OnClickListener{
 		
 		String Days[] = {"Måndag", "Tisdag", "Onsdag", "Torsdag", "Fredag", "Lördag", "Söndag"};
 		
+		c.clear();
 		c.set(Calendar.WEEK_OF_YEAR, v);
 		c.set(Calendar.YEAR, y);
-		c.add(Calendar.DAY_OF_WEEK,-1);
+		c.add(Calendar.DAY_OF_WEEK, c.getFirstDayOfWeek());
 		
 		SimpleDateFormat format1 = new SimpleDateFormat("MM-dd");
 		Date monday = c.getTime();
         String mondayInString = format1.format(monday);
-        Log.d("kartela", "start " + mondayInString);
-		
 		
 		weekdaysArray.add("Måndag " + c.get(Calendar.YEAR)  + "-" + mondayInString);
 		
@@ -177,7 +188,7 @@ public class StartscreenActivity extends Activity implements OnClickListener{
 	}
 	
 	@Override
-	public void onClick(View v) {        
+	public void onClick(View v) {    	
         switch(v.getId()) {
 	        case R.id.minus_button:
 	        	if(currentWeeknumber <= 1){
@@ -187,7 +198,7 @@ public class StartscreenActivity extends Activity implements OnClickListener{
 	        	else{
 	        		currentWeeknumber--;
 	        	}
-	        	tvTimespan.setText(updateTimeSpan(currentWeeknumber));
+	        	tvTimespan.setText(updateTimeSpan(currentWeeknumber, currentYear));
 	        	values = datasource.getTimeInterval(currentWeeknumber);
 	        	tvCurrentWeek.setText(Integer.toString(currentWeeknumber));
 	        	getCurrentWeekDays(currentWeeknumber, currentYear);
@@ -201,7 +212,7 @@ public class StartscreenActivity extends Activity implements OnClickListener{
 	        	else{
 	        		currentWeeknumber++;        		
 	        	}
-	        	tvTimespan.setText(updateTimeSpan(currentWeeknumber));
+	        	tvTimespan.setText(updateTimeSpan(currentWeeknumber, currentYear));
 	        	values = datasource.getTimeInterval(currentWeeknumber);
 	        	tvCurrentWeek.setText(Integer.toString(currentWeeknumber));
 	        	getCurrentWeekDays(currentWeeknumber, currentYear);
@@ -210,13 +221,18 @@ public class StartscreenActivity extends Activity implements OnClickListener{
 			ListView weekdayList = (ListView)findViewById(R.id.listViewWeekdays);
 			StartscreenListAdapter adapter = new StartscreenListAdapter(this, values, weekdaysArray, total_sum, projects, datasource);
 			weekdayList.setAdapter(adapter);
+			
+
+			
 	}	
 	
-	private String updateTimeSpan(int v){
-		
+	private String updateTimeSpan(int v, int y){
+
         Calendar calendar = Calendar.getInstance();
+        calendar.clear();
+        calendar.set(Calendar.YEAR, y);
         calendar.set(Calendar.WEEK_OF_YEAR, v);
-        calendar.add(Calendar.DATE,-1);
+        calendar.set(Calendar.DAY_OF_WEEK, calendar.getFirstDayOfWeek()+1);
 
         SimpleDateFormat formatter = new SimpleDateFormat("dd MMM");
         Date startDate = calendar.getTime();
