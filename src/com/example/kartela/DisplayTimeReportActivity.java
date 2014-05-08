@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2014, Student group C in course TNM082 at Linköpings University
+Copyright (c) 2014, Student group C in course TNM082 at Linkï¿½pings University
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -111,7 +111,7 @@ public class DisplayTimeReportActivity extends ListActivity {
 					AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(DisplayTimeReportActivity.this);
 					
 					alertDialogBuilder.setTitle("OBS!");
-					alertDialogBuilder.setMessage("Du kan inte skicka in din rapport utan internet. Var vänligen försök igen när du är uppkopplat till internet.");
+					alertDialogBuilder.setMessage("Du kan inte skicka in din rapport utan internet. Var vï¿½nligen fï¿½rsï¿½k igen nï¿½r du ï¿½r uppkopplat till internet.");
 					
 					alertDialogBuilder.setNegativeButton("Ok", new DialogInterface.OnClickListener() {
 						
@@ -134,7 +134,7 @@ public class DisplayTimeReportActivity extends ListActivity {
 		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(DisplayTimeReportActivity.this);
 		
 		alertDialogBuilder.setTitle("Vill du skicka in?");
-		alertDialogBuilder.setMessage("Alla tider kommer låsas och det finns ingen möjlighet att ändra tider i efterhand.");
+		alertDialogBuilder.setMessage("Alla tider kommer lï¿½sas och det finns ingen mï¿½jlighet att ï¿½ndra tider i efterhand.");
 		
 		alertDialogBuilder.setPositiveButton("Skicka", new DialogInterface.OnClickListener() {
 			
@@ -159,6 +159,7 @@ public class DisplayTimeReportActivity extends ListActivity {
 	
 	public void openEditAlert(final ListView l, final View view, final int position, long id) {
 		
+                final String label = "Ã„ndra Tidsrapport";
 		final String name = values.get(position).getName();
 		final String date = values.get(position).getDate();
 		final String start = values.get(position).getStartTime();
@@ -173,7 +174,7 @@ public class DisplayTimeReportActivity extends ListActivity {
 		
 		// user should only be able to edit timelogs that haven't been locked yet
 		if(values.get(position).getEditable()) {
-			alertDialogBuilder.setPositiveButton("Ändra", new DialogInterface.OnClickListener() {
+			alertDialogBuilder.setPositiveButton("ï¿½ndra", new DialogInterface.OnClickListener() {
 			
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
@@ -185,6 +186,7 @@ public class DisplayTimeReportActivity extends ListActivity {
 					intent.putExtra("start", start);
 					intent.putExtra("end", end);
 					intent.putExtra("bt", bt);
+                                        intent.putExtra("label",label);
 					intent.putExtra("comment", comment);
 					intent.putExtra("timelogId", values.get(position).getId());
 					
@@ -337,7 +339,7 @@ public class DisplayTimeReportActivity extends ListActivity {
         }
         return haveConnectedWifi || haveConnectedMobile;
     }
-  //Dubbelt bakåtklick för att avsluta appen.
+  //Dubbelt bakï¿½tklick fï¿½r att avsluta appen.
     private boolean doubleBackToExitPressedOnce = false;
     @Override
     public void onBackPressed() {
@@ -347,7 +349,7 @@ public class DisplayTimeReportActivity extends ListActivity {
         }
 
         this.doubleBackToExitPressedOnce = true;
-        Toast.makeText(this, "Tryck på tillbaka igen för att avsluta", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Tryck pï¿½ tillbaka igen fï¿½r att avsluta", Toast.LENGTH_SHORT).show();
 
         new Handler().postDelayed(new Runnable() {
 

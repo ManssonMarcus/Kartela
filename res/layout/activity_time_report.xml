@@ -19,6 +19,7 @@
 	    tools:context=".TimeReportActivity" >
 
      	<TextView 
+                        android:id="@+id/header_label"
 			android:layout_width="match_parent"
 			android:layout_height="@dimen/element_height"
 			android:layout_margin="@dimen/element_margin"

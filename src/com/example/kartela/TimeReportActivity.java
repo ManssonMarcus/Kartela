@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2014, Student group C in course TNM082 at Linköpings University
+Copyright (c) 2014, Student group C in course TNM082 at Linkï¿½pings University
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -47,6 +47,7 @@ import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -65,7 +66,8 @@ public class TimeReportActivity extends FragmentActivity implements OnDateSetLis
 	private boolean timeVerified = false;
 	private Bundle extras; 
 	private EditText dateEditText, startEditText, endEditText, breakEditText, commentEditText;
-	private Spinner spinner;
+	private TextView changeLabel;
+        private Spinner spinner;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -113,7 +115,8 @@ public class TimeReportActivity extends FragmentActivity implements OnDateSetLis
             
         	commentEditText = (EditText) findViewById(R.id.comment);
         	commentEditText.setText(extras.getString("comment"));
-            
+                changeLabel = (TextView)findViewById(R.id.header_label);
+                changeLabel.setText(extras.getString("label"));
         }
         
 	}
@@ -172,7 +175,7 @@ public class TimeReportActivity extends FragmentActivity implements OnDateSetLis
 			dateVerified = true;
 		}
 		else {
-			Log.d("kartela", "fel format på datum: " + fullDate);		
+			Log.d("kartela", "fel format pï¿½ datum: " + fullDate);		
 			dateVerified = false;
 		}
 		
@@ -186,7 +189,7 @@ public class TimeReportActivity extends FragmentActivity implements OnDateSetLis
 		EditText startTime = (EditText) findViewById(R.id.startTime);
 		EditText endTime = (EditText) findViewById(R.id.endTime);
 	
-		//lägg tiden i fältet
+		//lï¿½gg tiden i fï¿½ltet
 		activeTimeID.setText(timeString);
 		
 		if(startTime.getText().toString().length() > 0 && endTime.getText().toString().length() >0 ){
@@ -203,7 +206,7 @@ public class TimeReportActivity extends FragmentActivity implements OnDateSetLis
 				Log.d("kartela", c + "");
 				
 	    		Context context = getApplicationContext();
-	    		CharSequence text = "starttiden måste ligga innan sluttiden";
+	    		CharSequence text = "starttiden mï¿½ste ligga innan sluttiden";
 	    		int duration = Toast.LENGTH_SHORT;			
 	    		Toast.makeText(context, text, duration).show();
 				
@@ -224,7 +227,7 @@ public class TimeReportActivity extends FragmentActivity implements OnDateSetLis
     	String projectMessage = project.getSelectedItem().toString();
 				
 		int b = datasource.updateTimelog(datasource.getSpecificTimelog(timelogId), projectMessage, commentEditText.getText().toString(), startEditText.getText().toString(), endEditText.getText().toString(), Integer.parseInt(breakEditText.getText().toString()), true, dateEditText.getText().toString());
-		
+		changeLabel.getText().toString();
 		Intent intent = new Intent(this, TabLayoutActivity.class);
 		intent.putExtra("message","Activity started from updateTimeReport");
 		startActivity(intent);
@@ -261,7 +264,7 @@ public class TimeReportActivity extends FragmentActivity implements OnDateSetLis
 	    	EditText comment =  (EditText) findViewById(R.id.comment);
 	    	String commentMessage = comment.getText().toString();
 	    	
-	    	//Lägg till i databasen om allt är ok annars skriv ut felmeddelande
+	    	//Lï¿½gg till i databasen om allt ï¿½r ok annars skriv ut felmeddelande
 	    	if(timeVerified && dateVerified){
 	        	Timelog timelog = datasource.createTimelog(projectMessage, commentMessage, startTimeMessage, endTimeMessage, Integer.parseInt(breakTimeMessage), dateMessage);   	
 	        	startActivity(intent);	
@@ -269,13 +272,13 @@ public class TimeReportActivity extends FragmentActivity implements OnDateSetLis
 	    	else{
 	    		CharSequence text = "";
 	    		if(!timeVerified && !dateVerified) {
-	        		text = "Du måste ange datum, starttid och sluttid";
+	        		text = "Du mï¿½ste ange datum, starttid och sluttid";
 	    		}
 	    		else if(!timeVerified){
-	    			text = "Du måste ange korrekt starttid och sluttid";
+	    			text = "Du mï¿½ste ange korrekt starttid och sluttid";
 	    		}
 	    		else{
-	    			text = "Du måste ange datum";
+	    			text = "Du mï¿½ste ange datum";
 	    		}
 	    		
 	    		Context context = getApplicationContext();
@@ -303,7 +306,7 @@ public class TimeReportActivity extends FragmentActivity implements OnDateSetLis
 		
 	}
 	
-	//Hjälpfunktioner
+	//Hjï¿½lpfunktioner
 	private boolean isValidDate(String date)
 	{   
 	    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -346,7 +349,7 @@ public class TimeReportActivity extends FragmentActivity implements OnDateSetLis
 		return result;
 	}
 
-	//Dubbelt bakåtklick för att avsluta appen.
+	//Dubbelt bakï¿½tklick fï¿½r att avsluta appen.
     private boolean doubleBackToExitPressedOnce = false;
     @Override
     public void onBackPressed() {
@@ -356,7 +359,7 @@ public class TimeReportActivity extends FragmentActivity implements OnDateSetLis
         }
 
         this.doubleBackToExitPressedOnce = true;
-        Toast.makeText(this, "Tryck på tillbaka igen för att avsluta", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Tryck pï¿½ tillbaka igen fï¿½r att avsluta", Toast.LENGTH_SHORT).show();
 
         new Handler().postDelayed(new Runnable() {
 
