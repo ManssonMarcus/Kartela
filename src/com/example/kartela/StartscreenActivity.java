@@ -106,12 +106,12 @@ public class StartscreenActivity extends Activity implements OnClickListener{
         values = datasource.getTimeInterval(currentWeeknumber);
         
     	// get total worked time this week
-    	for (int i = 0; i < values.size(); i++) {
-    		total_sum = total_sum + values.get(i).getWorkedTimeInNumbers();
-    	}
+//    	for (int i = 0; i < values.size(); i++) {
+//    		total_sum = total_sum + values.get(i).getWorkedTimeInNumbers();
+//    	}
     	
         
-        StartscreenListAdapter adapter = new StartscreenListAdapter(this, weekdaysArray, currentWeeknumber, total_sum, projects, datasource);
+        StartscreenListAdapter adapter = new StartscreenListAdapter(this, weekdaysArray, currentWeeknumber, projects, datasource);
         weekdayList.setAdapter(adapter);
 	 }
 	
@@ -208,7 +208,7 @@ public class StartscreenActivity extends Activity implements OnClickListener{
 	          break;
 	      	}
 			ListView weekdayList = (ListView)findViewById(R.id.listViewWeekdays);
-			StartscreenListAdapter adapter = new StartscreenListAdapter(this, weekdaysArray, currentWeeknumber, total_sum, projects, datasource);
+			StartscreenListAdapter adapter = new StartscreenListAdapter(this, weekdaysArray, currentWeeknumber, projects, datasource);
 			weekdayList.setAdapter(adapter);
 	}	
 	

@@ -57,12 +57,11 @@ public class StartscreenListAdapter extends ArrayAdapter<String> {
   	private Time time = new Time();
   	private int currentWeeknumber;
 
-	public StartscreenListAdapter(Context context, ArrayList<String> weekdaysArray, int currentWeeknumber, double total_sum, List<String> projects, TimelogDataSource datasource) {
+	public StartscreenListAdapter(Context context, ArrayList<String> weekdaysArray, int currentWeeknumber, List<String> projects, TimelogDataSource datasource) {
 	    super(context, R.layout.day_row_layout, weekdaysArray);
 	    this.context = context;
 	    this.weekdaysArray = weekdaysArray;
 	    this.projects = projects;
-	    this.total = total_sum;
 	    this.datasource = datasource;
 	    time.setToNow();
         this.currentWeeknumber = currentWeeknumber;
