@@ -30,6 +30,11 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package com.example.kartela;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
+
 import android.app.DialogFragment;
 import android.app.TimePickerDialog.OnTimeSetListener;
 import android.content.Context;
@@ -39,9 +44,11 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.preference.CheckBoxPreference;
 import android.preference.EditTextPreference;
+import android.preference.MultiSelectListPreference;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceFragment;
+import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
 import android.util.Log;
 import android.view.View;
@@ -52,6 +59,7 @@ import android.widget.Toast;
 public class SettingsActivity extends PreferenceFragment implements OnSharedPreferenceChangeListener {
 
 	public static final String KEY_PREF_MAIL = "pref_mail";
+	public static final String KEY_PREF_REMINDER = "pref_sync";
 	 
 	 @Override
 	 public void onCreate(Bundle savedInstanceState) {
@@ -60,9 +68,9 @@ public class SettingsActivity extends PreferenceFragment implements OnSharedPref
 		 // Load the preferences from an XML resource
         addPreferencesFromResource(R.xml.preferences);        
 	 }
-	 
-	 
-	 @Override
+	
+	
+	@Override
 	public void onResume(){
 	        super.onResume();
 	        // Set up a listener whenever a key changes
@@ -71,7 +79,11 @@ public class SettingsActivity extends PreferenceFragment implements OnSharedPref
 	        
 	        if(getPreferenceScreen().getSharedPreferences().contains("pref_mail")){
 	        	updatePreference("pref_mail");
-	        }	        
+	        }
+	        
+	        if(getPreferenceScreen().getSharedPreferences().contains("pref_sync")){
+	        	updatePreference("pref_sync");
+	        }
 	    }
 	 
 	    @Override
@@ -89,6 +101,7 @@ public class SettingsActivity extends PreferenceFragment implements OnSharedPref
 	    }
 	    
 	    private void updatePreference(String key){
+	    		    	
 	        if (key.equals(KEY_PREF_MAIL)){
 	            Preference preference = findPreference(key);
 	            if (preference instanceof EditTextPreference){
@@ -100,10 +113,31 @@ public class SettingsActivity extends PreferenceFragment implements OnSharedPref
 	                }
 	            }
 	        }
+	        
+	        if (key.equals(KEY_PREF_REMINDER)){
+	        	Preference preference = findPreference(key);
+	        	
+	        	if (preference instanceof MultiSelectListPreference) {
+	        		MultiSelectListPreference multiselectlistpreference = (MultiSelectListPreference)preference;
+	        		Set<String> selections = multiselectlistpreference.getValues();
+	        		List<String> list = new ArrayList<String>(selections);
+	        		Collections.sort(list);
+	        		String[] days = {"Måndag","Tisdag","Onsdag","Torsdag","Fredag"};	        		
+	        		String summary_string = "";
+	        		
+	        		for (String s: list) {
+	        			summary_string = summary_string + " " + days[Integer.parseInt(s)];
+	        		}
+	        		
+	        		// user has chosen day(s) for reminder
+	        		if(summary_string != "") {
+	        			multiselectlistpreference.setSummary(summary_string);
+	        		}
+	        		else {
+	        			multiselectlistpreference.setSummary("Du har inte valt någon dag för påminnelse.");
+	        		}
+	        		
+	        	}
+	        }
 	    }
-
-
-	  
-	
-	
 }

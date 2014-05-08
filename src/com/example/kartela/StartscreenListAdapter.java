@@ -30,7 +30,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package com.example.kartela;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import android.content.Context;
@@ -56,7 +59,7 @@ public class StartscreenListAdapter extends ArrayAdapter<String> {
   	private double total;
   	private final TimelogDataSource datasource;
   	private Time time = new Time();
-  	private int currentWeeknumber;
+  	private int currentYear, currentWeeknumber;
 
 	private WindowManager wm;
 	private Display display;
@@ -68,14 +71,22 @@ public class StartscreenListAdapter extends ArrayAdapter<String> {
 	private TextView temp_view;
 	private String temp_name, str;
 	private int temp_id;
+	
+	private Calendar calendar;
+	private SimpleDateFormat sdf;
+	private Date currentDate;
+	private String date;
+	
+	private int k = 0;
 
-	public StartscreenListAdapter(Context context, ArrayList<String> weekdaysArray, int currentWeeknumber, List<String> projects, TimelogDataSource datasource) {
+	public StartscreenListAdapter(Context context, ArrayList<String> weekdaysArray, int currentWeeknumber, int currentYear, List<String> projects, TimelogDataSource datasource) {
 	    super(context, R.layout.day_row_layout, weekdaysArray);
 	    this.context = context;
 	    this.weekdaysArray = weekdaysArray;
 	    this.projects = projects;
 	    this.datasource = datasource;
 	    time.setToNow();
+	    this.currentYear = currentYear;
         this.currentWeeknumber = currentWeeknumber;
         
         wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
@@ -83,6 +94,15 @@ public class StartscreenListAdapter extends ArrayAdapter<String> {
         size = new Point();
     	display.getSize(size);
     	multiple = size.x - PADDING;
+    	
+    	calendar = Calendar.getInstance();
+        calendar.clear();
+        calendar.set(Calendar.YEAR, currentYear);
+        calendar.set(Calendar.WEEK_OF_YEAR, currentWeeknumber);
+        calendar.setFirstDayOfWeek(Calendar.MONDAY);
+        calendar.set(Calendar.DAY_OF_WEEK, calendar.getFirstDayOfWeek());
+        
+        Log.d("logTime", "Week: " + weekdaysArray);
     	
 	}
 	
@@ -92,8 +112,15 @@ public class StartscreenListAdapter extends ArrayAdapter<String> {
 	    convertView = inflater.inflate(R.layout.day_row_layout, parent, false);
 	    TextView dayTitle = (TextView) convertView.findViewById(R.id.day_title);
 	    dayTitle.setText(weekdaysArray.get(position));
-
+	    
+	    date = weekdaysArray.get(position);
+	    date = date.split("\\s+")[1];
+	    
 	    updateProgressBar(convertView);
+	    k++;
+		Log.d("logTime", "Date: " + date);
+	    Log.d("logTime", "k = " + k);
+	    Log.d("logTime", "position = " + position);
 	    
 	    return convertView;
 	}
@@ -103,10 +130,11 @@ public class StartscreenListAdapter extends ArrayAdapter<String> {
     	
     	temp_sum = 0;
     	temp_ratio = 0;
+        
+        sdf = new SimpleDateFormat("yyyy-MM-dd");
     	
 	    for (int i=0; i<projects.size(); i++) {
-    		temp_sum = datasource.getWorkTimeByNameDate(projects.get(i), "2014-05-08");
-//    		Log.d("logTime", Double.toString(temp_sum));
+    		temp_sum = datasource.getWorkTimeByNameDate(projects.get(i), date);
 
 			temp_name = "progress_" + projects.get(i);
 		    temp_id = context.getResources().getIdentifier(temp_name, "id", context.getPackageName());
@@ -133,7 +161,6 @@ public class StartscreenListAdapter extends ArrayAdapter<String> {
     			temp_view.getLayoutParams().width = 0;
     		}
 	    }
-
 	}
 
 }
