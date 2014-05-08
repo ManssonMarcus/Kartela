@@ -126,7 +126,7 @@ public class TimelogDataSource {
 	}
 	
 	//get all timelogs with the same projectname
-	public List<Timelog> getTimelogsByDate(String date){
+	public List<Timelog> getTimelogsByDate(String date) {
     	if(date.length()<=0){
     		return getAllTimelogs();
     	}
