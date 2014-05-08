@@ -87,12 +87,10 @@ public class StartscreenActivity extends Activity implements OnClickListener{
         time.setToNow();
         currentYear = time.year;
         currentWeeknumber = time.getWeekNumber();
+        
 
         Resources res = getResources();
         projects = datasource.getAllProjects(res);
-        
-        tvCurrentWeek = (TextView) findViewById(R.id.textViewCurrentWeek);  
-        tvCurrentWeek.setText(Integer.toString(currentWeeknumber));
         
         String timeSpan = updateTimeSpan(currentWeeknumber, currentYear);
         tvTimespan = (TextView)findViewById(R.id.textViewTimespan);
@@ -106,10 +104,10 @@ public class StartscreenActivity extends Activity implements OnClickListener{
         allTimelogs = datasource.getAllTimelogs();
         
     	// get total worked time this week
-    	for (int i = 0; i < values.size(); i++) {
-    		total_sum = total_sum + values.get(i).getWorkedTimeInNumbers();
-    	}
+    	total_sum = datasource.getWorkTimeByWeek(currentWeeknumber);
     	
+    	tvCurrentWeek = (TextView) findViewById(R.id.textViewCurrentWeek);  
+    	tvCurrentWeek.setText(datasource.getTimeStringFromMilliSeconds(total_sum));
         
         StartscreenListAdapter adapter = new StartscreenListAdapter(this, values, weekdaysArray, total_sum, projects, datasource);
         weekdayList.setAdapter(adapter);    
@@ -200,7 +198,8 @@ public class StartscreenActivity extends Activity implements OnClickListener{
 	        	}
 	        	tvTimespan.setText(updateTimeSpan(currentWeeknumber, currentYear));
 	        	values = datasource.getTimeInterval(currentWeeknumber);
-	        	tvCurrentWeek.setText(Integer.toString(currentWeeknumber));
+	        	total_sum = datasource.getWorkTimeByWeek(currentWeeknumber);
+	        	tvCurrentWeek.setText(datasource.getTimeStringFromMilliSeconds(total_sum));
 	        	getCurrentWeekDays(currentWeeknumber, currentYear);
 	
 	          break;
@@ -214,7 +213,8 @@ public class StartscreenActivity extends Activity implements OnClickListener{
 	        	}
 	        	tvTimespan.setText(updateTimeSpan(currentWeeknumber, currentYear));
 	        	values = datasource.getTimeInterval(currentWeeknumber);
-	        	tvCurrentWeek.setText(Integer.toString(currentWeeknumber));
+	        	total_sum = datasource.getWorkTimeByWeek(currentWeeknumber);
+	        	tvCurrentWeek.setText(datasource.getTimeStringFromMilliSeconds(total_sum));
 	        	getCurrentWeekDays(currentWeeknumber, currentYear);
 	          break;
 	      	}
