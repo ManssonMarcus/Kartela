@@ -202,6 +202,7 @@ public class DisplayTimeReportActivity extends ListActivity {
 	
 	public void onClick(View view) {
 		
+		Log.d("test filter","inside onclick");
 		
 		@SuppressWarnings("unchecked")
 		ArrayAdapter<Timelog> adapter = (ArrayAdapter<Timelog>) getListAdapter();
@@ -252,6 +253,13 @@ public class DisplayTimeReportActivity extends ListActivity {
     protected void onResume() {
     	datasource.open();
 	    values = datasource.getAllEditableTimelogs();
+	    
+	    // disable 'Skicka rapport' button if there are no editable timelogs, i.e. 'values' is empty
+	    if (values.size() == 0) {
+	    	Button send_btn = (Button) findViewById(R.id.send_report);
+	    	send_btn.setBackgroundColor(getResources().getColor(R.color.medium_grey));
+	    	send_btn.setEnabled(false);
+	    }
       
 	    // get total worked time
 	    double total_sum = 0;
