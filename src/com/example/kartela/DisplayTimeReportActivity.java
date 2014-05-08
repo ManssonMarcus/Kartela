@@ -159,6 +159,7 @@ public class DisplayTimeReportActivity extends ListActivity {
 	
 	public void openEditAlert(final ListView l, final View view, final int position, long id) {
 		
+                final String label = "Ändra Tidsrapport";
 		final String name = values.get(position).getName();
 		final String date = values.get(position).getDate();
 		final String start = values.get(position).getStartTime();
@@ -185,6 +186,7 @@ public class DisplayTimeReportActivity extends ListActivity {
 					intent.putExtra("start", start);
 					intent.putExtra("end", end);
 					intent.putExtra("bt", bt);
+                                        intent.putExtra("label",label);
 					intent.putExtra("comment", comment);
 					intent.putExtra("timelogId", values.get(position).getId());
 					
@@ -337,7 +339,7 @@ public class DisplayTimeReportActivity extends ListActivity {
         }
         return haveConnectedWifi || haveConnectedMobile;
     }
-  //Dubbelt bakåtklick för att avsluta appen.
+  //Dubbelt bakï¿½tklick fï¿½r att avsluta appen.
     private boolean doubleBackToExitPressedOnce = false;
     @Override
     public void onBackPressed() {
