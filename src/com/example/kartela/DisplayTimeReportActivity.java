@@ -56,6 +56,7 @@ import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 import au.com.bytecode.opencsv.CSVWriter;
 
@@ -63,6 +64,7 @@ import au.com.bytecode.opencsv.CSVWriter;
 public class DisplayTimeReportActivity extends ListActivity {
 	private TimelogDataSource datasource;
 	private List<Timelog> values;
+	private TextView sum_text_view;
 	
 	@SuppressLint("NewApi")	
 	@Override
@@ -73,7 +75,19 @@ public class DisplayTimeReportActivity extends ListActivity {
         datasource = new TimelogDataSource(this);
         datasource.open();
 
-        values = datasource.getAllTimelogsByDate();
+        //values = datasource.getAllTimelogsByDate();
+        values = datasource.getAllEditableTimelogs();
+        
+     	// get total worked time
+        double total_sum = 0;
+        
+    	for (int i = 0; i < values.size(); i++) {
+    		total_sum = total_sum + values.get(i).getWorkedTimeInNumbers();
+    	}
+    	
+  	    // update string for "sum of hours" text view
+    	sum_text_view = (TextView) findViewById(R.id.sum_text_view);
+    	sum_text_view.setText(datasource.getTimeStringFromMilliSeconds(total_sum));
 
         ListAdapter adapter = new ListAdapter(this, values);
 
@@ -139,6 +153,7 @@ public class DisplayTimeReportActivity extends ListActivity {
 	
 	public void openEditAlert(final ListView l, final View view, final int position, long id) {
 		
+                final String label = "Ändra Tidsrapport";
 		final String name = values.get(position).getName();
 		final String date = values.get(position).getDate();
 		final String start = values.get(position).getStartTime();
@@ -151,25 +166,29 @@ public class DisplayTimeReportActivity extends ListActivity {
 		alertDialogBuilder.setTitle(name);
 		alertDialogBuilder.setMessage("Datum: " + date + "\n" + "Start-tid: " + start + "\n" + "Slut-tid: " + end + "\n" + "Rast: "  + bt + "\n" + "Kommentar: " + comment);
 		
-		alertDialogBuilder.setPositiveButton("Ändra", new DialogInterface.OnClickListener() {
+		// user should only be able to edit timelogs that haven't been locked yet
+		if(values.get(position).getEditable()) {
+			alertDialogBuilder.setPositiveButton("Ändra", new DialogInterface.OnClickListener() {
 			
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				
-				Context c = getApplicationContext();
-				Intent intent = new Intent(c, TimeReportActivity.class);
-				intent.putExtra("name", name);
-				intent.putExtra("date", date);
-				intent.putExtra("start", start);
-				intent.putExtra("end", end);
-				intent.putExtra("bt", bt);
-				intent.putExtra("comment", comment);
-				intent.putExtra("timelogId", values.get(position).getId());
-				
-				startActivity(intent);
-				
-			}
-		});
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					
+					Context c = getApplicationContext();
+					Intent intent = new Intent(c, TimeReportActivity.class);
+					intent.putExtra("name", name);
+					intent.putExtra("date", date);
+					intent.putExtra("start", start);
+					intent.putExtra("end", end);
+					intent.putExtra("bt", bt);
+                                        intent.putExtra("label",label);
+					intent.putExtra("comment", comment);
+					intent.putExtra("timelogId", values.get(position).getId());
+					
+					startActivity(intent);
+					
+				}
+			});
+		}
 		
 		alertDialogBuilder.setNegativeButton("Avbryt", new DialogInterface.OnClickListener() {
 			
@@ -184,25 +203,15 @@ public class DisplayTimeReportActivity extends ListActivity {
 	}
 	
 	public void onClick(View view) {
-	      @SuppressWarnings("unchecked")
-	      ArrayAdapter<Timelog> adapter = (ArrayAdapter<Timelog>) getListAdapter();
-	      Timelog timelog = null;
-		  Log.d("klickade pa ", view.getId() + "");
-	      
-	      
-	      switch (view.getId()) {
-
-			case R.id.deleteall:   	  
-			    if (getListAdapter().getCount() > 0) {
-			      timelog = (Timelog) getListAdapter().getItem(0);
-			      datasource.deleteTimelog(timelog);
-			      adapter.remove(timelog);
-			    }
-			break;
-
-	      }
-	      adapter.notifyDataSetChanged();
-	    }
+		
+		Log.d("test filter","inside onclick");
+		
+		@SuppressWarnings("unchecked")
+		ArrayAdapter<Timelog> adapter = (ArrayAdapter<Timelog>) getListAdapter();
+		Timelog timelog = null;	      
+		
+		adapter.notifyDataSetChanged();
+    }
 	
 	/*
 	 * 
@@ -233,8 +242,31 @@ public class DisplayTimeReportActivity extends ListActivity {
 
     @Override
     protected void onResume() {
-      datasource.open();
-      super.onResume();
+    	datasource.open();
+	    values = datasource.getAllEditableTimelogs();
+	    
+	    // disable 'Skicka rapport' button if there are no editable timelogs, i.e. 'values' is empty
+	    if (values.size() == 0) {
+	    	Button send_btn = (Button) findViewById(R.id.send_report);
+	    	send_btn.setBackgroundColor(getResources().getColor(R.color.medium_grey));
+	    	send_btn.setEnabled(false);
+	    }
+      
+	    // get total worked time
+	    double total_sum = 0;
+      
+	  	for (int i = 0; i < values.size(); i++) {
+	  		total_sum = total_sum + values.get(i).getWorkedTimeInNumbers();
+	  	}
+	  	
+	    // update string for "sum of hours" text view
+	  	sum_text_view = (TextView) findViewById(R.id.sum_text_view);
+	  	sum_text_view.setText(datasource.getTimeStringFromMilliSeconds(total_sum));
+	
+	  	ListAdapter adapter = new ListAdapter(this, values);
+	
+	  	setListAdapter(adapter);
+	  	super.onResume();
     }
 
     @Override
@@ -245,57 +277,61 @@ public class DisplayTimeReportActivity extends ListActivity {
     
     public void sendTimeReportMail(View view) {
     	
-    	List<Timelog> values = datasource.getAllTimelogs();
+    	// Check if there are editable timelogs that should be sent by mail, i.e. 'values' contains something
+    	if (values.size() > 0) {
+    		
+    		String csvLocation = android.os.Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + "Test.csv";
+        	
+        	try {
+    			CSVWriter csvWriter = new CSVWriter(new FileWriter(csvLocation));
+    			
+    			List<String[]> data = new ArrayList<String[]>();
+    			
+    			// first row: attributes
+    			data.add(new String[] {"id","name","comment","start time","end time","break","date"});
+    	    	
+    			// iterate through all timelog items
+    	    	for(int i = 0; i < values.size(); i++) {
+    	    		
+    	    		if(values.get(i).getEditable()){
+    	    			//lock item
+    	    			datasource.lockSpecificTimelog(values.get(i));
+    	    			
+    	    			//add item to csv
+    	    			String id = String.valueOf(values.get(i).getId());
+    	    			String name = values.get(i).getName();
+    	    			String comment = values.get(i).getComment();
+    	    			String startTime = values.get(i).getStartTime();
+    	    			String endTime = values.get(i).getEndTime();
+    	    			String breakTime = String.valueOf(values.get(i).getBreakTime());
+    	    			String date = values.get(i).getDate();
+    	    			data.add(new String[] {id, name, comment, startTime, endTime, breakTime, date});
+    	    		}
+    	    	}
+    	    	
+    	    	csvWriter.writeAll(data);
+    	    	csvWriter.close();
+    	    	
+    	    	SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+    	    	String mail = sharedPreferences.getString(SettingsActivity.KEY_PREF_MAIL,"");
+    	    	
+    	    	// Send email with csv file as attachment
+    	    	final Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
+    			emailIntent.setType("plain/text");
+    			emailIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse("file://" + csvLocation));
+    			emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{mail});
+    			emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Message from Kartela");
+    			startActivity(Intent.createChooser(emailIntent, "Send email..."));
+    			
+    		} catch (IOException e) {
+    			e.printStackTrace();
+    		}
+    		
+    	}
+    	else {
+    		Toast.makeText(this, "Alla tidsrapporteringar har skickats iväg!", Toast.LENGTH_SHORT).show();
+    	}
 
-    	String csvLocation = android.os.Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + "Test.csv";
-    	
-    	try {
-			CSVWriter csvWriter = new CSVWriter(new FileWriter(csvLocation));
-			
-			List<String[]> data = new ArrayList<String[]>();
-			
-			// first row: attributes
-			data.add(new String[] {"id","name","comment","start time","end time","break","date"});
-	    	
-			// iterate through all timelog items
-	    	for(int i = 0; i < values.size(); i++) {
-	    		
-	    		if(values.get(i).getEditable()){
-	    			//lock item
-	    			datasource.lockSpecificTimelog(values.get(i));
-	    			
-	    			//add item to csv
-	    			String id = String.valueOf(values.get(i).getId());
-	    			String name = values.get(i).getName();
-	    			String comment = values.get(i).getComment();
-	    			String startTime = values.get(i).getStartTime();
-	    			String endTime = values.get(i).getEndTime();
-	    			String breakTime = String.valueOf(values.get(i).getBreakTime());
-	    			String date = values.get(i).getDate();
-	    			data.add(new String[] {id, name, comment, startTime, endTime, breakTime, date});
-	    		}
-	    	}
-	    	
-	    	csvWriter.writeAll(data);
-	    	csvWriter.close();
-	    	
-	    	SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-	    	String mail = sharedPreferences.getString(SettingsActivity.KEY_PREF_MAIL,"");
-	    	
-	    	Log.d("test filter",mail);
-	    	
-	    	// Send email with csv file as attachment
-	    	final Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
-			emailIntent.setType("plain/text");
-			emailIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse("file://" + csvLocation));
-			emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{mail});
-			emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Message from Kartela");
-			startActivity(Intent.createChooser(emailIntent, "Send email..."));
-			
-			
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 	}
     
     private boolean haveNetworkConnection() {
@@ -314,7 +350,7 @@ public class DisplayTimeReportActivity extends ListActivity {
         }
         return haveConnectedWifi || haveConnectedMobile;
     }
-  //Dubbelt bakåtklick för att avsluta appen.
+  //Dubbelt bakï¿½tklick fï¿½r att avsluta appen.
     private boolean doubleBackToExitPressedOnce = false;
     @Override
     public void onBackPressed() {

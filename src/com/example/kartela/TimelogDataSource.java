@@ -125,8 +125,8 @@ public class TimelogDataSource {
 	    return timeLogs;
 	}
 	
-	//get all timelogs with the same projectname
-	public List<Timelog> getTimelogsByDate(String date){
+	//get all timelogs with the same date
+	public List<Timelog> getTimelogsByDate(String date) {
     	if(date.length()<=0){
     		return getAllTimelogs();
     	}
@@ -161,7 +161,48 @@ public class TimelogDataSource {
 			timeLogs = getTimeInterval(week, p_name);
 		}
 
-		Log.d("logTime", timeLogs.toString());
+//		Log.d("logTime", timeLogs.get(0).getDate());
+		double sum = 0;
+		
+		for(int i = 0; i < timeLogs.size(); i++) {
+			sum = sum + timeLogs.get(i).getWorkedTimeInNumbers();
+    	}
+		
+		return sum;
+	}
+	
+	public double getWorkTimeByNameDate(String p_name, String date) {
+		List<Timelog> timeLogs;
+		
+		timeLogs = getTimeDateInterval(date, p_name);
+
+//		Log.d("logTime", timeLogs.get(0).getDate());
+		double sum = 0;
+		
+		for(int i = 0; i < timeLogs.size(); i++) {
+			sum = sum + timeLogs.get(i).getWorkedTimeInNumbers();
+    	}
+		
+		return sum;
+	}
+	
+	public String getTimeStringFromMilliSeconds(double total_sum) {
+		
+		// extract days, hours and minutes from milliseconds
+    	int days = (int) (total_sum / (1000*60*60*24)); 
+  	    int hours = (int) ((total_sum - (1000*60*60*24*days)) / (1000*60*60));
+  	    int min = (int) (total_sum - (1000*60*60*24*days) - (1000*60*60*hours)) / (1000*60);
+	  	  
+  	    String s = hours + "h " + min + "m";
+		
+		return s;
+	}
+	
+	public double getWorkTimeByWeek(int week) {
+		List<Timelog> timeLogs;
+		
+		timeLogs = getTimeInterval(week);
+		
 		double sum = 0;
 		
 		for(int i = 0; i < timeLogs.size(); i++) {
@@ -228,6 +269,28 @@ public class TimelogDataSource {
 	    return allTimelogs;
     }
     
+    //Return a list of all editable timelogs
+    public List<Timelog> getAllEditableTimelogs() {
+    	
+    	List<Timelog> timeLogs = new ArrayList<Timelog>();
+
+    	Cursor cursor = database.query(MySQLiteHelper.TABLE_TIMELOGS, null, null, null, null, null, MySQLiteHelper.COLUMN_DATE);
+
+	    cursor.moveToFirst();
+	    while (!cursor.isAfterLast()) {
+	        Timelog timelog = cursorToTimelog(cursor);
+	        if (timelog.getEditable()) {
+	        	timeLogs.add(timelog);
+	        }	        
+	    	cursor.moveToNext();
+	    }
+	    // make sure to close the cursor
+	    cursor.close();
+	    
+	    return timeLogs;
+    	
+    }
+    
     //Returns timelogs by weeknumber
     @SuppressLint("SimpleDateFormat")
 	public List<Timelog> getTimeInterval(int weeknumber){
@@ -242,7 +305,6 @@ public class TimelogDataSource {
     		allTimelogs = getAllTimelogs();
     	} else {
     		allTimelogs = getTimelogsByName(p_name);
-    		//Log.d("test", allTimelogs.toString());
     	}
     	
     	// Get calendar, clear it and set week number and year.
@@ -261,7 +323,6 @@ public class TimelogDataSource {
 				
 				if(calendar.get(Calendar.WEEK_OF_YEAR) == weeknumber){
 					returnTimelogs.add(allTimelogs.get(i));
-					Log.d("grejs", allTimelogs.get(i).toString());
 				}
 				
 //				Log.d("kartela", "datum: " + allTimelogs.get(i).getDate() + " " + allTimelogs.get(i).getEndTime());
@@ -271,6 +332,29 @@ public class TimelogDataSource {
 				// TODO Auto-generated catch block
 				Log.d("kartela", "BUGG");
 				e.printStackTrace();
+			}
+    		
+    		
+    	}	
+    	return returnTimelogs;
+    }
+    
+    public List<Timelog> getTimeDateInterval(String current_date, String p_name) {    	
+    	List<Timelog> returnTimelogs = new ArrayList<Timelog>();
+    	List<Timelog> allTimelogs;
+    	
+		allTimelogs = getTimelogsByName(p_name);
+    	
+    	// Get calendar, clear it and set week number and year.
+    	Calendar calendar = Calendar.getInstance();
+    	 	
+    	//calendar.set(Calendar.WEEK_OF_YEAR, weeknumber);
+    	String pattern = "yyyy-MM-dd";
+    	for(int i = 0; i < allTimelogs.size();i++){
+    		//Log.d("kartela", allTimelogs.get(i).getDate());
+    		
+			if(allTimelogs.get(i).getDate().equals(current_date)){
+				returnTimelogs.add(allTimelogs.get(i));
 			}
     		
     		

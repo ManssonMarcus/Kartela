@@ -18,4 +18,5 @@
     
     <!--  text area colors -->
     <color name="dark_grey">#888888</color>
+    <color name="medium_grey">#CACABC</color>
 </resources>
