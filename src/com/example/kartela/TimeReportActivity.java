@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2014, Student group C in course TNM082 at Linkï¿½pings University
+Copyright (c) 2014, Student group C in course TNM082 at Linköpings University
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -175,7 +175,7 @@ public class TimeReportActivity extends FragmentActivity implements OnDateSetLis
 			dateVerified = true;
 		}
 		else {
-			Log.d("kartela", "fel format pï¿½ datum: " + fullDate);		
+			Log.d("kartela", "fel format på datum: " + fullDate);		
 			dateVerified = false;
 		}
 		
@@ -206,7 +206,7 @@ public class TimeReportActivity extends FragmentActivity implements OnDateSetLis
 				Log.d("kartela", c + "");
 				
 	    		Context context = getApplicationContext();
-	    		CharSequence text = "starttiden mï¿½ste ligga innan sluttiden";
+	    		CharSequence text = "starttiden måste ligga innan sluttiden";
 	    		int duration = Toast.LENGTH_SHORT;			
 	    		Toast.makeText(context, text, duration).show();
 				
@@ -264,7 +264,7 @@ public class TimeReportActivity extends FragmentActivity implements OnDateSetLis
 	    	EditText comment =  (EditText) findViewById(R.id.comment);
 	    	String commentMessage = comment.getText().toString();
 	    	
-	    	//Lï¿½gg till i databasen om allt ï¿½r ok annars skriv ut felmeddelande
+	    	//Lägg till i databasen om allt är ok annars skriv ut felmeddelande
 	    	if(timeVerified && dateVerified){
 	        	Timelog timelog = datasource.createTimelog(projectMessage, commentMessage, startTimeMessage, endTimeMessage, Integer.parseInt(breakTimeMessage), dateMessage);   	
 	        	startActivity(intent);	
@@ -306,7 +306,7 @@ public class TimeReportActivity extends FragmentActivity implements OnDateSetLis
 		
 	}
 	
-	//Hjï¿½lpfunktioner
+	//Hjälpfunktioner
 	private boolean isValidDate(String date)
 	{   
 	    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -349,7 +349,7 @@ public class TimeReportActivity extends FragmentActivity implements OnDateSetLis
 		return result;
 	}
 
-	//Dubbelt bakï¿½tklick fï¿½r att avsluta appen.
+	//Dubbelt bakåtklick för att avsluta appen.
     private boolean doubleBackToExitPressedOnce = false;
     @Override
     public void onBackPressed() {
@@ -359,7 +359,7 @@ public class TimeReportActivity extends FragmentActivity implements OnDateSetLis
         }
 
         this.doubleBackToExitPressedOnce = true;
-        Toast.makeText(this, "Tryck pï¿½ tillbaka igen fï¿½r att avsluta", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Tryck på tillbaka igen för att avsluta", Toast.LENGTH_SHORT).show();
 
         new Handler().postDelayed(new Runnable() {
 
