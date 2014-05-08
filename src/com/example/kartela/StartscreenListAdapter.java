@@ -52,6 +52,7 @@ import android.widget.TextView;
 public class StartscreenListAdapter extends ArrayAdapter<String> {
 	
 	private static final int HOURS_IN_MS = 3600000;
+	private static final int WORK_TIME_PER_DAY = 8;
 	private static final int PADDING = 40;
 	private final Context context;
   	private final ArrayList<String> weekdaysArray;
@@ -115,7 +116,9 @@ public class StartscreenListAdapter extends ArrayAdapter<String> {
 	    
 	    date = weekdaysArray.get(position);
 	    date = date.split("\\s+")[1];
-	    
+
+    	total = HOURS_IN_MS*WORK_TIME_PER_DAY;
+    	
 	    updateProgressBar(convertView);
 	    k++;
 		Log.d("logTime", "Date: " + date);
@@ -126,8 +129,6 @@ public class StartscreenListAdapter extends ArrayAdapter<String> {
 	}
 	
 	public void updateProgressBar(View convertView) {
-    	total = HOURS_IN_MS*40;
-    	
     	temp_sum = 0;
     	temp_ratio = 0;
         
@@ -136,6 +137,7 @@ public class StartscreenListAdapter extends ArrayAdapter<String> {
 	    for (int i=0; i<projects.size(); i++) {
     		temp_sum = datasource.getWorkTimeByNameDate(projects.get(i), date);
 
+    		if (total < temp_sum) total = temp_sum;
 			temp_name = "progress_" + projects.get(i);
 		    temp_id = context.getResources().getIdentifier(temp_name, "id", context.getPackageName());
 	    	temp_view = (TextView) convertView.findViewById(temp_id);
