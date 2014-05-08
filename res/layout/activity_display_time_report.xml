@@ -1,48 +1,41 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-	    xmlns:tools="http://schemas.android.com/tools"
-	    android:layout_width="match_parent"
-	    android:layout_height="match_parent">
-
-	<LinearLayout
-	    android:layout_width="match_parent"
-	    android:layout_height="wrap_content"
-	    android:paddingBottom="@dimen/activity_vertical_margin"
-	    android:paddingLeft="@dimen/activity_horizontal_margin"
-	    android:paddingRight="@dimen/activity_horizontal_margin"
-	    android:paddingTop="@dimen/activity_vertical_margin"
-	    android:orientation="vertical"
-	    tools:context=".TestDatabaseActivity" 
-	    android:background="#FFF">
-		
-	    <TextView 
-			android:layout_width="match_parent"
-			android:layout_height="@dimen/element_height"
-			android:text="@string/send_header"
-			android:textSize="25sp"
-			android:fontFamily="sans-serif-light" />
-	   
-	    <TextView
-		     android:layout_width="fill_parent"
-		     android:layout_height="30dp"
-		     android:gravity="center"
-		     android:text="Alla rapporterade tider"
-		     android:textSize="18sp"
-		     android:fontFamily="sans-serif-light"
-		     android:background="@color/dark_grey"
-		     android:layout_marginBottom="6dp"
-		     android:textColor="#FFFFFF"/>	     
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:orientation="vertical"
+    tools:context=".TestDatabaseActivity" 
+    android:background="#FFF">
 	
-	    <ListView
-	        android:id="@android:id/list"
-	        android:layout_width="match_parent"
-	        android:layout_height="294dp"
-	        android:background="#FFF"
-	        android:text="@+string/hello" 
-	        android:layout_marginBottom="6dp"/>
-	    
-		
-		
-		
+    <TextView 
+		android:layout_width="match_parent"
+		android:layout_height="@dimen/element_height"
+		android:text="@string/send_header"
+		android:textSize="25sp"
+		android:fontFamily="sans-serif-light" />
+   
+    <TextView
+	     android:layout_width="fill_parent"
+	     android:layout_height="30dp"
+	     android:gravity="center"
+	     android:text="@string/statistics_period"
+	     android:textSize="18sp"
+	     android:fontFamily="sans-serif-light"
+	     android:background="@color/dark_grey"
+	     android:layout_marginBottom="6dp"
+	     android:textColor="#FFFFFF"/>	     
+
+    <ListView
+        android:id="@android:id/list"
+        android:layout_width="match_parent"
+        android:layout_height="294dp"
+        android:background="#FFF"
+        android:text="@+string/hello" 
+        android:layout_marginBottom="6dp"/>
+    	
 		<RelativeLayout 
 	    	android:layout_width="fill_parent"
 	    	android:layout_height="wrap_content"
@@ -50,7 +43,7 @@
 	    <TextView
 			android:layout_width="fill_parent"
 	     	android:layout_height="30dp"
-	     	android:text=" Totalt:"
+	     	android:text="@string/total_time"
 	     	android:textSize="18sp"
 	     	android:fontFamily="sans-serif-light"
 	     	android:background="#FFFFFF"
@@ -69,34 +62,18 @@
 		    android:textColor="#FFFFFF"
 		    />
 		
-		</RelativeLayout>
-	
-	    
-	     
-	    <Button    
-	   		android:id="@+id/deleteall"
-	   		android:background="@color/button_red"
-	        android:layout_width="match_parent"
-	        android:layout_height="0dp"
-	        android:onClick="onClick"
-	        android:fontFamily="sans-serif-light"
-	        android:text="delete"
-	        android:layout_gravity="center_horizontal|center" 
-	       />
-	    	
-	    	
-	        <Button
-	        android:id="@+id/send_report"
-	       	android:layout_width="match_parent"
-	       	android:background="@color/button_green"
-	        android:layout_height="60dp"
-	        android:text="@string/send_mail_button"
-	        android:fontFamily="sans-serif-light"
-	        android:layout_gravity="center_horizontal|center"
-	
-	        android:textColor="#FFFFFF"
-	        />
-	
-	</LinearLayout>
+		</RelativeLayout>    	
+    	
+        <Button
+        android:id="@+id/send_report"
+       	android:layout_width="match_parent"
+       	android:background="@color/button_green"
+        android:layout_height="60dp"
+        android:text="@string/send_mail_button"
+        android:fontFamily="sans-serif-light"
+        android:layout_gravity="center_horizontal|center"
 
-</ScrollView>
+        android:textColor="#FFFFFF"
+        />
+
+</LinearLayout>

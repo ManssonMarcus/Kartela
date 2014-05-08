@@ -31,13 +31,12 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 package com.example.kartela;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import android.content.Context;
 import android.graphics.Point;
-import android.hardware.Camera.Size;
 import android.text.format.Time;
-import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -47,88 +46,102 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 public class StartscreenListAdapter extends ArrayAdapter<String> {
-	  
-	  private final Context context;
-	  private final List<Timelog> values;
-	  private final ArrayList<String> weekdaysArray;
-	  private final List<String> projects;
-	  private double total;
-	  private final TimelogDataSource datasource;
-	  private Time time = new Time();
-	  private int currentWeeknumber;
+	
+	private static final int HOURS_IN_MS = 3600000;
+	private static final int WORK_TIME_PER_DAY = 8;
+	private static final int PADDING = 40;
+	private final Context context;
+  	private final ArrayList<String> weekdaysArray;
+  	private final List<String> projects;
+  	private double total;
+  	private final TimelogDataSource datasource;
+  	private Time time = new Time();
 
-	public StartscreenListAdapter(Context context, List<Timelog> values, ArrayList<String> weekdaysArray, double total_sum, List<String> projects, TimelogDataSource datasource) {
+	private WindowManager wm;
+	private Display display;
+	private Point size;
+	private int multiple;
+	
+	// temp variables
+	private double temp_ratio, hours, total_day;
+	private double[] temp_sum;
+	private TextView temp_view;
+	private String temp_name, str;
+	private int temp_id;
+	
+	private Calendar calendar;
+	private String date;
+
+	public StartscreenListAdapter(Context context, ArrayList<String> weekdaysArray, int currentWeeknumber, int currentYear, List<String> projects, TimelogDataSource datasource) {
 	    super(context, R.layout.day_row_layout, weekdaysArray);
 	    this.context = context;
-	    this.values = values;
 	    this.weekdaysArray = weekdaysArray;
 	    this.projects = projects;
-	    this.total = total_sum;
 	    this.datasource = datasource;
 	    time.setToNow();
-        this.currentWeeknumber = time.getWeekNumber();
+        
+        wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        display = wm.getDefaultDisplay();
+        size = new Point();
+    	display.getSize(size);
+    	multiple = size.x - PADDING;
+    	
+    	calendar = Calendar.getInstance();
+        calendar.clear();
+        calendar.set(Calendar.YEAR, currentYear);
+        calendar.set(Calendar.WEEK_OF_YEAR, currentWeeknumber);
+        calendar.setFirstDayOfWeek(Calendar.MONDAY);
+        calendar.set(Calendar.DAY_OF_WEEK, calendar.getFirstDayOfWeek());
 	}
 	
 	@Override
   	public View getView(int position, View convertView, ViewGroup parent) {
-//		Log.d("updprb", Integer.toString(position));
-    	
 	    LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	    convertView = inflater.inflate(R.layout.day_row_layout, parent, false);
 	    TextView dayTitle = (TextView) convertView.findViewById(R.id.day_title);
 	    dayTitle.setText(weekdaysArray.get(position));
+	    
+	    date = weekdaysArray.get(position);
+	    date = date.split("\\s+")[1];
+
+    	total = HOURS_IN_MS*WORK_TIME_PER_DAY;
 
 	    updateProgressBar(convertView);
-
-//		temp_sum = datasource.getWorkTimeByName(projects.get(i), currentWeeknumber);
-//		temp_view.setText(Integer.toString((int)50) + " %");
-//		temp_view.getLayoutParams().height = height;
-//		temp_view.getLayoutParams().width = ((int)(temp_ratio*multiple/100));
-
+	    
 	    return convertView;
 	}
 	
 	public void updateProgressBar(View convertView) {
-		WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-		Display display = wm.getDefaultDisplay();
-
-    	Point size = new Point();
-    	display.getSize(size);
-
-    	int paddings = 40;
-    	int multiple = size.x - paddings;
+    	temp_sum = new double[projects.size()];
+    	temp_ratio = 0;
+    	total_day = 0;
     	
-    	// temp variables
-    	double temp_sum = 0, temp_ratio = 0;
-    	TextView temp_view;
-    	String temp_name;
-    	int temp_id;
-    	
-    	this.total = 3600000*40;
 	    for (int i=0; i<projects.size(); i++) {
-    		temp_sum = datasource.getWorkTimeByName(projects.get(i), currentWeeknumber);
-    		temp_ratio = (temp_sum/this.total)*100;
+    		temp_sum[i] = datasource.getWorkTimeByNameDate(projects.get(i), date);
     		
-    		// check ratio to round up or down
-    		if(temp_ratio - Math.floor(temp_ratio) < 0.5) {
-    			temp_ratio = Math.floor(temp_ratio);
-    		}
-    		else {
-    			temp_ratio = Math.ceil(temp_ratio);
-    		}
-    		
+    		total_day += temp_sum[i];
+	    }
+	    
+	    for (int i=0; i<projects.size(); i++) {
 			temp_name = "progress_" + projects.get(i);
 		    temp_id = context.getResources().getIdentifier(temp_name, "id", context.getPackageName());
 	    	temp_view = (TextView) convertView.findViewById(temp_id);
 
-    		// update project textview
-	    	Double hours = (double)temp_sum/3600000;
-	    	String str = String.format("%1.2f", hours);
-    		temp_view.setText(str + "h");
-    		temp_view.getLayoutParams().height = 50;
-    		temp_view.getLayoutParams().width = ((int)(temp_ratio*multiple/100));
+    		if (total < total_day) total = total_day;
+	    	
+    		if (temp_sum[i] != 0) {
+	    		temp_ratio = (temp_sum[i]/total)*100;
+	    		
+	    		// update project textview
+		    	hours = (double)temp_sum[i]/HOURS_IN_MS;
+		    	str = String.format("%1.2f", hours);
+	    		temp_view.setText(str + "h");
+	    		temp_view.getLayoutParams().height = 50;
+	    		temp_view.getLayoutParams().width = ((int)(temp_ratio*multiple/100));
+    		} else {
+    			temp_view.getLayoutParams().width = 0;
+    		}
 	    }
-
 	}
 
 }

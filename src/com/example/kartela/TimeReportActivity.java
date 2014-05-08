@@ -47,6 +47,7 @@ import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -65,7 +66,8 @@ public class TimeReportActivity extends FragmentActivity implements OnDateSetLis
 	private boolean timeVerified = false;
 	private Bundle extras; 
 	private EditText dateEditText, startEditText, endEditText, breakEditText, commentEditText;
-	private Spinner spinner;
+	private TextView changeLabel;
+        private Spinner spinner;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -113,7 +115,8 @@ public class TimeReportActivity extends FragmentActivity implements OnDateSetLis
             
         	commentEditText = (EditText) findViewById(R.id.comment);
         	commentEditText.setText(extras.getString("comment"));
-            
+                changeLabel = (TextView)findViewById(R.id.header_label);
+                changeLabel.setText(extras.getString("label"));
         }
         
 	}
@@ -186,7 +189,7 @@ public class TimeReportActivity extends FragmentActivity implements OnDateSetLis
 		EditText startTime = (EditText) findViewById(R.id.startTime);
 		EditText endTime = (EditText) findViewById(R.id.endTime);
 	
-		//lägg tiden i fältet
+		//lï¿½gg tiden i fï¿½ltet
 		activeTimeID.setText(timeString);
 		
 		if(startTime.getText().toString().length() > 0 && endTime.getText().toString().length() >0 ){
@@ -224,7 +227,7 @@ public class TimeReportActivity extends FragmentActivity implements OnDateSetLis
     	String projectMessage = project.getSelectedItem().toString();
 				
 		int b = datasource.updateTimelog(datasource.getSpecificTimelog(timelogId), projectMessage, commentEditText.getText().toString(), startEditText.getText().toString(), endEditText.getText().toString(), Integer.parseInt(breakEditText.getText().toString()), true, dateEditText.getText().toString());
-		
+		changeLabel.getText().toString();
 		Intent intent = new Intent(this, TabLayoutActivity.class);
 		intent.putExtra("message","Activity started from updateTimeReport");
 		startActivity(intent);
@@ -269,13 +272,13 @@ public class TimeReportActivity extends FragmentActivity implements OnDateSetLis
 	    	else{
 	    		CharSequence text = "";
 	    		if(!timeVerified && !dateVerified) {
-	        		text = "Du måste ange datum, starttid och sluttid";
+	        		text = "Du mï¿½ste ange datum, starttid och sluttid";
 	    		}
 	    		else if(!timeVerified){
-	    			text = "Du måste ange korrekt starttid och sluttid";
+	    			text = "Du mï¿½ste ange korrekt starttid och sluttid";
 	    		}
 	    		else{
-	    			text = "Du måste ange datum";
+	    			text = "Du mï¿½ste ange datum";
 	    		}
 	    		
 	    		Context context = getApplicationContext();
