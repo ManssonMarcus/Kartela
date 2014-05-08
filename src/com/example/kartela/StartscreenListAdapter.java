@@ -68,14 +68,13 @@ public class StartscreenListAdapter extends ArrayAdapter<String> {
 	private int multiple;
 	
 	// temp variables
-	private double temp_sum, temp_ratio, hours;
+	private double temp_ratio, hours, total_day;
+	private double[] temp_sum;
 	private TextView temp_view;
 	private String temp_name, str;
 	private int temp_id;
 	
 	private Calendar calendar;
-	private SimpleDateFormat sdf;
-	private Date currentDate;
 	private String date;
 	
 	private int k = 0;
@@ -118,43 +117,55 @@ public class StartscreenListAdapter extends ArrayAdapter<String> {
 	    date = date.split("\\s+")[1];
 
     	total = HOURS_IN_MS*WORK_TIME_PER_DAY;
-    	
+
+//		Log.d("logTime", "Date: " + date);
 	    updateProgressBar(convertView);
-	    k++;
-		Log.d("logTime", "Date: " + date);
-	    Log.d("logTime", "k = " + k);
-	    Log.d("logTime", "position = " + position);
+//	    k++;
+//	    Log.d("logTime", "k = " + k);
+//	    Log.d("logTime", "position = " + position);
 	    
 	    return convertView;
 	}
 	
 	public void updateProgressBar(View convertView) {
-    	temp_sum = 0;
+    	temp_sum = new double[projects.size()];
     	temp_ratio = 0;
-        
-        sdf = new SimpleDateFormat("yyyy-MM-dd");
+    	total_day = 0;
     	
 	    for (int i=0; i<projects.size(); i++) {
-    		temp_sum = datasource.getWorkTimeByNameDate(projects.get(i), date);
+    		temp_sum[i] = datasource.getWorkTimeByNameDate(projects.get(i), date);
 
-    		if (total < temp_sum) total = temp_sum;
+//    		Log.d("logTime", projects.get(i) + ": " + temp_sum[i]);
+    		
+    		total_day += temp_sum[i];
+	    }
+	    
+	    for (int i=0; i<projects.size(); i++) {
 			temp_name = "progress_" + projects.get(i);
 		    temp_id = context.getResources().getIdentifier(temp_name, "id", context.getPackageName());
 	    	temp_view = (TextView) convertView.findViewById(temp_id);
+
+    		if (total < total_day) total = total_day;
 	    	
-    		if (temp_sum != 0) {
-	    		temp_ratio = (temp_sum/total)*100;
+    		if (temp_sum[i] != 0) {
+	    		temp_ratio = (temp_sum[i]/total)*100;
+	    		
+//	    		Log.d("logTime", Double.toString(temp_ratio));
 	    		
 	    		// check ratio to round up or down
-	    		if(temp_ratio - Math.floor(temp_ratio) < 0.5) {
-	    			temp_ratio = Math.floor(temp_ratio);
-	    		}
-	    		else {
-	    			temp_ratio = Math.ceil(temp_ratio);
-	    		}
+//	    		temp_ratio = Math.round(temp_ratio);
+	    		
+//	    		if(temp_ratio - Math.floor(temp_ratio) < 0.5) {
+//	    			temp_ratio = Math.floor(temp_ratio);
+//	    		}
+//	    		else {
+//	    			temp_ratio = Math.ceil(temp_ratio);
+//	    		}
+//
+//	    		Log.d("logTime", Double.toString(temp_ratio));
 	    		
 	    		// update project textview
-		    	hours = (double)temp_sum/HOURS_IN_MS;
+		    	hours = (double)temp_sum[i]/HOURS_IN_MS;
 		    	str = String.format("%1.2f", hours);
 	    		temp_view.setText(str + "h");
 	    		temp_view.getLayoutParams().height = 50;
