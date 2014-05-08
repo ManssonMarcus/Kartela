@@ -51,7 +51,7 @@ public class StartscreenListAdapter extends ArrayAdapter<String> {
 	
 	private static final int HOURS_IN_MS = 3600000;
 	private static final int WORK_TIME_PER_DAY = 8;
-	private static final int PADDING = 40;
+	private static final int PADDING = 180;
 	private final Context context;
   	private final ArrayList<String> weekdaysArray;
   	private final List<String> projects;
