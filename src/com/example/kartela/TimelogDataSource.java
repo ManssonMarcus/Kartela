@@ -125,6 +125,29 @@ public class TimelogDataSource {
 	    return timeLogs;
 	}
 	
+	//get all timelogs with the same projectname
+	public List<Timelog> getTimelogsByDate(String date){
+    	if(date.length()<=0){
+    		return getAllTimelogs();
+    	}
+    	
+		List<Timelog> timeLogs = new ArrayList<Timelog>();
+
+	    Cursor cursor = database.query(MySQLiteHelper.TABLE_TIMELOGS, null, MySQLiteHelper.COLUMN_DATE + " = ?", 
+	    				new String[] { date }, null, null, null);
+
+	    cursor.moveToFirst();
+	    while (!cursor.isAfterLast()) {
+	        Timelog timelog = cursorToTimelog(cursor);
+	        timeLogs.add(timelog);
+	    	cursor.moveToNext();
+	    }
+	    // make sure to close the cursor
+	    cursor.close();
+	    
+	    return timeLogs;
+	}
+	
 	public double getWorkTimeByName(String p_name) {
 		return getWorkTimeByName(p_name, null);
 	}
