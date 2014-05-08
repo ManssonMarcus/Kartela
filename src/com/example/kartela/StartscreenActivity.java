@@ -85,12 +85,10 @@ public class StartscreenActivity extends Activity implements OnClickListener{
         time.setToNow();
         currentYear = time.year;
         currentWeeknumber = time.getWeekNumber();
+        
 
         Resources res = getResources();
         projects = datasource.getAllProjects(res);
-        
-        tvCurrentWeek = (TextView) findViewById(R.id.textViewCurrentWeek);  
-        tvCurrentWeek.setText(Integer.toString(currentWeeknumber));
         
         String timeSpan = updateTimeSpan(currentWeeknumber, currentYear);
         tvTimespan = (TextView)findViewById(R.id.textViewTimespan);
@@ -103,8 +101,20 @@ public class StartscreenActivity extends Activity implements OnClickListener{
         values = datasource.getTimeInterval(currentWeeknumber);
         allTimelogs = datasource.getAllTimelogs();
         
-        StartscreenListAdapter adapter = new StartscreenListAdapter(this, weekdaysArray, currentWeeknumber, currentYear, projects, datasource);
+//<<<<<<< HEAD
+    	// get total worked time this week
+    	total_sum = datasource.getWorkTimeByWeek(currentWeeknumber);
+    	
+    	tvCurrentWeek = (TextView) findViewById(R.id.textViewCurrentWeek);  
+    	tvCurrentWeek.setText(datasource.getTimeStringFromMilliSeconds(total_sum));
+        
+        //StartscreenListAdapter adapter = new StartscreenListAdapter(this, values, weekdaysArray, total_sum, projects, datasource);
+        //weekdayList.setAdapter(adapter);    
+//=======
+    	StartscreenListAdapter adapter = new StartscreenListAdapter(this, weekdaysArray, currentWeeknumber, currentYear, projects, datasource);
+        //StartscreenListAdapter adapter = new StartscreenListAdapter(this, weekdaysArray, currentWeeknumber, currentYear, projects, datasource);
         weekdayList.setAdapter(adapter);
+//>>>>>>> develop
         
     	weekdayList.setOnItemClickListener(new OnItemClickListener() {
     		public void onItemClick(AdapterView<?> myAdapter, View myView, int myItemInt, long mylng) {
@@ -190,7 +200,8 @@ public class StartscreenActivity extends Activity implements OnClickListener{
 	        	}
 	        	tvTimespan.setText(updateTimeSpan(currentWeeknumber, currentYear));
 	        	values = datasource.getTimeInterval(currentWeeknumber);
-	        	tvCurrentWeek.setText(Integer.toString(currentWeeknumber));
+	        	total_sum = datasource.getWorkTimeByWeek(currentWeeknumber);
+	        	tvCurrentWeek.setText(datasource.getTimeStringFromMilliSeconds(total_sum));
 	        	getCurrentWeekDays(currentWeeknumber, currentYear);
 	
 	          break;
@@ -204,7 +215,8 @@ public class StartscreenActivity extends Activity implements OnClickListener{
 	        	}
 	        	tvTimespan.setText(updateTimeSpan(currentWeeknumber, currentYear));
 	        	values = datasource.getTimeInterval(currentWeeknumber);
-	        	tvCurrentWeek.setText(Integer.toString(currentWeeknumber));
+	        	total_sum = datasource.getWorkTimeByWeek(currentWeeknumber);
+	        	tvCurrentWeek.setText(datasource.getTimeStringFromMilliSeconds(total_sum));
 	        	getCurrentWeekDays(currentWeeknumber, currentYear);
 	          break;
 	      	}
