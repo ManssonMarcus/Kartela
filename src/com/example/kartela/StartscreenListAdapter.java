@@ -50,7 +50,6 @@ public class StartscreenListAdapter extends ArrayAdapter<String> {
 	
 	private static final int HOURS_IN_MS = 3600000;
 	private final Context context;
-  	private final List<Timelog> values;
   	private final ArrayList<String> weekdaysArray;
   	private final List<String> projects;
   	private double total;
@@ -58,22 +57,19 @@ public class StartscreenListAdapter extends ArrayAdapter<String> {
   	private Time time = new Time();
   	private int currentWeeknumber;
 
-	public StartscreenListAdapter(Context context, List<Timelog> values, ArrayList<String> weekdaysArray, double total_sum, List<String> projects, TimelogDataSource datasource) {
+	public StartscreenListAdapter(Context context, ArrayList<String> weekdaysArray, int currentWeeknumber, double total_sum, List<String> projects, TimelogDataSource datasource) {
 	    super(context, R.layout.day_row_layout, weekdaysArray);
 	    this.context = context;
-	    this.values = values;
 	    this.weekdaysArray = weekdaysArray;
 	    this.projects = projects;
 	    this.total = total_sum;
 	    this.datasource = datasource;
 	    time.setToNow();
-        this.currentWeeknumber = time.getWeekNumber();
+        this.currentWeeknumber = currentWeeknumber;
 	}
 	
 	@Override
   	public View getView(int position, View convertView, ViewGroup parent) {
-//		Log.d("updprb", Integer.toString(position));
-    	
 	    LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	    convertView = inflater.inflate(R.layout.day_row_layout, parent, false);
 	    TextView dayTitle = (TextView) convertView.findViewById(R.id.day_title);
@@ -90,6 +86,7 @@ public class StartscreenListAdapter extends ArrayAdapter<String> {
 	}
 	
 	public void updateProgressBar(View convertView) {
+		Log.d("logTime", "Går in");
 		WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
 		Display display = wm.getDefaultDisplay();
 
@@ -108,7 +105,7 @@ public class StartscreenListAdapter extends ArrayAdapter<String> {
     	this.total = HOURS_IN_MS*40;
 	    for (int i=0; i<projects.size(); i++) {
     		temp_sum = datasource.getWorkTimeByName(projects.get(i), currentWeeknumber);
-    		Log.d("logTime", Double.toString(temp_sum));
+//    		Log.d("logTime", Double.toString(temp_sum));
     		temp_ratio = (temp_sum/this.total)*100;
     		
     		// check ratio to round up or down

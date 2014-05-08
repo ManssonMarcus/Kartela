@@ -111,7 +111,7 @@ public class StartscreenActivity extends Activity implements OnClickListener{
     	}
     	
         
-        StartscreenListAdapter adapter = new StartscreenListAdapter(this, values, weekdaysArray, total_sum, projects, datasource);
+        StartscreenListAdapter adapter = new StartscreenListAdapter(this, weekdaysArray, currentWeeknumber, total_sum, projects, datasource);
         weekdayList.setAdapter(adapter);
 	 }
 	
@@ -208,7 +208,7 @@ public class StartscreenActivity extends Activity implements OnClickListener{
 	          break;
 	      	}
 			ListView weekdayList = (ListView)findViewById(R.id.listViewWeekdays);
-			StartscreenListAdapter adapter = new StartscreenListAdapter(this, values, weekdaysArray, total_sum, projects, datasource);
+			StartscreenListAdapter adapter = new StartscreenListAdapter(this, weekdaysArray, currentWeeknumber, total_sum, projects, datasource);
 			weekdayList.setAdapter(adapter);
 	}	
 	
