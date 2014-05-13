@@ -195,7 +195,7 @@ public class TimeReportActivity extends FragmentActivity implements OnDateSetLis
 		EditText startTime = (EditText) findViewById(R.id.startTime);
 		EditText endTime = (EditText) findViewById(R.id.endTime);
 	
-		//lï¿½gg tiden i fï¿½ltet
+		//lägg tiden i fältet
 		activeTimeID.setText(timeString);
 		
 		if(startTime.getText().toString().length() > 0 && endTime.getText().toString().length() >0 ){
@@ -274,17 +274,21 @@ public class TimeReportActivity extends FragmentActivity implements OnDateSetLis
 	    	if(timeVerified && dateVerified){
 	        	Timelog timelog = datasource.createTimelog(projectMessage, commentMessage, startTimeMessage, endTimeMessage, Integer.parseInt(breakTimeMessage), dateMessage);   	
 	        	startActivity(intent);	
+	        	
+	        	//need to reload the tabview after adding information to the database.
+		    	intent.putExtra("message","Activity started from saveTimeReport");
+		    	startActivity(intent);
 	    	}
 	    	else{
 	    		CharSequence text = "";
 	    		if(!timeVerified && !dateVerified) {
-	        		text = "Du mï¿½ste ange datum, starttid och sluttid";
+	        		text = "Du måste ange datum, starttid och sluttid";
 	    		}
 	    		else if(!timeVerified){
-	    			text = "Du mï¿½ste ange korrekt starttid och sluttid";
+	    			text = "Du måste ange korrekt starttid och sluttid";
 	    		}
 	    		else{
-	    			text = "Du mï¿½ste ange datum";
+	    			text = "Du måste ange datum";
 	    		}
 	    		
 	    		Context context = getApplicationContext();
@@ -294,9 +298,6 @@ public class TimeReportActivity extends FragmentActivity implements OnDateSetLis
 	    		Toast.makeText(context, text, duration).show();
 	    	}	    	
 
-	    	//need to reload the tabview after adding information to the database.
-	    	intent.putExtra("message","Activity started from saveTimeReport");
-	    	startActivity(intent);
 	    	//TabLayoutActivity.tabHost.setCurrentTab(0);
 		}		
     }
