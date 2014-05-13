@@ -19,4 +19,8 @@
     <!--  text area colors -->
     <color name="dark_grey">#888888</color>
     <color name="medium_grey">#CACABC</color>
+    
+    <!-- text colors -->
+    <color name="weekend_color">#f00</color>
+    
 </resources>

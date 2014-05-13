@@ -225,12 +225,12 @@ public class StartscreenActivity extends Activity implements OnClickListener{
 		c.add(Calendar.DATE, 1);
 		Date saturday = c.getTime();
         String saturdayInString = format1.format(saturday);
-		weekdaysArray.add("Saturday " + c.get(Calendar.YEAR)  + "-" + saturdayInString);
+		weekdaysArray.add("Lördag " + c.get(Calendar.YEAR)  + "-" + saturdayInString);
 		
 		c.add(Calendar.DATE, 1);
 		Date sunday = c.getTime();
         String sundayInString = format1.format(sunday);
-		weekdaysArray.add("Sunday " + c.get(Calendar.YEAR)  + "-" + sundayInString);
+		weekdaysArray.add("Söndag " + c.get(Calendar.YEAR)  + "-" + sundayInString);
 		
 		ListView weekdayList = (ListView)findViewById(R.id.listViewWeekdays);
 		ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, weekdaysArray);
