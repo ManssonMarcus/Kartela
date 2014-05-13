@@ -175,6 +175,11 @@ public class StartscreenActivity extends Activity implements OnClickListener{
 		weekdaysArray.add("torsdag " + c.get(Calendar.YEAR)  + "-" + c.get(Calendar.MONTH) + "-" +c.get(Calendar.DAY_OF_MONTH));
 		c.set(Calendar.DAY_OF_WEEK, Calendar.FRIDAY);	
 		weekdaysArray.add("fredag " + c.get(Calendar.YEAR)  + "-" + c.get(Calendar.MONTH) + "-" +c.get(Calendar.DAY_OF_MONTH));
+		c.set(Calendar.DAY_OF_WEEK, Calendar.SATURDAY);	
+		weekdaysArray.add("lördag " + c.get(Calendar.YEAR)  + "-" + c.get(Calendar.MONTH) + "-" +c.get(Calendar.DAY_OF_MONTH));
+		c.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);	
+		weekdaysArray.add("söndag " + c.get(Calendar.YEAR)  + "-" + c.get(Calendar.MONTH) + "-" +c.get(Calendar.DAY_OF_MONTH));
+	
 	}
 	
 	@SuppressLint("SimpleDateFormat") void getCurrentWeekDays(int v, int y) {
@@ -216,6 +221,16 @@ public class StartscreenActivity extends Activity implements OnClickListener{
 		Date friday = c.getTime();
         String fridayInString = format1.format(friday);
 		weekdaysArray.add("Fredag " + c.get(Calendar.YEAR)  + "-" + fridayInString);
+		
+		c.add(Calendar.DATE, 1);
+		Date saturday = c.getTime();
+        String saturdayInString = format1.format(saturday);
+		weekdaysArray.add("Saturday " + c.get(Calendar.YEAR)  + "-" + saturdayInString);
+		
+		c.add(Calendar.DATE, 1);
+		Date sunday = c.getTime();
+        String sundayInString = format1.format(sunday);
+		weekdaysArray.add("Sunday " + c.get(Calendar.YEAR)  + "-" + sundayInString);
 		
 		ListView weekdayList = (ListView)findViewById(R.id.listViewWeekdays);
 		ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, weekdaysArray);
