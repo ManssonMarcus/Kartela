@@ -47,6 +47,7 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.Preference;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NavUtils;
 import android.util.Log;
@@ -71,6 +72,7 @@ public class DisplayTimeReportActivity extends ListActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_display_time_report);
+		final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 		
         datasource = new TimelogDataSource(this);
         datasource.open();
@@ -99,9 +101,29 @@ public class DisplayTimeReportActivity extends ListActivity {
 			@Override
 			public void onClick(View v) {
 				
-				if(haveNetworkConnection()){
-					openAlert(v);
-				} else {
+    	    	String mail = sharedPreferences.getString(SettingsActivity.KEY_PREF_MAIL,"");
+				Log.d("agilgruppfilter", mail);
+				if(mail.length() < 1){
+					Log.d("agilgruppfilter", mail);
+						AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(DisplayTimeReportActivity.this);
+					
+						alertDialogBuilder.setTitle("Ingen mailadress!");
+						alertDialogBuilder.setMessage("Du har inte satt nŒgon mailadress Šn. Var vŠnligen gŒ in i instŠllningar och sŠtt mailadressen.");
+					
+						alertDialogBuilder.setNegativeButton("Ok", new DialogInterface.OnClickListener() {
+						
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							dialog.cancel();
+						}
+					});
+					
+					AlertDialog alertDialog = alertDialogBuilder.create();
+					alertDialog.show();
+					
+				}
+				
+				else if(!haveNetworkConnection()){
 					AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(DisplayTimeReportActivity.this);
 					
 					alertDialogBuilder.setTitle("OBS!");
@@ -117,9 +139,10 @@ public class DisplayTimeReportActivity extends ListActivity {
 					
 					AlertDialog alertDialog = alertDialogBuilder.create();
 					alertDialog.show();
+				} else {
+					openAlert(v);
 				
 				}
-				
 			}
 		});
 	}
